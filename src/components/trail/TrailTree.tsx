@@ -1,0 +1,328 @@
+import Link from "next/link";
+import { Box, Typography } from "@mui/material";
+import EmojiEventsRounded from "@mui/icons-material/EmojiEventsRounded";
+import { allArticles, connections, readingMinutes, sortedMaps, type Article, type Trail, type TrailMap } from "@/content/trails";
+import { palette } from "@/theme/tokens";
+
+// One color per trail map; each passes 3:1 against both light and dark canvases.
+const mapColors = [palette.pond[500], palette.moss[500], palette.duck[500], palette.rust[500], palette.ink[400], palette.duck[400]];
+
+// Share of its slot a node and its label may cover; tracks stay outside it.
+const NODE_SHARE = 0.85;
+const TRACK_GAP = 0.03;
+const MEDALLION = 52;
+const RING = 4;
+const CENTER = RING + MEDALLION / 2;
+
+const srOnly = {
+    position: "absolute",
+    width: 1,
+    height: 1,
+    overflow: "hidden",
+    clip: "rect(0 0 0 0)",
+    whiteSpace: "nowrap",
+} as const;
+
+// Each article sits one row below the deepest article it requires; within a row, reading order decides left to right.
+function layoutTree(trail: Trail) {
+    const list = allArticles(trail);
+    const { previous } = connections(trail);
+
+    // connections() guarantees every required article comes earlier in reading order, so its row is already set.
+    const rowOf = new Map<number, number>();
+    list.forEach((a) => rowOf.set(a.id, Math.max(-1, ...previous.get(a.id)!.map((p) => rowOf.get(p.id)!)) + 1));
+
+    const rowCount = Math.max(...rowOf.values()) + 1;
+    const rows: Article[][] = Array.from({ length: rowCount }, () => []);
+    list.forEach((a) => rows[rowOf.get(a.id)!].push(a));
+
+    const xOf = new Map<number, number>();
+    const slotOf = new Map<number, number>();
+    rows.forEach((row) =>
+        row.forEach((a, i) => {
+            xOf.set(a.id, (i + 0.5) / row.length);
+            slotOf.set(a.id, 1 / row.length);
+        }),
+    );
+
+    // A connection that skips rows runs in one vertical track clear of every node it passes, so it never reads as touching them.
+    const tracks: { g: number; from: number; to: number }[] = [];
+    const blocked = (g: number, r: number) => rows[r].some((a) => Math.abs(g - xOf.get(a.id)!) < (slotOf.get(a.id)! * NODE_SHARE) / 2);
+    const trackFor = (x1: number, r1: number, x2: number, r2: number) => {
+        const between = Array.from({ length: r2 - r1 - 1 }, (_, i) => r1 + 1 + i);
+        const bounds = between.flatMap((r) => Array.from({ length: rows[r].length + 1 }, (_, k) => k / rows[r].length));
+        const steps = Array.from({ length: tracks.length + 1 }, (_, k) => k * TRACK_GAP);
+        const inside = bounds.flatMap((b) => steps.flatMap((s) => [b - s, b + s])).filter((g) => g >= 0 && g <= 1);
+        // Past the edges only when every inside track is taken; those run into the box padding.
+        const outside = steps.flatMap((s) => [-s - TRACK_GAP, 1 + s + TRACK_GAP]);
+        const free = (g: number) =>
+            between.every((r) => !blocked(g, r)) && !tracks.some((t) => t.from < r2 && r1 < t.to && Math.abs(t.g - g) < TRACK_GAP * 0.9);
+        const mid = (x1 + x2) / 2;
+        const nearest = (list: number[]) => list.filter(free).sort((a, b) => Math.abs(a - mid) - Math.abs(b - mid))[0];
+        const g = nearest(inside) ?? nearest(outside);
+        tracks.push({ g, from: r1, to: r2 });
+        return g;
+    };
+
+    const curve = (x1: number, y1: number, x2: number, y2: number) => `C${x1} ${(y1 + y2) / 2} ${x2} ${(y1 + y2) / 2} ${x2} ${y2}`;
+    const spans = trail.connections
+        .map((c) => ({ ...c, r1: rowOf.get(c.requiredArticleId)!, r2: rowOf.get(c.articleId)! }))
+        .sort((a, b) => a.r2 - a.r1 - (b.r2 - b.r1));
+    const paths = spans.map(({ articleId, requiredArticleId, r1, r2 }) => {
+        const x1 = xOf.get(requiredArticleId)!;
+        const x2 = xOf.get(articleId)!;
+        const [px, py, x, y] = [x1 * 100, r1 * 100, x2 * 100, r2 * 100];
+        const key = `${requiredArticleId}-${articleId}`;
+        if (r2 - r1 === 1) return { key, d: `M${px} ${py} ${curve(px, py, x, y)}` };
+        const g = trackFor(x1, r1, x2, r2) * 100;
+        return { key, d: `M${px} ${py} ${curve(px, py, g, py + 100)} L${g} ${y - 100} ${curve(g, y - 100, x, y)}` };
+    });
+
+    return { list, previous, rowCount, rowOf, xOf, slotOf, paths };
+}
+
+const mapIndexById = (maps: TrailMap[]) => new Map(maps.flatMap((m, i) => m.articles.map((a) => [a.id, i] as const)));
+
+const ribbon = {
+    position: "absolute",
+    left: "50%",
+    bottom: -6,
+    transform: "translateX(-50%)",
+    fontFamily: "var(--font-mono)",
+    fontSize: "0.625rem",
+    fontWeight: 700,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    lineHeight: 1,
+    px: 0.75,
+    py: 0.375,
+    borderRadius: "999px",
+    bgcolor: palette.ink[800],
+    color: palette.duck[200],
+    whiteSpace: "nowrap",
+} as const;
+
+function TreeNode({
+    article,
+    number,
+    color,
+    mapTitle,
+    needs,
+    isStart,
+    isFinish,
+    href,
+}: {
+    article: Article;
+    number: number;
+    color: string;
+    mapTitle: string;
+    needs: Article[];
+    isStart: boolean;
+    isFinish: boolean;
+    href: string;
+}) {
+    const isDraft = !article.body;
+    return (
+        <Box
+            component={Link}
+            href={href}
+            data-article={article.slug}
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                color: "text.primary",
+                textDecoration: "none",
+                borderRadius: "12px",
+                outline: "none",
+                "&:hover .medallion, &:focus-visible .medallion": { transform: "translateY(-3px)", boxShadow: `0 6px 0 ${color}, 0 10px 18px rgba(20, 18, 16, 0.22)` },
+                "&:hover .title": { textDecoration: "underline", textDecorationColor: palette.duck[400], textUnderlineOffset: 3 },
+                "&:focus-visible .ring": { outline: "2px solid", outlineColor: "primary.main", outlineOffset: 3 },
+            }}
+        >
+            <Box className="ring" sx={{ position: "relative", p: `${RING}px`, borderRadius: "50%", bgcolor: "surface.sunken" }}>
+                {isStart && (
+                    <Box
+                        aria-hidden
+                        sx={{
+                            position: "absolute",
+                            inset: 0,
+                            borderRadius: "50%",
+                            border: `2px solid ${palette.duck[400]}`,
+                            animation: "trail-pulse 2.4s ease-out 3",
+                            "@media (prefers-reduced-motion: reduce)": { animation: "none" },
+                        }}
+                    />
+                )}
+                <Box
+                    className="medallion"
+                    sx={{
+                        width: MEDALLION,
+                        height: MEDALLION,
+                        borderRadius: "50%",
+                        display: "grid",
+                        placeItems: "center",
+                        border: `3px ${isDraft ? "dashed" : "solid"} ${color}`,
+                        bgcolor: isFinish ? palette.ink[800] : isStart ? palette.duck[300] : "background.paper",
+                        color: isFinish ? palette.duck[300] : isStart ? palette.ink[900] : "text.primary",
+                        boxShadow: isDraft ? "none" : `0 3px 0 ${color}`,
+                        opacity: isDraft ? 0.6 : 1,
+                        fontFamily: "var(--font-mono)",
+                        fontWeight: 700,
+                        fontSize: "1.0625rem",
+                        transition: "transform 160ms ease, box-shadow 160ms ease",
+                        "@media (prefers-reduced-motion: reduce)": { transition: "none" },
+                    }}
+                >
+                    {isFinish ? <EmojiEventsRounded aria-hidden sx={{ fontSize: 28 }} /> : <span aria-hidden>{number}</span>}
+                </Box>
+                {(isStart || isFinish) && (
+                    <Box component="span" aria-hidden sx={ribbon}>
+                        {isStart ? "Start" : "Finish"}
+                    </Box>
+                )}
+            </Box>
+            <Box
+                component="span"
+                sx={{ mt: 1.25, px: 0.75, py: 0.25, borderRadius: "6px", bgcolor: "surface.sunken", display: "flex", flexDirection: "column", alignItems: "center" }}
+            >
+                <Box
+                    component="span"
+                    className="title"
+                    sx={{ fontSize: { xs: "0.75rem", sm: "0.8125rem" }, fontWeight: 600, lineHeight: 1.3, color: isDraft ? "text.secondary" : undefined }}
+                >
+                    <Box component="span" sx={srOnly}>Article {number}:{" "}</Box>
+                    {article.title}
+                </Box>
+                <Box component="span" sx={{ fontFamily: "var(--font-mono)", fontSize: "0.6875rem", color: "text.secondary", mt: 0.25 }}>
+                    {isDraft ? "Not written yet" : `${readingMinutes(article)} min`}
+                </Box>
+                <Box component="span" sx={srOnly}>
+                    {`. Part of ${mapTitle}.`}
+                    {isStart && " Start here."}
+                    {needs.length > 0 && ` Learn first: ${needs.map((n) => n.title).join(", ")}.`}
+                </Box>
+            </Box>
+        </Box>
+    );
+}
+
+export function TrailTree({ trail }: { trail: Trail }) {
+    const { list, previous, rowCount, rowOf, xOf, slotOf, paths } = layoutTree(trail);
+    const maps = sortedMaps(trail);
+    const mapIndex = mapIndexById(maps);
+    const lastId = list.at(-1)!.id;
+    const rowVar = { "--row": "158px", "@media (min-width: 600px)": { "--row": "136px" } };
+
+    return (
+        <Box component="section" aria-labelledby="trail-maps">
+            <Typography id="trail-maps" component="h2" sx={{ fontSize: "1.125rem", fontWeight: 640, letterSpacing: "-0.01em", mb: 1.5 }}>
+                Trail maps
+            </Typography>
+
+            <Box component="ul" aria-labelledby="trail-maps" sx={{ listStyle: "none", p: 0, m: 0, mb: 3, display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 1.5 }}>
+                {maps.map((map, i) => (
+                    <Box component="li" key={map.id} sx={{ display: "grid", gridTemplateColumns: "12px 1fr", columnGap: 1.25, alignItems: "baseline" }}>
+                        <Box aria-hidden sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: mapColors[i % mapColors.length], transform: "translateY(1px)" }} />
+                        <Box>
+                            <Box component="span" sx={{ fontWeight: 640, fontSize: "0.9375rem" }}>{map.title}</Box>{" "}
+                            <Box component="span" sx={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "text.secondary" }}>
+                                {map.articles.length} {map.articles.length === 1 ? "article" : "articles"}
+                            </Box>
+                            <Typography sx={{ fontSize: "0.8125rem", color: "text.secondary", lineHeight: 1.5, mt: 0.25 }}>{map.summary}</Typography>
+                        </Box>
+                    </Box>
+                ))}
+            </Box>
+
+            <Box
+                sx={{
+                    ...rowVar,
+                    position: "relative",
+                    borderRadius: "16px",
+                    border: "1px solid",
+                    borderColor: "divider",
+                    bgcolor: "surface.sunken",
+                    backgroundImage: "radial-gradient(circle, rgba(140, 133, 122, 0.28) 1px, transparent 1.5px)",
+                    backgroundSize: "18px 18px",
+                    px: { xs: 1, sm: 3 },
+                    pt: 3.5,
+                    pb: 1,
+                }}
+            >
+                <Box sx={{ position: "relative", height: `calc(var(--row) * ${rowCount})` }}>
+                    <Box
+                        component="svg"
+                        aria-hidden
+                        viewBox={`0 0 100 ${(rowCount - 1) * 100}`}
+                        preserveAspectRatio="none"
+                        sx={{ position: "absolute", left: 0, top: CENTER, width: "100%", height: `calc(var(--row) * ${rowCount - 1})`, overflow: "visible" }}
+                    >
+                        {paths.map(({ key, d }) => (
+                            <g key={key}>
+                                <path d={d} fill="none" stroke={palette.ink[300]} strokeOpacity={0.45} strokeWidth={8} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                                <path d={d} fill="none" stroke={palette.duck[500]} strokeWidth={2.5} strokeLinecap="round" strokeDasharray="1 7" vectorEffect="non-scaling-stroke" />
+                            </g>
+                        ))}
+                    </Box>
+
+                    <Box component="ol" sx={{ listStyle: "none", p: 0, m: 0 }}>
+                        {list.map((a, i) => {
+                            const m = mapIndex.get(a.id)!;
+                            return (
+                                <Box
+                                    component="li"
+                                    key={a.id}
+                                    sx={{
+                                        position: "absolute",
+                                        top: `calc(var(--row) * ${rowOf.get(a.id)!})`,
+                                        left: `${xOf.get(a.id)! * 100}%`,
+                                        width: `${slotOf.get(a.id)! * 100}%`,
+                                        maxWidth: 200,
+                                        transform: "translateX(-50%)",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        px: 0.5,
+                                    }}
+                                >
+                                    <TreeNode
+                                        article={a}
+                                        number={i + 1}
+                                        color={mapColors[m % mapColors.length]}
+                                        mapTitle={maps[m].title}
+                                        needs={previous.get(a.id)!}
+                                        isStart={i === 0}
+                                        isFinish={a.id === lastId}
+                                        href={`/trails/${trail.slug}/${a.slug}/`}
+                                    />
+                                </Box>
+                            );
+                        })}
+                    </Box>
+                </Box>
+            </Box>
+
+            <Box aria-hidden sx={{ display: "flex", flexWrap: "wrap", gap: 2.5, mt: 1.5, fontSize: "0.75rem", color: "text.secondary" }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
+                    <Box sx={{ width: 14, height: 14, borderRadius: "50%", bgcolor: palette.duck[300], border: `2px solid ${palette.duck[400]}` }} />
+                    Start here
+                </Box>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
+                    <EmojiEventsRounded sx={{ fontSize: 16, color: palette.duck[500] }} />
+                    Proof project
+                </Box>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
+                    <Box sx={{ width: 22, borderTop: `2.5px dotted ${palette.duck[500]}` }} />
+                    Learn first
+                </Box>
+                {list.some((a) => !a.body) && (
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
+                        <Box sx={{ width: 14, height: 14, borderRadius: "50%", border: `2px dashed ${palette.ink[400]}` }} />
+                        Not written yet
+                    </Box>
+                )}
+            </Box>
+        </Box>
+    );
+}
