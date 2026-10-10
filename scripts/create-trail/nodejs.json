@@ -48,62 +48,739 @@
           "slug": "what-nodejs-is",
           "title": "What Node.js is",
           "intro": "Before writing any code, you need a clear picture of what actually runs your JavaScript outside a browser.",
-          "body": "TODO"
+          "body": [
+            "## A runtime for JavaScript",
+            "",
+            "Node.js is a program that runs JavaScript outside a web browser. You hand it a file of JavaScript and it executes that file on your computer or on a server. Unlike a web page, your code gets access to the file system, network sockets, other processes, and environment variables.",
+            "",
+            "A **runtime** is everything your code needs to run: an engine that executes the language, plus the APIs your code can call. Node is a runtime built from two main pieces.",
+            "",
+            "* **V8** is the JavaScript engine from Google Chrome. It compiles your JavaScript to machine code and runs it.",
+            "* **libuv** is a C library that talks to the operating system. It handles files, network connections, timers, and child processes.",
+            "",
+            "Node glues the two together and adds a standard library of **core modules**, such as `fs` for files, `http` for web servers, `path` for file paths, and `crypto` for hashing. Core modules ship with Node, so you never install them.",
+            "",
+            "## What Node is good at",
+            "",
+            "Node runs your JavaScript on a single main thread. When your code reads a file or calls another server, Node starts the operation, moves on to other work, and comes back when the result is ready. This style is called **asynchronous I/O**, and it means one process can juggle thousands of slow operations at once.",
+            "",
+            "That makes Node a strong fit for programs that spend most of their time waiting on something else:",
+            "",
+            "* Web servers and APIs",
+            "* Command line tools",
+            "* Build tools such as bundlers, linters, and test runners",
+            "* Real time services such as chat or live dashboards",
+            "",
+            "Node is a weaker fit for long, CPU heavy work like video encoding, because that work keeps the main thread busy. Later maps show how worker threads solve this.",
+            "",
+            "## See it for yourself",
+            "",
+            "If Node is already installed, ask it what it is made of. If not, the next article installs it.",
+            "",
+            "```bash",
+            "node --version",
+            "node -p \"process.versions\"",
+            "```",
+            "",
+            "The first command prints a version such as `v24.11.0`. The second prints an object listing the components bundled inside Node. Look for the `v8` entry, the engine, and the `uv` entry, which is libuv. Those two lines are the pieces described above.",
+            "",
+            "## As you quack it to the rubberduck!",
+            "",
+            "Node.js is a runtime that runs JavaScript outside the browser. It combines the V8 engine, which executes my code, with libuv, which talks to the operating system for files, network, and timers. On top of that it ships core modules like fs and http that I never have to install. Because it does I/O asynchronously on one main thread, it is great for servers and tools that mostly wait, and weaker for long CPU heavy work.",
+            "",
+            "Tested with: Node.js 24 LTS."
+          ]
         },
         {
           "slug": "install-node-with-a-version-manager",
           "title": "Install Node with a version manager",
           "intro": "Projects pin different Node versions, and switching between them by hand gets painful fast.",
-          "body": "TODO"
+          "body": [
+            "## Why not just the installer",
+            "",
+            "The installer on nodejs.org works, and it is fine for a first try. The trouble starts with your second project. One project expects Node 22, another expects Node 24, and the installer gives you a single global version. Upgrading it for one project can break the other.",
+            "",
+            "A **version manager** installs many Node versions side by side and lets you switch between them per project or per terminal. Two popular choices:",
+            "",
+            "* **nvm** for macOS and Linux. It is the most widely used.",
+            "* **fnm** for macOS, Linux, and Windows. It is fast and reads the same project files as nvm.",
+            "",
+            "## Install a version manager",
+            "",
+            "On macOS or Linux, follow the install section of the [nvm README](https://github.com/nvm-sh/nvm), then open a new terminal.",
+            "",
+            "On Windows, install fnm with winget:",
+            "",
+            "```powershell",
+            "winget install Schniz.fnm",
+            "```",
+            "",
+            "Then follow the shell setup section of the [fnm README](https://github.com/Schniz/fnm) to add one line to your PowerShell profile, and open a new terminal. Without that line, the `node` command will not be found.",
+            "",
+            "## Pick a version",
+            "",
+            "Node releases follow a fixed schedule. Even numbered versions become **LTS**, short for long term support, and receive fixes for about three years. Odd numbered versions are short lived and never become LTS. Use the newest LTS line for real work. This trail uses Node 24.",
+            "",
+            "```bash",
+            "# with nvm",
+            "nvm install 24",
+            "nvm use 24",
+            "",
+            "# with fnm",
+            "fnm install 24",
+            "fnm use 24",
+            "```",
+            "",
+            "Check that it worked:",
+            "",
+            "```bash",
+            "node --version",
+            "npm --version",
+            "```",
+            "",
+            "You should see a version starting with `v24.` and a version number for npm. npm, the package manager, ships with Node, so it arrives with every version you install.",
+            "",
+            "## Pin a version per project",
+            "",
+            "Put a file named `.nvmrc` in the root of a project. It holds just the version number.",
+            "",
+            "```bash",
+            "echo 24 > .nvmrc",
+            "nvm use",
+            "```",
+            "",
+            "With no argument, `nvm use` and `fnm use` read `.nvmrc` and switch to that version. You should see a message like `Now using node v24.11.0`. fnm can even switch automatically when you change into the folder, if you enable its use on cd option in the shell setup.",
+            "",
+            "Commit `.nvmrc` with your code. Teammates and CI servers then run the same major version you do, which removes a whole family of \"works on my machine\" bugs.",
+            "",
+            "## As you quack it to the rubberduck!",
+            "",
+            "I install Node through a version manager like nvm or fnm instead of the global installer, so different projects can use different versions. I pick an even numbered LTS release for real work, because those get fixes for years. I pin the version in a .nvmrc file at the project root and run nvm use or fnm use to switch to it. Committing that file keeps my teammates and CI on the same version.",
+            "",
+            "Tested with: Node.js 24 LTS, nvm 0.40, fnm 1.38."
+          ]
         },
         {
           "slug": "run-your-first-script",
           "title": "Run your first script",
           "intro": "Every program in this trail starts the same way, so this is the loop you will repeat hundreds of times.",
-          "requires": ["install-node-with-a-version-manager"],
-          "body": "TODO"
+          "requires": [
+            "install-node-with-a-version-manager"
+          ],
+          "body": [
+            "## Set up a folder",
+            "",
+            "Make a folder for the examples in this map and add a `package.json` file to it with one setting.",
+            "",
+            "```bash",
+            "mkdir node-basics",
+            "cd node-basics",
+            "```",
+            "",
+            "```json",
+            "{ \"type\": \"module\" }",
+            "```",
+            "",
+            "The `type` setting tells Node to treat `.js` files as ES modules, the modern module format with `import` and `export`. The modules map explains this in depth. For now it lets every example use `import`.",
+            "",
+            "## Run a file",
+            "",
+            "Create `hello.js`:",
+            "",
+            "```js",
+            "const name = \"duck\";",
+            "console.log(`Hello, ${name}!`);",
+            "console.log(\"2 + 2 =\", 2 + 2);",
+            "```",
+            "",
+            "Run it:",
+            "",
+            "```bash",
+            "node hello.js",
+            "```",
+            "",
+            "You should see:",
+            "",
+            "```text",
+            "Hello, duck!",
+            "2 + 2 = 4",
+            "```",
+            "",
+            "Node read the file, compiled it, ran it from top to bottom, and then exited on its own, because nothing was left to do.",
+            "",
+            "## Node waits for pending work",
+            "",
+            "Change `hello.js` to schedule something for later:",
+            "",
+            "```js",
+            "console.log(\"start\");",
+            "setTimeout(() => console.log(\"one second later\"), 1000);",
+            "console.log(\"end\");",
+            "```",
+            "",
+            "Run it again. You should see `start` and `end` right away, then `one second later` after a pause, and only then does the prompt come back.",
+            "",
+            "This is the first rule of a Node process: it keeps running as long as there is pending work, such as a timer, an open server, or a file being read, and exits when there is none. A web server never exits because it is always waiting for the next connection. The event loop map explains exactly how Node decides this.",
+            "",
+            "## Rerun on every save",
+            "",
+            "Restarting by hand gets old fast. Use watch mode:",
+            "",
+            "```bash",
+            "node --watch hello.js",
+            "```",
+            "",
+            "Node runs the file, then reruns it every time you save. Press Ctrl+C to stop.",
+            "",
+            "## Read an error",
+            "",
+            "Add a line that uses a variable that does not exist:",
+            "",
+            "```js",
+            "console.log(missing);",
+            "```",
+            "",
+            "Run it, and Node prints something like:",
+            "",
+            "```text",
+            "file:///home/you/node-basics/hello.js:1",
+            "console.log(missing);",
+            "            ^",
+            "",
+            "ReferenceError: missing is not defined",
+            "    at file:///home/you/node-basics/hello.js:1:13",
+            "```",
+            "",
+            "Read two things: the line with the error type and message (`ReferenceError: missing is not defined`), and the first `at` line, which gives the file, line, and column (`hello.js:1:13`). That pair locates almost every bug you will meet.",
+            "",
+            "## As you quack it to the rubberduck!",
+            "",
+            "I run a script with node followed by the file name, and Node executes it from top to bottom. The process stays alive while there is pending work like a timer or a server, and exits by itself when there is none. node with the watch flag reruns my script on every save. When something breaks, I read the error message line and the first at line to find the file, line, and column.",
+            "",
+            "Tested with: Node.js 24 LTS."
+          ]
         },
         {
           "slug": "explore-in-the-repl",
           "title": "Explore code in the REPL",
           "intro": "Sometimes you just want to check how one expression behaves without creating a file.",
-          "requires": ["install-node-with-a-version-manager"],
-          "body": "TODO"
+          "requires": [
+            "install-node-with-a-version-manager"
+          ],
+          "body": [
+            "## Start the REPL",
+            "",
+            "Run `node` with no file:",
+            "",
+            "```bash",
+            "node",
+            "```",
+            "",
+            "You get a `>` prompt. This is the **REPL**, short for read, eval, print, loop: it reads what you type, evaluates it, prints the result, and waits for more.",
+            "",
+            "```text",
+            "> 2 ** 10",
+            "1024",
+            "> \"rubber duck\".toUpperCase()",
+            "'RUBBER DUCK'",
+            "> [3, 1, 2].sort()",
+            "[ 1, 2, 3 ]",
+            "```",
+            "",
+            "## Handy features",
+            "",
+            "**The last result.** The underscore `_` holds the value of the previous expression.",
+            "",
+            "```text",
+            "> 21 * 2",
+            "42",
+            "> _ + 1",
+            "43",
+            "```",
+            "",
+            "**Multiline input.** If a line is unfinished, such as an open brace, the REPL shows `...` and waits for the rest.",
+            "",
+            "```text",
+            "> function double(n) {",
+            "... return n * 2;",
+            "... }",
+            "undefined",
+            "> double(8)",
+            "16",
+            "```",
+            "",
+            "For longer snippets, type `.editor`, paste or write freely, then press Ctrl+D to run it all.",
+            "",
+            "**Core modules without imports.** Core modules are ready to use by name.",
+            "",
+            "```text",
+            "> os.cpus().length",
+            "8",
+            "> path.join(\"a\", \"b\", \"c.txt\")",
+            "'a/b/c.txt'",
+            "```",
+            "",
+            "On Windows the path prints with backslashes. That difference is the reason the `path` module exists, as you will see in the files map.",
+            "",
+            "**Top level await.** You can await promises directly at the prompt.",
+            "",
+            "```text",
+            "> const res = await fetch(\"https://example.com\")",
+            "undefined",
+            "> res.status",
+            "200",
+            "```",
+            "",
+            "**Tab completion.** Type `process.` and press Tab twice to list everything on the object. This is a fast way to discover an API.",
+            "",
+            "## Dot commands",
+            "",
+            "Commands that start with a dot control the REPL itself.",
+            "",
+            "* `.help` lists all commands.",
+            "* `.load file.js` runs a file inside the current session.",
+            "* `.save session.js` writes everything you typed to a file.",
+            "* `.exit` quits. Pressing Ctrl+D, or Ctrl+C twice, also quits.",
+            "",
+            "## One liners without the prompt",
+            "",
+            "For a single quick check, skip the REPL entirely.",
+            "",
+            "```bash",
+            "node -p \"new Date().toISOString()\"",
+            "node -e \"console.log(process.platform)\"",
+            "```",
+            "",
+            "The `-p` flag evaluates and prints the result. The `-e` flag only evaluates, so print what you need yourself.",
+            "",
+            "## As you quack it to the rubberduck!",
+            "",
+            "Running node with no file opens the REPL, which reads, evaluates, and prints each line I type. The underscore holds the last result, core modules like os and path are ready without importing, and I can await promises at the prompt. Tab completion shows what an object offers, and dot commands like .editor and .exit control the session. For a single quick check I use node with the p flag instead.",
+            "",
+            "Tested with: Node.js 24 LTS."
+          ]
         },
         {
           "slug": "how-node-differs-from-the-browser",
           "title": "How Node differs from the browser",
           "intro": "Code you copy from frontend tutorials will sometimes fail in Node, and knowing why saves hours.",
-          "requires": ["what-nodejs-is"],
-          "body": "TODO"
+          "requires": [
+            "what-nodejs-is"
+          ],
+          "body": [
+            "## Same language, different world",
+            "",
+            "The JavaScript language is the same in both places: variables, functions, classes, promises, and modules all behave identically. What differs is the **environment**, meaning the objects and APIs that exist around your code.",
+            "",
+            "## What Node does not have",
+            "",
+            "Node has no page, so everything tied to a page is missing:",
+            "",
+            "* `window` and `document`, and with them the whole DOM",
+            "* `localStorage` and `sessionStorage`",
+            "* `alert`, `prompt`, and `confirm`",
+            "",
+            "Code that touches any of these throws `ReferenceError` in Node. This is why some frontend packages fail when you import them on a server.",
+            "",
+            "## What only Node has",
+            "",
+            "* `process`, which describes the running program, its arguments, and its environment",
+            "* `Buffer`, for raw binary data",
+            "* Core modules such as `fs`, `http`, `net`, `os`, and `child_process`, which reach the file system, the network, and other programs",
+            "",
+            "## What both share",
+            "",
+            "Node implements many web standard APIs, so code that uses only these runs in both places:",
+            "",
+            "* `console`, `setTimeout`, and `setInterval`",
+            "* `fetch`, `URL`, and `URLSearchParams`",
+            "* `AbortController`, `TextEncoder`, and `TextDecoder`",
+            "* `structuredClone` and `crypto.randomUUID`",
+            "* `globalThis`, the global object. In a browser it points to `window`, and in Node to an object also named `global`.",
+            "",
+            "## Check it yourself",
+            "",
+            "Save this as `env.js` and run it with `node env.js`:",
+            "",
+            "```js",
+            "console.log(typeof window);          // \"undefined\"",
+            "console.log(typeof document);        // \"undefined\"",
+            "console.log(typeof process);         // \"object\"",
+            "console.log(typeof fetch);           // \"function\"",
+            "console.log(globalThis === global);  // true",
+            "```",
+            "",
+            "Paste the first four lines into a browser console and the answers flip for `window`, `document`, and `process`.",
+            "",
+            "## Differences that bite later",
+            "",
+            "**Trust.** A browser runs page code in a sandbox that cannot read your disk. Node code runs with every permission of the user who started it. Any package you install can read your files and environment variables, which is why the security map spends time on dependencies.",
+            "",
+            "**Versions.** On the web you write for whatever browsers your visitors use. In Node you choose the version, so you can use new language features the day your version supports them.",
+            "",
+            "**Lifetime.** A page lives until the tab closes. A Node process exits as soon as it has no pending work.",
+            "",
+            "**Small API details.** In browsers, `setTimeout` returns a number. In Node it returns a `Timeout` object with extra methods, such as `unref`, which you will use in the event loop map.",
+            "",
+            "## As you quack it to the rubberduck!",
+            "",
+            "Node and the browser run the same JavaScript language but give it different environments. Node has no window, document, or DOM, and instead offers process, Buffer, and core modules for files, network, and processes. Both share web standard APIs like fetch, URL, timers, and AbortController, and globalThis points to the global object in each. Node code runs with all my user permissions and exits when it has no pending work, unlike a sandboxed page that lives until the tab closes.",
+            "",
+            "Tested with: Node.js 24 LTS."
+          ]
         },
         {
           "slug": "the-process-object",
           "title": "The process object",
           "intro": "Your script needs a way to learn about the world it is running in.",
-          "requires": ["run-your-first-script"],
-          "body": "TODO"
+          "requires": [
+            "run-your-first-script"
+          ],
+          "body": [
+            "## One object for the running program",
+            "",
+            "`process` is a global object, available everywhere without an import. It describes the program that is running right now and lets you control it. The next three articles each dig into one part of it: arguments, environment variables, and exit codes. This one gives you the map.",
+            "",
+            "## Ask the process about itself",
+            "",
+            "Save this as `info.js`:",
+            "",
+            "```js",
+            "console.log(\"pid:\", process.pid);",
+            "console.log(\"platform:\", process.platform);",
+            "console.log(\"arch:\", process.arch);",
+            "console.log(\"node:\", process.version);",
+            "console.log(\"cwd:\", process.cwd());",
+            "console.log(\"uptime (s):\", process.uptime());",
+            "console.log(\"rss (MB):\", Math.round(process.memoryUsage().rss / 1024 / 1024));",
+            "```",
+            "",
+            "Run `node info.js`. You should see output like:",
+            "",
+            "```text",
+            "pid: 48211",
+            "platform: linux",
+            "arch: x64",
+            "node: v24.11.0",
+            "cwd: /home/you/node-basics",
+            "uptime (s): 0.031",
+            "rss (MB): 44",
+            "```",
+            "",
+            "* `pid` is the process id the operating system assigned.",
+            "* `platform` is `linux`, `darwin` for macOS, or `win32` for Windows, even on 64 bit Windows.",
+            "* `version` is the Node version, and `process.versions` lists its components.",
+            "* `memoryUsage().rss` is the total memory the process holds. The performance map explains the other numbers it returns.",
+            "",
+            "## The working directory is not the script folder",
+            "",
+            "`process.cwd()` returns the **current working directory**: the folder your terminal was in when you started Node, not the folder holding the script. Move up one folder and run the same file:",
+            "",
+            "```bash",
+            "cd ..",
+            "node node-basics/info.js",
+            "```",
+            "",
+            "The `cwd` line now shows the parent folder. Relative file paths in Node resolve against `cwd`, so a script that opens `\"data.txt\"` works from one folder and fails from another. The files map shows how to build paths from the script location instead.",
+            "",
+            "## Standard output and standard error",
+            "",
+            "Every process has two output streams. `process.stdout` is for normal output, and `process.stderr` is for errors and diagnostics. `console.log` writes to stdout and `console.error` writes to stderr.",
+            "",
+            "```js",
+            "console.log(\"result: 42\");",
+            "console.error(\"warning: cache is cold\");",
+            "```",
+            "",
+            "Run it with stdout redirected to a file:",
+            "",
+            "```bash",
+            "node out.js > out.txt",
+            "```",
+            "",
+            "Only the warning appears in the terminal, and `out.txt` holds only the result. Keeping data on stdout and messages on stderr lets other programs consume your output cleanly.",
+            "",
+            "`process.stdout.write` prints text without adding a newline, which is useful for progress indicators:",
+            "",
+            "```js",
+            "process.stdout.write(\"loading...\");",
+            "process.stdout.write(\" done\\n\");",
+            "```",
+            "",
+            "There is also `process.stdin` for reading input, which you will use once you know streams.",
+            "",
+            "## As you quack it to the rubberduck!",
+            "",
+            "process is a global object that describes and controls the running Node program. It tells me the pid, platform, Node version, uptime, and memory use. process.cwd is the folder I started Node from, not the script folder, and relative paths resolve against it. console.log writes to stdout for normal output and console.error writes to stderr for diagnostics, so other programs can separate the two.",
+            "",
+            "Tested with: Node.js 24 LTS."
+          ]
         },
         {
           "slug": "read-command-line-arguments",
           "title": "Read command line arguments",
           "intro": "A script that always does the same thing is rarely useful, so users need a way to give it input.",
-          "requires": ["the-process-object"],
-          "body": "TODO"
+          "requires": [
+            "the-process-object"
+          ],
+          "body": [
+            "## What process.argv holds",
+            "",
+            "Everything typed after `node` on the command line ends up in the array `process.argv`. Save this as `args.js`:",
+            "",
+            "```js",
+            "console.log(process.argv);",
+            "```",
+            "",
+            "Run it with some extra words:",
+            "",
+            "```bash",
+            "node args.js duck --loud",
+            "```",
+            "",
+            "You should see:",
+            "",
+            "```text",
+            "[",
+            "  '/home/you/.nvm/versions/node/v24.11.0/bin/node',",
+            "  '/home/you/node-basics/args.js',",
+            "  'duck',",
+            "  '--loud'",
+            "]",
+            "```",
+            "",
+            "The first entry is the path to the Node executable, the second is the script, and your arguments start at index 2. That is why almost every script begins with `process.argv.slice(2)`.",
+            "",
+            "Flags placed before the script name go to Node itself, and flags after it go to your script. In `node --watch args.js --loud`, Node receives `--watch` and your script receives `--loud`.",
+            "",
+            "## Parse arguments with parseArgs",
+            "",
+            "Reading flags by hand gets messy quickly: short and long forms, values after flags, defaults. Node includes a parser in the `util` core module. Save this as `greet.js`:",
+            "",
+            "```js",
+            "import { parseArgs } from \"node:util\";",
+            "",
+            "const { values, positionals } = parseArgs({",
+            "  allowPositionals: true,",
+            "  options: {",
+            "    loud: { type: \"boolean\", short: \"l\" },",
+            "    times: { type: \"string\", short: \"t\", default: \"1\" },",
+            "  },",
+            "});",
+            "",
+            "const name = positionals[0] ?? \"world\";",
+            "let message = `Hello, ${name}!`;",
+            "if (values.loud) message = message.toUpperCase();",
+            "",
+            "for (let i = 0; i < Number(values.times); i++) {",
+            "  console.log(message);",
+            "}",
+            "```",
+            "",
+            "The `node:` prefix in the import marks `util` as a core module, so Node never confuses it with an npm package of the same name.",
+            "",
+            "Try a few runs:",
+            "",
+            "```bash",
+            "node greet.js",
+            "node greet.js duck --loud",
+            "node greet.js duck -l -t 3",
+            "```",
+            "",
+            "You should see `Hello, world!`, then `HELLO, DUCK!`, then `HELLO, DUCK!` three times.",
+            "",
+            "## What parseArgs gives you",
+            "",
+            "* `positionals` holds the plain words, in order.",
+            "* `values` holds the options by name.",
+            "* An option has a `type` of either `\"boolean\"`, set by its presence, or `\"string\"`, which takes the next word as its value.",
+            "* Every value arrives as a string or a boolean. Convert numbers yourself, as the example does with `Number(values.times)`.",
+            "",
+            "Unknown options are rejected. Run `node greet.js --nope` and parseArgs throws an error with the code `ERR_PARSE_ARGS_UNKNOWN_OPTION`. Catching typos early like this is the main reason to prefer it over slicing `argv` by hand.",
+            "",
+            "## As you quack it to the rubberduck!",
+            "",
+            "process.argv holds the command line, with the Node path first, the script path second, and my arguments from index 2 onward. Flags before the script name go to Node, and flags after it go to my script. For anything beyond one or two words I use parseArgs from node:util, which splits positionals from options, supports short flags and defaults, and rejects unknown options. Every value comes back as a string or boolean, so I convert numbers myself.",
+            "",
+            "Tested with: Node.js 24 LTS."
+          ]
         },
         {
           "slug": "read-environment-variables",
           "title": "Read environment variables",
           "intro": "Ports, secrets, and modes change between your laptop and a server, and they should not live in your code.",
-          "requires": ["the-process-object"],
-          "body": "TODO"
+          "requires": [
+            "the-process-object"
+          ],
+          "body": [
+            "## Configuration that lives outside your code",
+            "",
+            "An **environment variable** is a named value that the operating system passes to every process it starts. They are the standard way to configure a program without editing it: the port to listen on, a database address, an API key. The same code reads different values on your laptop and on a server.",
+            "",
+            "Node exposes them in the object `process.env`.",
+            "",
+            "```js",
+            "console.log(process.env.HOME);   // your home folder on macOS and Linux",
+            "console.log(process.env.PORT);   // undefined unless you set it",
+            "```",
+            "",
+            "On Windows, the home folder variable is `USERPROFILE` instead of `HOME`.",
+            "",
+            "## Set a variable for one run",
+            "",
+            "Save this as `port.js`:",
+            "",
+            "```js",
+            "const port = Number(process.env.PORT ?? 3000);",
+            "console.log(`Would listen on port ${port}`);",
+            "```",
+            "",
+            "Run it with and without the variable:",
+            "",
+            "```bash",
+            "# macOS and Linux",
+            "node port.js",
+            "PORT=4000 node port.js",
+            "```",
+            "",
+            "```powershell",
+            "# Windows PowerShell",
+            "node port.js",
+            "$env:PORT = \"4000\"; node port.js",
+            "```",
+            "",
+            "You should see port `3000`, then port `4000`. On macOS and Linux the variable applies to that one command only. In PowerShell it stays set for the rest of the terminal session.",
+            "",
+            "## Everything is a string",
+            "",
+            "Values in `process.env` are always strings, and a variable that is not set is `undefined`. This creates a classic bug:",
+            "",
+            "```js",
+            "// DEBUG=false node app.js",
+            "if (process.env.DEBUG) {",
+            "  console.log(\"debug mode is on\");   // runs, because \"false\" is a non empty string",
+            "}",
+            "```",
+            "",
+            "Compare against the exact string you expect instead:",
+            "",
+            "```js",
+            "const debug = process.env.DEBUG === \"true\";",
+            "```",
+            "",
+            "Assigning also converts to a string. After `process.env.RETRIES = 3`, reading it back gives `\"3\"`, and `process.env.FLAG = undefined` gives the string `\"undefined\"`.",
+            "",
+            "## Load variables from a .env file",
+            "",
+            "Typing many variables on every run is tedious, so projects keep local values in a file named `.env`:",
+            "",
+            "```text",
+            "PORT=4000",
+            "API_KEY=dev_key_123",
+            "```",
+            "",
+            "Node can load it directly:",
+            "",
+            "```bash",
+            "node --env-file=.env port.js",
+            "```",
+            "",
+            "You should see port `4000`. Use `--env-file-if-exists=.env` when the file is optional. If a variable is set both in the real environment and in the file, the real environment wins, so a server can override the file without editing it.",
+            "",
+            "A `.env` file usually holds secrets. Add it to `.gitignore` and commit a `.env.example` with the same names and fake values, so teammates know what to fill in.",
+            "",
+            "## As you quack it to the rubberduck!",
+            "",
+            "Environment variables configure a program from outside its code, and Node exposes them in process.env. Every value is a string and unset ones are undefined, so I parse numbers and compare against \"true\" instead of trusting truthiness. I can set a variable for one run in the shell, or load a .env file with the env file flag, where real environment values win over the file. I never commit .env; I commit a .env.example instead.",
+            "",
+            "Tested with: Node.js 24 LTS."
+          ]
         },
         {
           "slug": "exit-with-a-status-code",
           "title": "Exit with a status code",
           "intro": "Shells, CI systems, and process managers decide what to do next based on how your program ended.",
-          "requires": ["the-process-object"],
-          "body": "TODO"
+          "requires": [
+            "the-process-object"
+          ],
+          "body": [
+            "## What an exit code is",
+            "",
+            "When a process ends, it hands the operating system a small number called its **exit code**. Zero means success. Any other number means failure, and the specific number can say what kind. Your program prints text for humans, while the exit code is for machines: shells, CI pipelines, and process managers read it to decide what happens next.",
+            "",
+            "Check the code of the last command:",
+            "",
+            "```bash",
+            "# macOS and Linux",
+            "node hello.js",
+            "echo $?",
+            "```",
+            "",
+            "```powershell",
+            "# Windows PowerShell",
+            "node hello.js",
+            "$LASTEXITCODE",
+            "```",
+            "",
+            "A script that finishes normally prints `0`.",
+            "",
+            "## What Node does by default",
+            "",
+            "* The script runs to the end and nothing is pending: exit code `0`.",
+            "* An error is thrown and nothing catches it: Node prints the error and exits with code `1`.",
+            "",
+            "So a crash already signals failure. The interesting case is a failure you detect yourself, such as bad input, where nothing is thrown.",
+            "",
+            "## Set the exit code yourself",
+            "",
+            "Save this as `check.js`:",
+            "",
+            "```js",
+            "const input = process.argv[2];",
+            "const n = Number(input);",
+            "",
+            "if (input === undefined) {",
+            "  console.error(\"Usage: node check.js NUMBER\");",
+            "  process.exitCode = 2;",
+            "} else if (!Number.isInteger(n)) {",
+            "  console.error(`Not an integer: ${input}`);",
+            "  process.exitCode = 1;",
+            "} else {",
+            "  console.log(`${n} is ${n % 2 === 0 ? \"even\" : \"odd\"}`);",
+            "}",
+            "```",
+            "",
+            "Then chain it in a shell, where `&&` runs the second command only if the first succeeded:",
+            "",
+            "```bash",
+            "node check.js 7 && echo \"checked\"",
+            "node check.js seven && echo \"checked\"",
+            "```",
+            "",
+            "The first line prints `7 is odd` and then `checked`. The second prints the error and stops, because the exit code was `1`.",
+            "",
+            "## exitCode versus exit()",
+            "",
+            "There are two ways to fail:",
+            "",
+            "* `process.exitCode = 1` records the code and lets Node finish normally. Pending work, such as output still being written to a pipe, completes first.",
+            "* `process.exit(1)` stops the process immediately. Anything still pending is dropped, including timers, open requests, and output that has not been flushed yet.",
+            "",
+            "Prefer setting `process.exitCode`. Reach for `process.exit()` only when you truly must stop at once, for example when a startup check finds the app cannot run at all.",
+            "",
+            "## Codes worth recognizing",
+            "",
+            "* `1` is a general failure, and what Node uses for an uncaught error.",
+            "* `2` is a common convention for wrong usage, such as missing arguments.",
+            "* `13` means the program ended while a top level `await` was still waiting on a promise that never settled.",
+            "* `128` plus a signal number means the process was killed by a signal. Pressing Ctrl+C sends signal 2, so the shell reports `130`. The production map covers signals.",
+            "",
+            "## As you quack it to the rubberduck!",
+            "",
+            "An exit code is the number a process hands back when it ends: zero means success and anything else means failure. Node exits with 0 when it finishes normally and 1 when an error goes uncaught. When I detect a failure myself, I set process.exitCode and let Node finish, instead of calling process.exit, which drops pending work like unflushed output. Shells, CI, and process managers read this code to decide what to do next.",
+            "",
+            "Tested with: Node.js 24 LTS."
+          ]
         }
       ]
     },
@@ -121,35 +798,46 @@
           "slug": "write-an-es-module",
           "title": "Write an ES module",
           "intro": "This is the module syntax you will use in every file from here on.",
-          "requires": ["why-modules-exist"],
+          "requires": [
+            "why-modules-exist"
+          ],
           "body": "TODO"
         },
         {
           "slug": "read-a-commonjs-module",
           "title": "Read a CommonJS module",
           "intro": "Much of the npm ecosystem and many older codebases still use the original Node module system.",
-          "requires": ["why-modules-exist"],
+          "requires": [
+            "why-modules-exist"
+          ],
           "body": "TODO"
         },
         {
           "slug": "mix-module-systems",
           "title": "Mix module systems",
           "intro": "Real projects pull in packages from both module worlds, and the seams between them are where errors appear.",
-          "requires": ["write-an-es-module", "read-a-commonjs-module"],
+          "requires": [
+            "write-an-es-module",
+            "read-a-commonjs-module"
+          ],
           "body": "TODO"
         },
         {
           "slug": "how-node-resolves-a-module",
           "title": "How Node resolves a module",
           "intro": "When an import fails with a not found error, you need to know where Node actually looked.",
-          "requires": ["write-an-es-module"],
+          "requires": [
+            "write-an-es-module"
+          ],
           "body": "TODO"
         },
         {
           "slug": "the-module-cache",
           "title": "The module cache",
           "intro": "Importing the same file twice behaves differently than you might expect, and shared state depends on it.",
-          "requires": ["how-node-resolves-a-module"],
+          "requires": [
+            "how-node-resolves-a-module"
+          ],
           "body": "TODO"
         },
         {
@@ -162,35 +850,46 @@
           "slug": "install-packages-with-npm",
           "title": "Install packages with npm",
           "intro": "Most problems you face have already been solved by a package someone published.",
-          "requires": ["describe-a-project-with-package-json"],
+          "requires": [
+            "describe-a-project-with-package-json"
+          ],
           "body": "TODO"
         },
         {
           "slug": "semantic-versioning",
           "title": "Semantic versioning",
           "intro": "A version range in package.json decides which code you get on the next install.",
-          "requires": ["install-packages-with-npm"],
+          "requires": [
+            "install-packages-with-npm"
+          ],
           "body": "TODO"
         },
         {
           "slug": "lockfiles",
           "title": "Lockfiles",
           "intro": "Two installs from the same package.json can produce different code unless something pins the exact tree.",
-          "requires": ["semantic-versioning"],
+          "requires": [
+            "semantic-versioning"
+          ],
           "body": "TODO"
         },
         {
           "slug": "run-tasks-with-npm-scripts",
           "title": "Run tasks with npm scripts",
           "intro": "Every project has commands to start, build, and check it, and teammates should not have to memorize them.",
-          "requires": ["describe-a-project-with-package-json"],
+          "requires": [
+            "describe-a-project-with-package-json"
+          ],
           "body": "TODO"
         },
         {
           "slug": "control-entry-points-with-exports",
           "title": "Control entry points with exports",
           "intro": "Once you publish or share a package, you decide which files the outside world is allowed to import.",
-          "requires": ["how-node-resolves-a-module", "describe-a-project-with-package-json"],
+          "requires": [
+            "how-node-resolves-a-module",
+            "describe-a-project-with-package-json"
+          ],
           "body": "TODO"
         }
       ]
@@ -209,77 +908,100 @@
           "slug": "callbacks",
           "title": "Callbacks",
           "intro": "The oldest Node APIs hand results back in a way you must recognize to read any Node code.",
-          "requires": ["why-node-avoids-blocking"],
+          "requires": [
+            "why-node-avoids-blocking"
+          ],
           "body": "TODO"
         },
         {
           "slug": "error-first-callbacks",
           "title": "Error first callbacks",
           "intro": "Callback APIs in Node follow a strict convention, and ignoring it hides failures.",
-          "requires": ["callbacks"],
+          "requires": [
+            "callbacks"
+          ],
           "body": "TODO"
         },
         {
           "slug": "the-trouble-with-nested-callbacks",
           "title": "The trouble with nested callbacks",
           "intro": "Callbacks work fine until steps depend on each other, and then the code starts drifting to the right.",
-          "requires": ["error-first-callbacks"],
+          "requires": [
+            "error-first-callbacks"
+          ],
           "body": "TODO"
         },
         {
           "slug": "promises",
           "title": "Promises",
           "intro": "Modern Node APIs return a value that stands for a result that has not arrived yet.",
-          "requires": ["callbacks"],
+          "requires": [
+            "callbacks"
+          ],
           "body": "TODO"
         },
         {
           "slug": "chain-promises",
           "title": "Chain promises",
           "intro": "Most real tasks are several async steps in a row, each using the result of the last.",
-          "requires": ["promises"],
+          "requires": [
+            "promises"
+          ],
           "body": "TODO"
         },
         {
           "slug": "write-async-functions",
           "title": "Write async functions",
           "intro": "This is the syntax you will write most async Node code in for the rest of the trail.",
-          "requires": ["promises"],
+          "requires": [
+            "promises"
+          ],
           "body": "TODO"
         },
         {
           "slug": "catch-async-errors",
           "title": "Catch async errors",
           "intro": "An async error that nobody catches can crash your process or vanish without a trace.",
-          "requires": ["write-async-functions"],
+          "requires": [
+            "write-async-functions"
+          ],
           "body": "TODO"
         },
         {
           "slug": "run-tasks-concurrently",
           "title": "Run tasks concurrently",
           "intro": "Awaiting independent tasks one by one makes your program as slow as the sum of all of them.",
-          "requires": ["write-async-functions"],
+          "requires": [
+            "write-async-functions"
+          ],
           "body": "TODO"
         },
         {
           "slug": "choose-a-promise-combinator",
           "title": "Choose a promise combinator",
           "intro": "Waiting for every task is only one strategy, and sometimes you want the first, the fastest, or every outcome.",
-          "requires": ["run-tasks-concurrently"],
+          "requires": [
+            "run-tasks-concurrently"
+          ],
           "body": "TODO"
         },
         {
           "slug": "promisify-a-callback-api",
           "title": "Promisify a callback API",
           "intro": "You will meet callback APIs in older packages and still want to use them with await.",
-          "requires": ["error-first-callbacks", "promises"],
+          "requires": [
+            "error-first-callbacks",
+            "promises"
+          ],
           "body": "TODO"
         },
         {
           "slug": "cancel-work-with-abortcontroller",
           "title": "Cancel work with AbortController",
           "intro": "Users leave, requests time out, and work that nobody needs anymore still costs resources.",
-          "requires": ["write-async-functions"],
+          "requires": [
+            "write-async-functions"
+          ],
           "body": "TODO"
         }
       ]
@@ -298,7 +1020,9 @@
           "slug": "how-v8-turns-source-into-bytecode",
           "title": "How V8 turns source into bytecode",
           "intro": "Your code passes through several stages before it does anything, and those stages explain startup cost and later optimizations.",
-          "requires": ["what-v8-does"],
+          "requires": [
+            "what-v8-does"
+          ],
           "body": "TODO"
         },
         {
@@ -311,14 +1035,19 @@
           "slug": "how-javascript-reaches-native-code",
           "title": "How JavaScript reaches native code",
           "intro": "Calling fs.readFile crosses a boundary between languages, and that crossing has a cost you should understand.",
-          "requires": ["what-v8-does", "what-libuv-does"],
+          "requires": [
+            "what-v8-does",
+            "what-libuv-does"
+          ],
           "body": "TODO"
         },
         {
           "slug": "what-happens-when-node-starts",
           "title": "What happens when node starts",
           "intro": "Knowing the startup sequence explains where globals come from and why some code runs before yours.",
-          "requires": ["how-javascript-reaches-native-code"],
+          "requires": [
+            "how-javascript-reaches-native-code"
+          ],
           "body": "TODO"
         },
         {
@@ -331,35 +1060,46 @@
           "slug": "run-to-completion",
           "title": "Run to completion",
           "intro": "One guarantee about how functions execute removes a whole class of concurrency bugs, and creates another.",
-          "requires": ["the-call-stack"],
+          "requires": [
+            "the-call-stack"
+          ],
           "body": "TODO"
         },
         {
           "slug": "how-the-os-reports-ready-sockets",
           "title": "How the OS reports ready sockets",
           "intro": "Node serves thousands of connections on one thread, which only works because the kernel does part of the job.",
-          "requires": ["what-libuv-does"],
+          "requires": [
+            "what-libuv-does"
+          ],
           "body": "TODO"
         },
         {
           "slug": "the-libuv-thread-pool",
           "title": "The libuv thread pool",
           "intro": "Not everything the operating system offers can be done without waiting, so Node keeps a few helpers on the side.",
-          "requires": ["what-libuv-does"],
+          "requires": [
+            "what-libuv-does"
+          ],
           "body": "TODO"
         },
         {
           "slug": "which-work-uses-the-thread-pool",
           "title": "Which work uses the thread pool",
           "intro": "Some slow operations queue behind each other while others never do, and the difference surprises people in production.",
-          "requires": ["the-libuv-thread-pool", "how-the-os-reports-ready-sockets"],
+          "requires": [
+            "the-libuv-thread-pool",
+            "how-the-os-reports-ready-sockets"
+          ],
           "body": "TODO"
         },
         {
           "slug": "resize-the-thread-pool",
           "title": "Resize the thread pool",
           "intro": "When file or crypto work piles up, the default pool size may be what is holding your service back.",
-          "requires": ["which-work-uses-the-thread-pool"],
+          "requires": [
+            "which-work-uses-the-thread-pool"
+          ],
           "body": "TODO"
         }
       ]
@@ -372,105 +1112,140 @@
           "slug": "the-event-loop-at-a-glance",
           "title": "The event loop at a glance",
           "intro": "Every callback you have written so far was called by one loop, and it is time to meet it.",
-          "requires": ["run-to-completion", "what-libuv-does"],
+          "requires": [
+            "run-to-completion",
+            "what-libuv-does"
+          ],
           "body": "TODO"
         },
         {
           "slug": "the-phases-of-the-loop",
           "title": "The phases of the loop",
           "intro": "The loop is not one queue but several, visited in a fixed order on every turn.",
-          "requires": ["the-event-loop-at-a-glance"],
+          "requires": [
+            "the-event-loop-at-a-glance"
+          ],
           "body": "TODO"
         },
         {
           "slug": "the-timers-phase",
           "title": "The timers phase",
           "intro": "Timers are checked at one specific point in each turn, which explains a lot of timing surprises.",
-          "requires": ["the-phases-of-the-loop"],
+          "requires": [
+            "the-phases-of-the-loop"
+          ],
           "body": "TODO"
         },
         {
           "slug": "how-timers-really-fire",
           "title": "How timers really fire",
           "intro": "A timer set for 100 milliseconds rarely fires at exactly 100 milliseconds.",
-          "requires": ["the-timers-phase"],
+          "requires": [
+            "the-timers-phase"
+          ],
           "body": "TODO"
         },
         {
           "slug": "the-pending-callbacks-phase",
           "title": "The pending callbacks phase",
           "intro": "A few system level callbacks are deliberately postponed, and they get a phase of their own.",
-          "requires": ["the-phases-of-the-loop"],
+          "requires": [
+            "the-phases-of-the-loop"
+          ],
           "body": "TODO"
         },
         {
           "slug": "the-poll-phase",
           "title": "The poll phase",
           "intro": "This is where your process spends most of its life, waiting for and handling I/O.",
-          "requires": ["the-phases-of-the-loop", "how-the-os-reports-ready-sockets"],
+          "requires": [
+            "the-phases-of-the-loop",
+            "how-the-os-reports-ready-sockets"
+          ],
           "body": "TODO"
         },
         {
           "slug": "the-check-phase",
           "title": "The check phase",
           "intro": "Node offers a way to run code right after I/O handling, before the loop goes back to timers.",
-          "requires": ["the-poll-phase"],
+          "requires": [
+            "the-poll-phase"
+          ],
           "body": "TODO"
         },
         {
           "slug": "the-close-callbacks-phase",
           "title": "The close callbacks phase",
           "intro": "Cleanup when sockets and handles close happens at a predictable moment you can rely on.",
-          "requires": ["the-phases-of-the-loop"],
+          "requires": [
+            "the-phases-of-the-loop"
+          ],
           "body": "TODO"
         },
         {
           "slug": "setimmediate-versus-settimeout",
           "title": "setImmediate versus setTimeout",
           "intro": "Two ways of saying run this soon behave differently depending on where you call them.",
-          "requires": ["how-timers-really-fire", "the-check-phase"],
+          "requires": [
+            "how-timers-really-fire",
+            "the-check-phase"
+          ],
           "body": "TODO"
         },
         {
           "slug": "microtasks-run-between-callbacks",
           "title": "Microtasks run between callbacks",
           "intro": "Promise callbacks do not wait for a phase, and that changes the order your code runs in.",
-          "requires": ["the-phases-of-the-loop", "promises"],
+          "requires": [
+            "the-phases-of-the-loop",
+            "promises"
+          ],
           "body": "TODO"
         },
         {
           "slug": "process-nexttick-jumps-the-queue",
           "title": "process.nextTick jumps the queue",
           "intro": "Node has one queue that runs even before promise callbacks, and core modules depend on it.",
-          "requires": ["microtasks-run-between-callbacks"],
+          "requires": [
+            "microtasks-run-between-callbacks"
+          ],
           "body": "TODO"
         },
         {
           "slug": "starve-the-loop-with-microtasks",
           "title": "Starve the loop with microtasks",
           "intro": "A loop that never reaches I/O can look busy and healthy while serving nobody.",
-          "requires": ["process-nexttick-jumps-the-queue"],
+          "requires": [
+            "process-nexttick-jumps-the-queue"
+          ],
           "body": "TODO"
         },
         {
           "slug": "when-the-loop-exits",
           "title": "When the loop exits",
           "intro": "Sometimes your script hangs after it seems done, and sometimes it quits before your work finishes.",
-          "requires": ["the-event-loop-at-a-glance"],
+          "requires": [
+            "the-event-loop-at-a-glance"
+          ],
           "body": "TODO"
         },
         {
           "slug": "predict-execution-order",
           "title": "Predict execution order",
           "intro": "Putting every rule together lets you read a tricky snippet and know its output before running it.",
-          "requires": ["setimmediate-versus-settimeout", "process-nexttick-jumps-the-queue"],
+          "requires": [
+            "setimmediate-versus-settimeout",
+            "process-nexttick-jumps-the-queue"
+          ],
           "body": "TODO"
         },
         {
           "slug": "spot-a-blocked-event-loop",
           "title": "Spot a blocked event loop",
           "intro": "One slow synchronous function can freeze every request your server is handling.",
-          "requires": ["the-event-loop-at-a-glance"],
+          "requires": [
+            "the-event-loop-at-a-glance"
+          ],
           "body": "TODO"
         }
       ]
@@ -489,49 +1264,64 @@
           "slug": "listen-once",
           "title": "Listen once",
           "intro": "Some events matter only the first time they happen, like a connection becoming ready.",
-          "requires": ["emit-an-event"],
+          "requires": [
+            "emit-an-event"
+          ],
           "body": "TODO"
         },
         {
           "slug": "remove-a-listener",
           "title": "Remove a listener",
           "intro": "Listeners you never remove keep objects alive and keep running long after they are needed.",
-          "requires": ["emit-an-event"],
+          "requires": [
+            "emit-an-event"
+          ],
           "body": "TODO"
         },
         {
           "slug": "error-events",
           "title": "Error events",
           "intro": "One event name has special rules, and ignoring them can take down your whole process.",
-          "requires": ["emit-an-event"],
+          "requires": [
+            "emit-an-event"
+          ],
           "body": "TODO"
         },
         {
           "slug": "listener-leak-warnings",
           "title": "Listener leak warnings",
           "intro": "Node prints a warning about possible leaks, and you need to know when it is real.",
-          "requires": ["remove-a-listener"],
+          "requires": [
+            "remove-a-listener"
+          ],
           "body": "TODO"
         },
         {
           "slug": "extend-eventemitter",
           "title": "Extend EventEmitter",
           "intro": "Your own objects can announce changes the same way core modules do.",
-          "requires": ["emit-an-event"],
+          "requires": [
+            "emit-an-event"
+          ],
           "body": "TODO"
         },
         {
           "slug": "await-an-event",
           "title": "Await an event",
           "intro": "Waiting for a single event fits naturally into async functions without wrapping callbacks.",
-          "requires": ["emit-an-event", "write-async-functions"],
+          "requires": [
+            "emit-an-event",
+            "write-async-functions"
+          ],
           "body": "TODO"
         },
         {
           "slug": "iterate-events-with-on",
           "title": "Iterate events with on",
           "intro": "A stream of repeated events can be consumed with a loop instead of a listener.",
-          "requires": ["await-an-event"],
+          "requires": [
+            "await-an-event"
+          ],
           "body": "TODO"
         }
       ]
@@ -550,21 +1340,27 @@
           "slug": "create-a-buffer",
           "title": "Create a buffer",
           "intro": "Choosing the wrong way to allocate bytes can leak old memory contents into your output.",
-          "requires": ["why-buffers-exist"],
+          "requires": [
+            "why-buffers-exist"
+          ],
           "body": "TODO"
         },
         {
           "slug": "character-encodings",
           "title": "Character encodings",
           "intro": "Text that looks fine on your machine turns into garbage when bytes and encodings do not match.",
-          "requires": ["create-a-buffer"],
+          "requires": [
+            "create-a-buffer"
+          ],
           "body": "TODO"
         },
         {
           "slug": "buffers-are-uint8arrays",
           "title": "Buffers are Uint8Arrays",
           "intro": "Buffers share their foundation with web standard binary types, which lets them work with browser style APIs.",
-          "requires": ["create-a-buffer"],
+          "requires": [
+            "create-a-buffer"
+          ],
           "body": "TODO"
         },
         {
@@ -577,49 +1373,64 @@
           "slug": "find-the-current-file-location",
           "title": "Find the current file location",
           "intro": "ES modules dropped the old globals for finding your own file, yet you still need to load files that sit next to your code.",
-          "requires": ["write-an-es-module"],
+          "requires": [
+            "write-an-es-module"
+          ],
           "body": "TODO"
         },
         {
           "slug": "read-a-file",
           "title": "Read a file",
           "intro": "Reading files is the first real I/O most programs do, and Node offers several ways with very different costs.",
-          "requires": ["write-async-functions"],
+          "requires": [
+            "write-async-functions"
+          ],
           "body": "TODO"
         },
         {
           "slug": "write-a-file",
           "title": "Write a file",
           "intro": "Writing carelessly can leave a half written file behind when something goes wrong.",
-          "requires": ["read-a-file"],
+          "requires": [
+            "read-a-file"
+          ],
           "body": "TODO"
         },
         {
           "slug": "list-a-directory",
           "title": "List a directory",
           "intro": "Tools often need to walk through folders and decide what to do with each entry.",
-          "requires": ["read-a-file"],
+          "requires": [
+            "read-a-file"
+          ],
           "body": "TODO"
         },
         {
           "slug": "inspect-file-metadata",
           "title": "Inspect file metadata",
           "intro": "Size, timestamps, and type tell you what a path is before you try to open it.",
-          "requires": ["read-a-file"],
+          "requires": [
+            "read-a-file"
+          ],
           "body": "TODO"
         },
         {
           "slug": "use-file-handles",
           "title": "Use file handles",
           "intro": "Opening a file once and doing many operations on it is faster and safer than reopening it every time.",
-          "requires": ["read-a-file"],
+          "requires": [
+            "read-a-file"
+          ],
           "body": "TODO"
         },
         {
           "slug": "watch-a-file",
           "title": "Watch a file",
           "intro": "Dev tools reload when you save, and you can build that behavior yourself.",
-          "requires": ["read-a-file", "emit-an-event"],
+          "requires": [
+            "read-a-file",
+            "emit-an-event"
+          ],
           "body": "TODO"
         }
       ]
@@ -632,84 +1443,110 @@
           "slug": "why-streams-exist",
           "title": "Why streams exist",
           "intro": "Reading a whole file into memory works until the file is larger than your memory.",
-          "requires": ["read-a-file"],
+          "requires": [
+            "read-a-file"
+          ],
           "body": "TODO"
         },
         {
           "slug": "read-from-a-readable-stream",
           "title": "Read from a readable stream",
           "intro": "Data that arrives in pieces needs a different way of reading than a single value.",
-          "requires": ["why-streams-exist", "emit-an-event"],
+          "requires": [
+            "why-streams-exist",
+            "emit-an-event"
+          ],
           "body": "TODO"
         },
         {
           "slug": "write-to-a-writable-stream",
           "title": "Write to a writable stream",
           "intro": "Sending data out in pieces has rules about when to keep writing and when to wait.",
-          "requires": ["why-streams-exist"],
+          "requires": [
+            "why-streams-exist"
+          ],
           "body": "TODO"
         },
         {
           "slug": "connect-streams-with-pipeline",
           "title": "Connect streams with pipeline",
           "intro": "Most stream code moves data from one place to another, and errors must not get lost along the way.",
-          "requires": ["read-from-a-readable-stream", "write-to-a-writable-stream"],
+          "requires": [
+            "read-from-a-readable-stream",
+            "write-to-a-writable-stream"
+          ],
           "body": "TODO"
         },
         {
           "slug": "backpressure",
           "title": "Backpressure",
           "intro": "A fast producer feeding a slow consumer will fill your memory unless something pushes back.",
-          "requires": ["connect-streams-with-pipeline"],
+          "requires": [
+            "connect-streams-with-pipeline"
+          ],
           "body": "TODO"
         },
         {
           "slug": "transform-streams",
           "title": "Transform streams",
           "intro": "Changing data while it flows lets you process huge inputs with a tiny memory footprint.",
-          "requires": ["connect-streams-with-pipeline"],
+          "requires": [
+            "connect-streams-with-pipeline"
+          ],
           "body": "TODO"
         },
         {
           "slug": "duplex-streams",
           "title": "Duplex streams",
           "intro": "Sockets both read and write, and they are modeled by a stream type that does both.",
-          "requires": ["transform-streams"],
+          "requires": [
+            "transform-streams"
+          ],
           "body": "TODO"
         },
         {
           "slug": "object-mode-streams",
           "title": "Object mode streams",
           "intro": "Streams are not limited to bytes, and sometimes each piece should be a whole record.",
-          "requires": ["transform-streams"],
+          "requires": [
+            "transform-streams"
+          ],
           "body": "TODO"
         },
         {
           "slug": "read-a-stream-with-for-await",
           "title": "Read a stream with for await",
           "intro": "Async iteration turns stream consumption into a loop you already know how to write.",
-          "requires": ["read-from-a-readable-stream"],
+          "requires": [
+            "read-from-a-readable-stream"
+          ],
           "body": "TODO"
         },
         {
           "slug": "handle-stream-errors",
           "title": "Handle stream errors",
           "intro": "A stream error that is not handled can leak file descriptors or crash the process.",
-          "requires": ["connect-streams-with-pipeline"],
+          "requires": [
+            "connect-streams-with-pipeline"
+          ],
           "body": "TODO"
         },
         {
           "slug": "compress-with-zlib",
           "title": "Compress with zlib",
           "intro": "Compressing responses and files saves bandwidth and storage with only a few lines of stream code.",
-          "requires": ["transform-streams"],
+          "requires": [
+            "transform-streams"
+          ],
           "body": "TODO"
         },
         {
           "slug": "web-streams-in-node",
           "title": "Web streams in Node",
           "intro": "fetch and other web APIs in Node return a different kind of stream than the classic one.",
-          "requires": ["read-a-stream-with-for-await"],
+          "requires": [
+            "read-a-stream-with-for-await"
+          ],
           "body": "TODO"
         }
       ]
@@ -722,77 +1559,102 @@
           "slug": "build-a-tcp-server",
           "title": "Build a TCP server",
           "intro": "Every HTTP server sits on top of plain TCP connections, and seeing them raw removes the magic.",
-          "requires": ["duplex-streams"],
+          "requires": [
+            "duplex-streams"
+          ],
           "body": "TODO"
         },
         {
           "slug": "build-an-http-server",
           "title": "Build an HTTP server",
           "intro": "This is the foundation Express and every other Node web framework is built on.",
-          "requires": ["build-a-tcp-server"],
+          "requires": [
+            "build-a-tcp-server"
+          ],
           "body": "TODO"
         },
         {
           "slug": "read-the-request",
           "title": "Read the request",
           "intro": "Everything you know about an incoming request lives on one object, if you know where to look.",
-          "requires": ["build-an-http-server"],
+          "requires": [
+            "build-an-http-server"
+          ],
           "body": "TODO"
         },
         {
           "slug": "write-the-response",
           "title": "Write the response",
           "intro": "Status, headers, and body must go out in the right order, or the client gets confused.",
-          "requires": ["build-an-http-server"],
+          "requires": [
+            "build-an-http-server"
+          ],
           "body": "TODO"
         },
         {
           "slug": "route-by-hand",
           "title": "Route by hand",
           "intro": "Deciding which code handles which URL is the first job of any web server.",
-          "requires": ["read-the-request", "write-the-response"],
+          "requires": [
+            "read-the-request",
+            "write-the-response"
+          ],
           "body": "TODO"
         },
         {
           "slug": "parse-a-request-body",
           "title": "Parse a request body",
           "intro": "Request bodies arrive as a stream of bytes, not as ready made objects.",
-          "requires": ["read-the-request", "read-a-stream-with-for-await"],
+          "requires": [
+            "read-the-request",
+            "read-a-stream-with-for-await"
+          ],
           "body": "TODO"
         },
         {
           "slug": "stream-a-file-response",
           "title": "Stream a file response",
           "intro": "Sending large files without loading them into memory keeps your server responsive.",
-          "requires": ["write-the-response", "connect-streams-with-pipeline"],
+          "requires": [
+            "write-the-response",
+            "connect-streams-with-pipeline"
+          ],
           "body": "TODO"
         },
         {
           "slug": "make-requests-with-fetch",
           "title": "Make requests with fetch",
           "intro": "Your server will often need to call other services, and Node now ships a standard way to do it.",
-          "requires": ["write-async-functions"],
+          "requires": [
+            "write-async-functions"
+          ],
           "body": "TODO"
         },
         {
           "slug": "reuse-connections-with-keep-alive",
           "title": "Reuse connections with keep alive",
           "intro": "Opening a new connection for every request wastes time, and the defaults matter at scale.",
-          "requires": ["build-an-http-server"],
+          "requires": [
+            "build-an-http-server"
+          ],
           "body": "TODO"
         },
         {
           "slug": "serve-over-https",
           "title": "Serve over HTTPS",
           "intro": "Anything sent over plain HTTP can be read or changed by anyone along the way.",
-          "requires": ["build-an-http-server"],
+          "requires": [
+            "build-an-http-server"
+          ],
           "body": "TODO"
         },
         {
           "slug": "how-dns-lookups-work",
           "title": "How DNS lookups work",
           "intro": "Hostname resolution in Node takes a surprising path that can slow down unrelated work.",
-          "requires": ["the-libuv-thread-pool"],
+          "requires": [
+            "the-libuv-thread-pool"
+          ],
           "body": "TODO"
         }
       ]
@@ -805,98 +1667,127 @@
           "slug": "why-express",
           "title": "Why Express",
           "intro": "After routing by hand, you have felt the repetition that a framework removes.",
-          "requires": ["route-by-hand"],
+          "requires": [
+            "route-by-hand"
+          ],
           "body": "TODO"
         },
         {
           "slug": "your-first-express-app",
           "title": "Your first Express app",
           "intro": "This is where the notes API that you will grow for the rest of the trail begins.",
-          "requires": ["why-express"],
+          "requires": [
+            "why-express"
+          ],
           "body": "TODO"
         },
         {
           "slug": "define-routes",
           "title": "Define routes",
           "intro": "An API is a set of methods and paths, and each one needs a clear home in your code.",
-          "requires": ["your-first-express-app"],
+          "requires": [
+            "your-first-express-app"
+          ],
           "body": "TODO"
         },
         {
           "slug": "route-parameters",
           "title": "Route parameters",
           "intro": "Fetching one note by its id means reading part of the URL itself.",
-          "requires": ["define-routes"],
+          "requires": [
+            "define-routes"
+          ],
           "body": "TODO"
         },
         {
           "slug": "read-query-strings",
           "title": "Read query strings",
           "intro": "Filtering, searching, and paging all arrive as optional values after the question mark.",
-          "requires": ["define-routes"],
+          "requires": [
+            "define-routes"
+          ],
           "body": "TODO"
         },
         {
           "slug": "write-middleware",
           "title": "Write middleware",
           "intro": "Logging, auth, and parsing apply to many routes, and copying them into each handler does not scale.",
-          "requires": ["define-routes"],
+          "requires": [
+            "define-routes"
+          ],
           "body": "TODO"
         },
         {
           "slug": "middleware-order",
           "title": "Middleware order",
           "intro": "The same middleware can work or silently do nothing depending on where you register it.",
-          "requires": ["write-middleware"],
+          "requires": [
+            "write-middleware"
+          ],
           "body": "TODO"
         },
         {
           "slug": "parse-json-bodies",
           "title": "Parse JSON bodies",
           "intro": "Creating and updating notes needs the request body as a JavaScript object.",
-          "requires": ["write-middleware"],
+          "requires": [
+            "write-middleware"
+          ],
           "body": "TODO"
         },
         {
           "slug": "validate-input",
           "title": "Validate input",
           "intro": "Clients will send missing, wrong, and malicious data, and your handlers should never see it.",
-          "requires": ["parse-json-bodies"],
+          "requires": [
+            "parse-json-bodies"
+          ],
           "body": "TODO"
         },
         {
           "slug": "split-routes-with-router",
           "title": "Split routes with Router",
           "intro": "One file holding every route becomes hard to navigate long before the API is finished.",
-          "requires": ["define-routes"],
+          "requires": [
+            "define-routes"
+          ],
           "body": "TODO"
         },
         {
           "slug": "error-handling-middleware",
           "title": "Error handling middleware",
           "intro": "Errors should end up in one place that decides what the client sees.",
-          "requires": ["middleware-order"],
+          "requires": [
+            "middleware-order"
+          ],
           "body": "TODO"
         },
         {
           "slug": "async-errors-in-express",
           "title": "Async errors in Express",
           "intro": "An error thrown inside an async handler behaves differently depending on your Express version.",
-          "requires": ["error-handling-middleware", "catch-async-errors"],
+          "requires": [
+            "error-handling-middleware",
+            "catch-async-errors"
+          ],
           "body": "TODO"
         },
         {
           "slug": "allow-cross-origin-requests",
           "title": "Allow cross origin requests",
           "intro": "A browser app on another domain cannot call your API until you allow it.",
-          "requires": ["write-middleware"],
+          "requires": [
+            "write-middleware"
+          ],
           "body": "TODO"
         },
         {
           "slug": "consistent-api-responses",
           "title": "Consistent API responses",
           "intro": "Clients are easier to write when every success and every failure has the same shape.",
-          "requires": ["error-handling-middleware"],
+          "requires": [
+            "error-handling-middleware"
+          ],
           "body": "TODO"
         }
       ]
@@ -909,21 +1800,27 @@
           "slug": "load-configuration-safely",
           "title": "Load configuration safely",
           "intro": "A missing or mistyped setting should stop your app at startup, not break it at 3 AM.",
-          "requires": ["read-environment-variables"],
+          "requires": [
+            "read-environment-variables"
+          ],
           "body": "TODO"
         },
         {
           "slug": "set-security-headers",
           "title": "Set security headers",
           "intro": "Browsers enforce many protections only when your responses ask for them.",
-          "requires": ["write-middleware"],
+          "requires": [
+            "write-middleware"
+          ],
           "body": "TODO"
         },
         {
           "slug": "limit-request-rates",
           "title": "Limit request rates",
           "intro": "One noisy client or a brute force script can take your API down for everyone.",
-          "requires": ["write-middleware"],
+          "requires": [
+            "write-middleware"
+          ],
           "body": "TODO"
         },
         {
@@ -942,28 +1839,36 @@
           "slug": "sign-tokens-with-hmac",
           "title": "Sign tokens with HMAC",
           "intro": "You need to hand clients data they can carry around but cannot forge.",
-          "requires": ["generate-secure-random-values"],
+          "requires": [
+            "generate-secure-random-values"
+          ],
           "body": "TODO"
         },
         {
           "slug": "prevent-path-traversal",
           "title": "Prevent path traversal",
           "intro": "A crafted file name can let an attacker read files far outside the folder you meant to serve.",
-          "requires": ["build-paths-safely"],
+          "requires": [
+            "build-paths-safely"
+          ],
           "body": "TODO"
         },
         {
           "slug": "prototype-pollution",
           "title": "Prototype pollution",
           "intro": "Merging untrusted JSON into objects can change the behavior of every object in your process.",
-          "requires": ["parse-json-bodies"],
+          "requires": [
+            "parse-json-bodies"
+          ],
           "body": "TODO"
         },
         {
           "slug": "audit-your-dependencies",
           "title": "Audit your dependencies",
           "intro": "Most of the code you ship was written by someone else, and some of it has known holes.",
-          "requires": ["lockfiles"],
+          "requires": [
+            "lockfiles"
+          ],
           "body": "TODO"
         },
         {
@@ -982,70 +1887,92 @@
           "slug": "run-a-child-process",
           "title": "Run a child process",
           "intro": "Some jobs are best done by an existing program like git or ffmpeg rather than rewritten in JavaScript.",
-          "requires": ["read-from-a-readable-stream"],
+          "requires": [
+            "read-from-a-readable-stream"
+          ],
           "body": "TODO"
         },
         {
           "slug": "spawn-versus-exec",
           "title": "spawn versus exec",
           "intro": "Picking the wrong way to launch a process can buffer huge output in memory or open a shell injection hole.",
-          "requires": ["run-a-child-process"],
+          "requires": [
+            "run-a-child-process"
+          ],
           "body": "TODO"
         },
         {
           "slug": "split-long-tasks",
           "title": "Split long tasks",
           "intro": "Sometimes a long computation can stay on the main thread if it learns to share.",
-          "requires": ["spot-a-blocked-event-loop"],
+          "requires": [
+            "spot-a-blocked-event-loop"
+          ],
           "body": "TODO"
         },
         {
           "slug": "worker-threads",
           "title": "Worker threads",
           "intro": "CPU heavy work blocks the loop no matter how you slice it, unless it runs somewhere else.",
-          "requires": ["spot-a-blocked-event-loop"],
+          "requires": [
+            "spot-a-blocked-event-loop"
+          ],
           "body": "TODO"
         },
         {
           "slug": "pass-messages-between-workers",
           "title": "Pass messages between workers",
           "intro": "Threads in Node do not share variables, so they need another way to talk.",
-          "requires": ["worker-threads"],
+          "requires": [
+            "worker-threads"
+          ],
           "body": "TODO"
         },
         {
           "slug": "share-memory-between-workers",
           "title": "Share memory between workers",
           "intro": "Copying large data between threads costs time, and sometimes they should read the same bytes instead.",
-          "requires": ["pass-messages-between-workers", "buffers-are-uint8arrays"],
+          "requires": [
+            "pass-messages-between-workers",
+            "buffers-are-uint8arrays"
+          ],
           "body": "TODO"
         },
         {
           "slug": "coordinate-with-atomics",
           "title": "Coordinate with Atomics",
           "intro": "Two threads writing the same memory at once will corrupt it without coordination.",
-          "requires": ["share-memory-between-workers"],
+          "requires": [
+            "share-memory-between-workers"
+          ],
           "body": "TODO"
         },
         {
           "slug": "build-a-worker-pool",
           "title": "Build a worker pool",
           "intro": "Starting a new worker per task is slow, and running too many at once overloads the machine.",
-          "requires": ["pass-messages-between-workers"],
+          "requires": [
+            "pass-messages-between-workers"
+          ],
           "body": "TODO"
         },
         {
           "slug": "scale-across-cores-with-cluster",
           "title": "Scale across cores with cluster",
           "intro": "A single Node process runs your JavaScript on one core while the rest of the machine sits idle.",
-          "requires": ["build-an-http-server"],
+          "requires": [
+            "build-an-http-server"
+          ],
           "body": "TODO"
         },
         {
           "slug": "choose-a-concurrency-model",
           "title": "Choose a concurrency model",
           "intro": "Each tool in this map solves a different problem, and using the wrong one adds cost without speed.",
-          "requires": ["build-a-worker-pool", "scale-across-cores-with-cluster"],
+          "requires": [
+            "build-a-worker-pool",
+            "scale-across-cores-with-cluster"
+          ],
           "body": "TODO"
         }
       ]
@@ -1058,28 +1985,37 @@
           "slug": "how-v8-lays-out-the-heap",
           "title": "How V8 lays out the heap",
           "intro": "Memory problems are much easier to reason about once you know where your objects live.",
-          "requires": ["what-v8-does"],
+          "requires": [
+            "what-v8-does"
+          ],
           "body": "TODO"
         },
         {
           "slug": "garbage-collection",
           "title": "Garbage collection",
           "intro": "Memory is freed for you, but when and how it happens affects latency.",
-          "requires": ["how-v8-lays-out-the-heap"],
+          "requires": [
+            "how-v8-lays-out-the-heap"
+          ],
           "body": "TODO"
         },
         {
           "slug": "why-object-shape-matters",
           "title": "Why object shape matters",
           "intro": "Two objects with the same properties can run at very different speeds.",
-          "requires": ["what-v8-does"],
+          "requires": [
+            "what-v8-does"
+          ],
           "body": "TODO"
         },
         {
           "slug": "how-v8-optimizes-hot-code",
           "title": "How V8 optimizes hot code",
           "intro": "Code that runs often gets faster over time, until something makes V8 give up on it.",
-          "requires": ["why-object-shape-matters", "how-v8-turns-source-into-bytecode"],
+          "requires": [
+            "why-object-shape-matters",
+            "how-v8-turns-source-into-bytecode"
+          ],
           "body": "TODO"
         },
         {
@@ -1092,28 +2028,37 @@
           "slug": "find-a-memory-leak",
           "title": "Find a memory leak",
           "intro": "A process whose memory only goes up will eventually be killed, often at the worst moment.",
-          "requires": ["garbage-collection", "debug-with-the-inspector"],
+          "requires": [
+            "garbage-collection",
+            "debug-with-the-inspector"
+          ],
           "body": "TODO"
         },
         {
           "slug": "profile-cpu-usage",
           "title": "Profile CPU usage",
           "intro": "Guessing where time goes is almost always wrong, and measuring takes only one flag.",
-          "requires": ["debug-with-the-inspector"],
+          "requires": [
+            "debug-with-the-inspector"
+          ],
           "body": "TODO"
         },
         {
           "slug": "read-a-flame-graph",
           "title": "Read a flame graph",
           "intro": "A profile holds thousands of samples, and one picture makes the slow path obvious.",
-          "requires": ["profile-cpu-usage"],
+          "requires": [
+            "profile-cpu-usage"
+          ],
           "body": "TODO"
         },
         {
           "slug": "measure-event-loop-delay",
           "title": "Measure event loop delay",
           "intro": "Request latency often comes from a busy loop rather than slow I/O, and you need a number to prove it.",
-          "requires": ["spot-a-blocked-event-loop"],
+          "requires": [
+            "spot-a-blocked-event-loop"
+          ],
           "body": "TODO"
         },
         {
@@ -1126,7 +2071,10 @@
           "slug": "fix-a-bottleneck",
           "title": "Fix a bottleneck",
           "intro": "Everything in this map comes together on a real slow endpoint in the notes API.",
-          "requires": ["read-a-flame-graph", "measure-event-loop-delay"],
+          "requires": [
+            "read-a-flame-graph",
+            "measure-event-loop-delay"
+          ],
           "body": "TODO"
         }
       ]
@@ -1145,56 +2093,75 @@
           "slug": "trace-requests-with-asynclocalstorage",
           "title": "Trace requests with AsyncLocalStorage",
           "intro": "When many requests interleave, you need a way to tie every log line back to the request that caused it.",
-          "requires": ["structured-logging", "write-middleware"],
+          "requires": [
+            "structured-logging",
+            "write-middleware"
+          ],
           "body": "TODO"
         },
         {
           "slug": "handle-uncaught-exceptions",
           "title": "Handle uncaught exceptions",
           "intro": "A thrown error that nobody catches will end your process, and you choose what happens on the way out.",
-          "requires": ["the-process-object"],
+          "requires": [
+            "the-process-object"
+          ],
           "body": "TODO"
         },
         {
           "slug": "handle-unhandled-rejections",
           "title": "Handle unhandled rejections",
           "intro": "Forgotten promise rejections crash modern Node by default, which surprises many teams during upgrades.",
-          "requires": ["catch-async-errors"],
+          "requires": [
+            "catch-async-errors"
+          ],
           "body": "TODO"
         },
         {
           "slug": "listen-for-process-signals",
           "title": "Listen for process signals",
           "intro": "Process managers and orchestrators talk to your process through signals, not function calls.",
-          "requires": ["the-process-object"],
+          "requires": [
+            "the-process-object"
+          ],
           "body": "TODO"
         },
         {
           "slug": "shut-down-gracefully",
           "title": "Shut down gracefully",
           "intro": "Deploys restart your process constantly, and every restart can drop requests in flight.",
-          "requires": ["listen-for-process-signals", "build-an-http-server"],
+          "requires": [
+            "listen-for-process-signals",
+            "build-an-http-server"
+          ],
           "body": "TODO"
         },
         {
           "slug": "add-health-checks",
           "title": "Add health checks",
           "intro": "Load balancers and orchestrators need a way to ask whether your instance can serve traffic.",
-          "requires": ["define-routes"],
+          "requires": [
+            "define-routes"
+          ],
           "body": "TODO"
         },
         {
           "slug": "run-in-production-mode",
           "title": "Run in production mode",
           "intro": "A few settings change how Node and Express behave, and leaving them on defaults costs speed and safety.",
-          "requires": ["load-configuration-safely"],
+          "requires": [
+            "load-configuration-safely"
+          ],
           "body": "TODO"
         },
         {
           "slug": "ship-the-api",
           "title": "Ship the API",
           "intro": "This is the final check that the notes API reaches the destination you set out for.",
-          "requires": ["shut-down-gracefully", "add-health-checks"],
+          "requires": [
+            "shut-down-gracefully",
+            "add-health-checks"
+          ],
           "body": "TODO"
         }
       ]

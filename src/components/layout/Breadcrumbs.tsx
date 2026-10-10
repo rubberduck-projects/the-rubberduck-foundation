@@ -11,10 +11,9 @@ type Crumb = { label: string; href: string };
 
 function crumbsFor(pathname: string, titles: CrumbTitles): Crumb[] {
     const path = pathname.endsWith("/") ? pathname : `${pathname}/`;
-    const crumbs: Crumb[] = [{ label: "Home", href: "/" }];
-    if (path === "/") return crumbs;
+    if (path === "/") return [];
 
-    crumbs.push({ label: "Trails", href: "/trails/" });
+    const crumbs: Crumb[] = [{ label: "Trails", href: "/trails/" }];
     if (path === "/how-to/trails/") crumbs.push({ label: "How to write a DuckTrail", href: path });
 
     const [, section, trailSlug, articleSlug] = path.split("/");

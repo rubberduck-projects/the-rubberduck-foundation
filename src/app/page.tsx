@@ -10,10 +10,6 @@ import HandymanRounded from "@mui/icons-material/HandymanRounded";
 import GroupsRounded from "@mui/icons-material/GroupsRounded";
 import LoopRounded from "@mui/icons-material/LoopRounded";
 import FormatQuoteRounded from "@mui/icons-material/FormatQuoteRounded";
-import TerminalRounded from "@mui/icons-material/TerminalRounded";
-import FlagRounded from "@mui/icons-material/FlagRounded";
-import HistoryRounded from "@mui/icons-material/HistoryRounded";
-import BlockRounded from "@mui/icons-material/BlockRounded";
 import ArticleRounded from "@mui/icons-material/ArticleRounded";
 import MenuBookRounded from "@mui/icons-material/MenuBookRounded";
 import CodeRounded from "@mui/icons-material/CodeRounded";
@@ -43,7 +39,7 @@ const formatDate = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { 
 function Eyebrow({ children }: { children: React.ReactNode }) {
     return (
         <Typography variant="eyebrow" sx={{ color: "text.secondary", display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-            <Box component="span" aria-hidden sx={{ width: 18, height: 3, borderRadius: 2, bgcolor: palette.duck[400] }} />
+            <Box component="span" aria-hidden sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: palette.duck[400] }} />
             {children}
         </Typography>
     );
@@ -121,7 +117,7 @@ function TrailIllustration() {
             />
             <Box component="svg" viewBox="0 0 100 100" preserveAspectRatio="none" sx={{ position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" }}>
                 <Box component="path" d={trailPath} fill="none" stroke="currentColor" vectorEffect="non-scaling-stroke" sx={{ color: "surface.hairlineStrong", strokeWidth: 10, strokeLinecap: "round" }} />
-                <Box component="path" d={trailPath} fill="none" stroke="currentColor" vectorEffect="non-scaling-stroke" sx={{ color: "text.disabled", strokeWidth: 2, strokeDasharray: "2 7", strokeLinecap: "round" }} />
+                <Box component="path" d={trailPath} fill="none" stroke="currentColor" vectorEffect="non-scaling-stroke" sx={{ color: "text.disabled", strokeWidth: 2, strokeLinecap: "round" }} />
             </Box>
 
             {stops.map((s, i) => {
@@ -266,24 +262,14 @@ function Hero() {
 
                     <Typography id="hero-title" variant="h1" sx={{ mb: 3, maxWidth: 640, textWrap: "balance" }}>
                         Go from curious to{" "}
-                        <Box
-                            component="span"
-                            sx={{
-                                whiteSpace: "nowrap",
-                                backgroundImage: `linear-gradient(${palette.duck[300]}, ${palette.duck[300]})`,
-                                backgroundSize: "100% 0.16em",
-                                backgroundPosition: "0 92%",
-                                backgroundRepeat: "no-repeat",
-                            }}
-                        >
+                        <Box component="span" sx={{ whiteSpace: "nowrap", px: 1, mx: -1, borderRadius: "8px", bgcolor: `${palette.duck[300]}80` }}>
                             capable
                         </Box>
                         , wherever you start.
                     </Typography>
 
                     <Typography variant="lead" sx={{ color: "text.secondary", maxWidth: 560, mb: 4 }}>
-                        Learning, building and community for developers with no course budget, no network and no inside
-                        track. Our writing and playbooks are open today as trails: free to read, open to reuse, and
+                        Learning, building and community for developers with no course budget, no network. Our writing and playbooks are free to read, open to reuse, and
                         checked to still work.
                     </Typography>
 
@@ -296,9 +282,6 @@ function Hero() {
                         </Button>
                     </Box>
 
-                    <Typography variant="mono" component="p" sx={{ mt: 3, color: "text.secondary" }}>
-                        No paywall · No credential · No lock in
-                    </Typography>
                 </Box>
 
                 <TrailIllustration />
@@ -329,16 +312,17 @@ function Foundation() {
                     <Box>
                         <Eyebrow>Why the Rubberduck Foundation exists</Eyebrow>
                         <Typography id="foundation-title" variant="h2" sx={{ mb: 3, maxWidth: 620, textWrap: "balance" }}>
-                            Most of what makes a developer good is never written down.
+                            Most of what makes a developer good is rarely said out loud.
                         </Typography>
                         <Typography variant="lead" sx={{ color: "text.secondary", mb: 2.5, maxWidth: 580 }}>
-                            It lives in one senior engineer&apos;s head, in a private chat full of answers someone learned the hard
-                            way, in a course that costs a month&apos;s rent. Not because it is hard to write down, but because keeping
-                            it written and current does not pay.
+                            It surfaces as an aside in a code review, as a habit one senior engineer never thinks to explain, as an
+                            answer in a private chat that someone learned the hard way, or as the part of a course that costs a
+                            month&apos;s rent. It stays unsaid because repeating it and keeping it current does not pay.
                         </Typography>
                         <Typography sx={{ color: "text.secondary", maxWidth: 580 }}>
                             The Rubberduck Foundation builds the free alternative to all of it: learning, building and community.
-                            And we keep it honest enough that free never quietly means worse. Knowledge kept private stays small.
+                            Here the unspoken gets said out loud, then tested and maintained so free never quietly means worse.
+                            Knowledge kept private stays small.
                             Knowledge made public, tested and maintained compounds. We are building for the compounding.
                         </Typography>
                     </Box>
@@ -405,25 +389,6 @@ function Foundation() {
                                 To help people learn, build and connect, by the easiest path that still leaves something worth keeping.
                             </Typography>
                         </Box>
-                        <Typography component="figcaption" variant="mono" sx={{ mt: 2, color: "text.secondary" }}>
-                            Our mission
-                        </Typography>
-                    </Box>
-                </Box>
-
-                <Box sx={{ mt: { xs: 5, md: 6 }, pl: { md: 10 }, display: "flex", flexWrap: "wrap", alignItems: "center", gap: 1.5 }}>
-                    <Typography sx={{ color: "text.secondary", mr: 0.5 }}>
-                        <Box component="strong" sx={{ color: "text.primary", fontWeight: 600 }}>
-                            Anywhere
-                        </Box>{" "}
-                        means we design for
-                    </Typography>
-                    <Box component="ul" sx={{ listStyle: "none", p: 0, m: 0, display: "flex", flexWrap: "wrap", gap: 1 }}>
-                        {anywhere.map((a) => (
-                            <Box component="li" key={a} sx={{ px: 1.5, py: 0.75, borderRadius: "999px", bgcolor: "surface.sunken", border: "1px solid", borderColor: "divider", fontSize: "0.8125rem", fontWeight: 600 }}>
-                                {a}
-                            </Box>
-                        ))}
                     </Box>
                 </Box>
             </Container>
@@ -633,7 +598,7 @@ function Produce() {
                                 <Box
                                     component={Link}
                                     href="/trails/"
-                                    sx={{ display: "inline-flex", alignItems: "center", gap: 0.5, fontSize: "0.875rem", fontWeight: 600, color: "text.primary", textDecorationColor: palette.duck[400], textUnderlineOffset: 4, ...focusRing }}
+                                    sx={{ display: "inline-flex", alignItems: "center", gap: 0.5, fontSize: "0.875rem", fontWeight: 600, color: "text.primary", textDecoration: "none", ...focusRing }}
                                 >
                                     Read it as trails
                                     <ArrowForwardRounded aria-hidden sx={{ fontSize: 18 }} />
@@ -653,10 +618,10 @@ function Produce() {
 }
 
 const steps = [
-    { title: "Pick a destination", body: "Each trail ends at one skill or one role, named in a single sentence." },
+    { title: "Pick a trail", body: "Each trail leads to one proof project, named in a single sentence." },
     { title: "Follow the trail maps", body: "The big skills on the way, laid out in the order you need them." },
     { title: "Take one article at a time", body: "Each teaches one small skill in about 2 minutes, then gives you 10 to practise it." },
-    { title: "Explain it to the duck", body: "Say it back in your own words, then finish with a small proof project worth showing." },
+    { title: "Build the proof project", body: "Put the skills together in a small project worth showing. It is the goal of the whole trail." },
 ];
 const stepColors = [pond, moss, amber];
 
@@ -666,11 +631,12 @@ function HowItWorks() {
             <Container sx={{ ...container, pt: { xs: 8, md: 12 }, pb: { xs: 6, md: 8 } }}>
                 <Eyebrow>Trails · How our writing and playbooks are published</Eyebrow>
                 <Typography id="how-title" variant="h2" sx={{ maxWidth: 640, mb: 2, textWrap: "balance" }}>
-                    Read it, do it, explain it to the duck.
+                    Writers explain it to the duck.
                 </Typography>
                 <Typography variant="lead" sx={{ color: "text.secondary", maxWidth: 620, mb: { xs: 5, md: 7 } }}>
-                    A trail turns our writing and playbooks into one path with one destination. Written for the curious
-                    beginner and the busy professional, on the same path.
+                    Every writer here treats the platform as their rubber duck, explaining each idea until it holds up. A
+                    trail turns that writing into one path that ends at a proof project, for the curious beginner and the
+                    busy professional alike.
                 </Typography>
 
                 <Box
@@ -683,12 +649,12 @@ function HowItWorks() {
                         display: "grid",
                         gridTemplateColumns: { xs: "1fr", md: "repeat(4, 1fr)" },
                         gap: 4,
-                        // The dashed trail joining the steps: down the left on small screens, across the top on wide ones.
+                        // The trail joining the steps: down the left on small screens, across the top on wide ones.
                         "&::before": {
                             content: '""',
                             position: "absolute",
-                            borderColor: "text.disabled",
-                            borderStyle: "dashed",
+                            borderColor: "divider",
+                            borderStyle: "solid",
                             borderWidth: 0,
                             top: 24,
                             bottom: { xs: 24, md: "auto" },
@@ -815,7 +781,7 @@ function FeaturedTrails({ trails }: { trails: Trail[] }) {
                 </Box>
 
                 {featured.length === 0 ? (
-                    <Box sx={{ p: { xs: 4, md: 6 }, borderRadius: "14px", border: "1px dashed", borderColor: "divider", textAlign: "center" }}>
+                    <Box sx={{ p: { xs: 4, md: 6 }, borderRadius: "14px", border: "1px solid", borderColor: "divider", textAlign: "center" }}>
                         <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
                             <DuckMark size={40} />
                         </Box>
@@ -898,8 +864,8 @@ function Community() {
                         p: { xs: 3, md: 4 },
                         borderRadius: "14px",
                         bgcolor: "background.paper",
-                        border: "1px dashed",
-                        borderColor: "text.disabled",
+                        border: "1px solid",
+                        borderColor: "divider",
                         display: "grid",
                         gridTemplateColumns: { xs: "1fr", md: "minmax(0, 1fr) auto" },
                         gap: 3,
@@ -908,10 +874,10 @@ function Community() {
                 >
                     <Box>
                         <Typography component="h3" variant="h5" sx={{ mb: 0.75 }}>
-                            No degree, employer or years of experience required. For any role.
+                            Open to anyone, whatever your background. For any role.
                         </Typography>
                         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                            Track record is shown in public work, not claimed on a resume.
+                            Track record is shown in public work.
                         </Typography>
                     </Box>
                     <Box component="ul" aria-label="Open roles" sx={{ listStyle: "none", p: 0, m: 0, display: "flex", flexWrap: "wrap", gap: 1 }}>
@@ -992,85 +958,9 @@ function HowFar() {
     );
 }
 
-const honesty = [
-    { Icon: TerminalRounded, title: "Every claim ships with a reproduction", body: "A command to run, a test to check, a dataset to inspect. Trust me is not a citation." },
-    { Icon: VerifiedRounded, title: "Every artifact has a last verified date", body: "Undated is untrusted. We would rather mark something stale in public than let it mislead." },
-    { Icon: FlagRounded, title: "Anyone can flag rot", body: "Reporting a broken step takes being right, not being a maintainer." },
-    { Icon: HistoryRounded, title: "Corrections stay public", body: "When something was wrong, the fix and the fact it was wrong both stay visible." },
-];
-const wontDo = ["Depend on one vendor", "Gatekeep by credential", "Charge for the path", "Publish what cannot be checked", "Chase streaks or time on site"];
-
-function KeptHonest() {
-    return (
-        <Box component="section" aria-labelledby="honest-title">
-            <Container sx={{ ...container, py: { xs: 8, md: 12 } }}>
-                <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "minmax(0, 0.9fr) minmax(0, 1.1fr)" }, gap: { xs: 5, md: 10 } }}>
-                    <Box>
-                        <Eyebrow>How we keep it honest</Eyebrow>
-                        <Typography id="honest-title" variant="h2" sx={{ mb: 2.5 }}>
-                            Claims rot faster than code.
-                        </Typography>
-                        <Typography variant="lead" sx={{ color: "text.secondary", maxWidth: 460 }}>
-                            A tutorial that worked in March can be wrong in June. The more we run, the more can quietly go stale.
-                            Our answer is process, not vigilance.
-                        </Typography>
-                    </Box>
-                    <Box component="ul" sx={{ listStyle: "none", p: 0, m: 0, display: "grid", gap: { xs: 3, sm: 4 }, gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)" } }}>
-                        {honesty.map(({ Icon, title, body }) => (
-                            <Box component="li" key={title}>
-                                <Box
-                                    aria-hidden
-                                    sx={{
-                                        width: 40,
-                                        height: 40,
-                                        borderRadius: "10px",
-                                        display: "grid",
-                                        placeItems: "center",
-                                        mb: 1.75,
-                                        bgcolor: "surface.sunken",
-                                        border: "1px solid",
-                                        borderColor: "divider",
-                                        color: "text.primary",
-                                    }}
-                                >
-                                    <Icon sx={{ fontSize: 22 }} />
-                                </Box>
-                                <Typography component="h3" variant="h6" sx={{ mb: 0.5 }}>
-                                    {title}
-                                </Typography>
-                                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                                    {body}
-                                </Typography>
-                            </Box>
-                        ))}
-                    </Box>
-                </Box>
-
-                <Box sx={{ mt: { xs: 6, md: 8 }, pt: { xs: 4, md: 5 }, borderTop: "1px solid", borderColor: "divider", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 1.5 }}>
-                    <Typography component="h3" variant="mono" sx={{ color: "text.secondary", fontWeight: 600, mr: 1 }}>
-                        What we will not do
-                    </Typography>
-                    <Box component="ul" sx={{ listStyle: "none", p: 0, m: 0, display: "flex", flexWrap: "wrap", gap: 1 }}>
-                        {wontDo.map((w) => (
-                            <Box
-                                component="li"
-                                key={w}
-                                sx={{ display: "inline-flex", alignItems: "center", gap: 0.75, px: 1.5, py: 0.75, borderRadius: "999px", border: "1px solid", borderColor: "divider", fontSize: "0.8125rem" }}
-                            >
-                                <BlockRounded aria-hidden sx={{ fontSize: 16, color: "error.main" }} />
-                                {w}
-                            </Box>
-                        ))}
-                    </Box>
-                </Box>
-            </Container>
-        </Box>
-    );
-}
-
 function ClosingCta() {
     return (
-        <Container sx={{ ...container, pb: { xs: 8, md: 12 } }}>
+        <Container sx={{ ...container, p: { xs: 8, md: 12 } }}>
             <Box
                 component="section"
                 aria-labelledby="closing-title"
@@ -1140,7 +1030,6 @@ export default async function Home() {
                 <FeaturedTrails trails={trails} />
                 <Community />
                 <HowFar />
-                <KeptHonest />
                 <ClosingCta />
             </Box>
             <SiteFooter />
