@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import OpenInNewRounded from "@mui/icons-material/OpenInNewRounded";
 import type { Resource } from "@/content/trails";
 
-const srOnly = { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap" } as const;
+const srOnly = { position: "absolute", width: "1px", height: "1px", overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap" } as const;
 
 export default function ResourceList({ items }: { items: Resource[] }) {
     return (

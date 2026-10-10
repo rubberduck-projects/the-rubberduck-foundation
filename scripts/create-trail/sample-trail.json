@@ -1,0 +1,65 @@
+{
+  "slug": "sample-trail",
+  "title": "Sample Trail",
+  "destination": "One sentence on what the learner can do at the end.",
+  "verifiedAt": "2026-10-06T00:00:00Z",
+  "prerequisites": [
+    { "title": "Use a terminal.", "note": "Run a command and read its output." },
+    { "title": "Install a tool.", "href": "https://example.com/install", "note": "href is optional." }
+  ],
+  "nextSteps": [
+    { "title": "Next topic", "href": "https://example.com/docs", "note": "Where to go after this trail." }
+  ],
+  "maps": [
+    {
+      "title": "First map",
+      "summary": "What this group of articles covers.",
+      "articles": [
+        {
+          "slug": "first-article",
+          "title": "First article",
+          "intro": "One line on why this article matters.",
+          "body": [
+            "## Details",
+            "",
+            "The explanation.",
+            "",
+            "## Example",
+            "",
+            "```bash",
+            "echo \"a command to run\"",
+            "```",
+            "",
+            "You should see the expected result.",
+            "",
+            "## As you quack it to the rubberduck!",
+            "",
+            "Three to five sentences the learner could say aloud from memory.",
+            "",
+            "Tested with: tool version."
+          ]
+        },
+        {
+          "slug": "second-article",
+          "title": "Second article",
+          "intro": "One line on why this article matters.",
+          "requires": ["first-article"],
+          "body": "## Details\n\nBody can also be a single string with \\n line breaks.\n\n## As you quack it to the rubberduck!\n\nThe short version."
+        }
+      ]
+    },
+    {
+      "title": "Second map",
+      "summary": "What the next group covers.",
+      "articles": [
+        {
+          "slug": "third-article",
+          "title": "Third article",
+          "intro": "One line on why this article matters.",
+          "requires": ["first-article", "second-article"],
+          "body": "## Details\n\nThe explanation.\n\n## As you quack it to the rubberduck!\n\nThe short version."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trail map</title>
+<style>
+:root {
+    --bg: #faf8f3; --surface: #fff; --ink: #1f2430; --muted: #5b6270; --line: #d9d4c7;
+    --accent: #b45309; --accent-soft: #fef3c7; --req: #1d4ed8; --dep: #15803d;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font: 14px/1.5 system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+header { padding: 24px 32px 8px; max-width: 900px; }
+h1 { margin: 0 0 4px; font-size: 26px; }
+.dest { margin: 0; color: var(--muted); }
+.stats { margin: 12px 0 0; display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; font-size: 12px; color: var(--muted); }
+.legend { padding: 4px 32px 12px; display: flex; gap: 16px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.side { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; padding: 0 32px 16px; max-width: 1100px; }
+.side h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 6px; }
+.side ul { margin: 0; padding: 0; list-style: none; }
+.side li { margin-bottom: 4px; }
+.side a { color: var(--req); }
+.scroll { overflow: auto; padding: 8px 32px 48px; }
+#board { position: relative; display: flex; gap: 72px; align-items: flex-start; width: max-content; }
+svg { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+.map { width: 260px; flex: none; position: relative; z-index: 1; }
+.map h3 { margin: 0; font-size: 15px; }
+.map .n { color: var(--accent); font-weight: 600; margin-right: 6px; }
+.map p { margin: 4px 0 12px; font-size: 12px; color: var(--muted); }
+.card { display: block; width: 100%; text-align: left; font: inherit; color: inherit; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin-bottom: 10px; cursor: pointer; }
+.card:hover, .card:focus-visible { border-color: var(--accent); outline: 2px solid var(--accent-soft); }
+.card b { display: block; font-weight: 600; }
+.card small { color: var(--muted); }
+.card.sel { border-color: var(--accent); background: var(--accent-soft); }
+.card.req { border-color: var(--req); box-shadow: inset 3px 0 0 var(--req); }
+.card.dep { border-color: var(--dep); box-shadow: inset 3px 0 0 var(--dep); }
+.card.dim { opacity: .35; }
+path { fill: none; stroke: #b8b2a2; stroke-width: 1.25; }
+path.hi-req { stroke: var(--req); stroke-width: 2; }
+path.hi-dep { stroke: var(--dep); stroke-width: 2; }
+path.dim { opacity: .12; }
+#tip { position: fixed; right: 16px; bottom: 16px; max-width: 320px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; box-shadow: 0 4px 16px rgba(0,0,0,.08); display: none; }
+#tip.on { display: block; }
+#tip h4 { margin: 0 0 4px; font-size: 14px; }
+#tip p { margin: 0 0 6px; color: var(--muted); }
+#tip .slug { font-family: ui-monospace, monospace; font-size: 12px; }
+.empty { color: var(--muted); padding: 32px; }
+</style>
+</head>
+<body>
+<header>
+    <h1 id="title"></h1>
+    <p class="dest" id="dest"></p>
+    <div class="stats" id="stats"></div>
+</header>
+<div class="legend">
+    <span><i style="background:var(--accent)"></i>Selected</span>
+    <span><i style="background:var(--req)"></i>Required first</span>
+    <span><i style="background:var(--dep)"></i>Unlocks</span>
+    <span>Select an article to trace its dependencies. Select it again to clear.</span>
+</div>
+<div class="side" id="side"></div>
+<div class="scroll"><div id="board"><svg id="edges" aria-hidden="true"></svg></div></div>
+<aside id="tip" aria-live="polite"></aside>
+<script>
+const DATA = /*__TRAIL_DATA__*/null;
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, text) => {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+};
+
+document.title = DATA.title + " trail map";
+$("title").textContent = DATA.title;
+$("dest").textContent = DATA.destination;
+
+const all = DATA.maps.flatMap((m, mi) => m.articles.map((a) => ({ ...a, map: mi })));
+const bySlug = new Map(all.map((a) => [a.slug, a]));
+const edges = all.flatMap((a) => a.requires.filter((r) => bySlug.has(r)).map((r) => ({ from: r, to: a.slug })));
+for (const t of [
+    DATA.maps.length + " maps",
+    all.length + " articles",
+    edges.length + " dependencies",
+    all.filter((a) => !a.requires.length).length + " entry points",
+    "Verified " + String(DATA.verifiedAt || "").slice(0, 10),
+]) $("stats").append(el("span", "chip", t));
+
+for (const [label, list] of [["Prerequisites", DATA.prerequisites], ["Next steps", DATA.nextSteps]]) {
+    const box = el("div");
+    box.append(el("h2", null, label));
+    const ul = el("ul");
+    for (const r of list) {
+        const li = el("li");
+        if (r.href && /^https?:\/\//.test(r.href)) {
+            const a = el("a", null, r.title);
+            a.href = r.href;
+            a.target = "_blank";
+            a.rel = "noopener noreferrer";
+            li.append(a);
+        } else li.append(el("span", null, r.title));
+        if (r.note) li.append(el("div", "chip", r.note));
+        ul.append(li);
+    }
+    if (!list.length) ul.append(el("li", null, "None listed."));
+    box.append(ul);
+    $("side").append(box);
+}
+
+const board = $("board");
+const cards = new Map();
+if (!all.length) board.replaceWith(el("div", "empty", "This trail has no articles yet."));
+DATA.maps.forEach((m, mi) => {
+    const col = el("section", "map");
+    const h = el("h3");
+    h.append(el("span", "n", String(mi + 1)), document.createTextNode(m.title));
+    col.append(h, el("p", null, m.summary));
+    for (const a of m.articles) {
+        const c = el("button", "card");
+        c.type = "button";
+        c.append(el("b", null, a.title), el("small", null, a.words + " words" + (a.requires.length ? ", needs " + a.requires.length : "")));
+        c.addEventListener("click", () => select(selected === a.slug ? null : a.slug));
+        cards.set(a.slug, c);
+        col.append(c);
+    }
+    board.append(col);
+});
+
+const svg = $("edges");
+const paths = [];
+function draw() {
+    svg.replaceChildren();
+    paths.length = 0;
+    const base = board.getBoundingClientRect();
+    svg.setAttribute("width", base.width);
+    svg.setAttribute("height", base.height);
+    for (const e of edges) {
+        const a = cards.get(e.from).getBoundingClientRect();
+        const b = cards.get(e.to).getBoundingClientRect();
+        const fm = bySlug.get(e.from).map, tm = bySlug.get(e.to).map;
+        let d;
+        if (fm === tm) {
+            const x = a.right - base.left, y1 = a.top + a.height / 2 - base.top, y2 = b.top + b.height / 2 - base.top;
+            const o = 28;
+            d = `M${x},${y1} C${x + o},${y1} ${x + o},${y2} ${x},${y2}`;
+        } else {
+            const fwd = fm < tm;
+            const x1 = (fwd ? a.right : a.left) - base.left, x2 = (fwd ? b.left : b.right) - base.left;
+            const y1 = a.top + a.height / 2 - base.top, y2 = b.top + b.height / 2 - base.top;
+            const k = Math.max(30, Math.abs(x2 - x1) / 2) * (fwd ? 1 : -1);
+            d = `M${x1},${y1} C${x1 + k},${y1} ${x2 - k},${y2} ${x2},${y2}`;
+        }
+        const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        p.setAttribute("d", d);
+        svg.append(p);
+        paths.push({ p, e });
+    }
+    apply();
+}
+
+let selected = null;
+function select(slug) {
+    selected = slug;
+    apply();
+    const tip = $("tip");
+    tip.replaceChildren();
+    if (!slug) return tip.classList.remove("on");
+    const a = bySlug.get(slug);
+    tip.append(el("h4", null, a.title), el("p", null, a.intro || "No intro."), el("div", "slug", a.slug));
+    const unlocks = edges.filter((e) => e.from === slug).map((e) => bySlug.get(e.to).title);
+    if (a.requires.length) tip.append(el("p", null, "Requires: " + a.requires.map((r) => bySlug.get(r)?.title ?? r).join(", ")));
+    if (unlocks.length) tip.append(el("p", null, "Unlocks: " + unlocks.join(", ")));
+    tip.classList.add("on");
+}
+
+function apply() {
+    const req = new Set(), dep = new Set();
+    if (selected) {
+        const walk = (start, next, out) => {
+            const q = [start];
+            while (q.length) for (const n of next(q.pop())) if (!out.has(n)) (out.add(n), q.push(n));
+        };
+        walk(selected, (s) => bySlug.get(s).requires.filter((r) => bySlug.has(r)), req);
+        walk(selected, (s) => edges.filter((e) => e.from === s).map((e) => e.to), dep);
+    }
+    for (const [slug, c] of cards) {
+        c.className = "card" + (!selected ? "" : slug === selected ? " sel" : req.has(slug) ? " req" : dep.has(slug) ? " dep" : " dim");
+    }
+    for (const { p, e } of paths) {
+        const isReq = selected && (e.to === selected || req.has(e.to)) && (req.has(e.from));
+        const isDep = selected && (e.from === selected || dep.has(e.from)) && dep.has(e.to);
+        p.setAttribute("class", !selected ? "" : isReq ? "hi-req" : isDep ? "hi-dep" : "dim");
+    }
+}
+
+draw();
+addEventListener("resize", draw);
+</script>
+</body>
+</html>

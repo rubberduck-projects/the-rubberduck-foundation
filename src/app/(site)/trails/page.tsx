@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Box, Container, Typography } from "@mui/material";
-import { allArticles, totalMinutes, trails } from "@/content/trails";
+import { allArticles, getTrails, totalMinutes } from "@/content/trails";
 import { layout } from "@/theme/tokens";
 
 export const metadata: Metadata = {
@@ -9,7 +9,8 @@ export const metadata: Metadata = {
     description: "Choose a topic and follow the trail. Every step builds on the last, and ends with something you can actually do.",
 };
 
-export default function TrailsPage() {
+export default async function TrailsPage() {
+    const trails = await getTrails();
     return (
         <Container maxWidth={false} sx={{ maxWidth: layout.maxWidth, pt: { xs: 3, md: 4 }, pb: { xs: 6, md: 10 } }}>
             <Typography variant="h1" sx={{ fontSize: { xs: "2.25rem", md: "3rem" }, letterSpacing: "-0.03em", mb: 2 }}>

@@ -1,0 +1,216 @@
+{
+  "slug": "kafka-essentials",
+  "title": "Kafka Essentials",
+  "destination": "Run Kafka locally in KRaft mode, build reliable Node.js producers and consumers, move data with Connect, enforce schemas, and operate and secure a cluster with confidence.",
+  "verifiedAt": "2026-10-07T00:00:00Z",
+  "prerequisites": [
+    { "title": "Install Docker.", "href": "https://docs.docker.com/get-docker/", "note": "Run docker --version to check it works." },
+    { "title": "Read and write basic Node.js.", "note": "Use async functions, promises, and npm packages." }
+  ],
+  "nextSteps": [
+    { "title": "Kafka Streams", "href": "https://kafka.apache.org/documentation/streams/", "note": "Process and transform topics on the JVM." },
+    { "title": "ksqlDB", "href": "https://ksqldb.io", "note": "Process streams with SQL." },
+    { "title": "Apache Flink", "href": "https://flink.apache.org", "note": "Run stateful stream processing at larger scale." },
+    { "title": "Debezium", "href": "https://debezium.io", "note": "Stream database changes into Kafka." },
+    { "title": "Event sourcing and CQRS", "note": "Design systems around the log." }
+  ],
+  "maps": [
+    {
+      "title": "Why Kafka",
+      "summary": "TODO",
+      "articles": [
+        { "slug": "the-problem-kafka-solves", "title": "The problem Kafka solves", "intro": "TODO", "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "events", "title": "Events", "intro": "TODO", "requires": ["the-problem-kafka-solves"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "the-commit-log", "title": "The commit log", "intro": "TODO", "requires": ["events"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "topics-and-partitions", "title": "Topics and partitions", "intro": "TODO", "requires": ["the-commit-log"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "producers-brokers-and-consumers", "title": "Producers, brokers, and consumers", "intro": "TODO", "requires": ["topics-and-partitions"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "kafka-compared-with-a-queue", "title": "Kafka compared with a queue", "intro": "TODO", "requires": ["producers-brokers-and-consumers"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "kafka-compared-with-a-database", "title": "Kafka compared with a database", "intro": "TODO", "requires": ["kafka-compared-with-a-queue"], "body": "## As you quack it to the rubberduck!\n\nTODO" }
+      ]
+    },
+    {
+      "title": "Kafka on your machine",
+      "summary": "TODO",
+      "articles": [
+        { "slug": "run-a-single-broker-with-docker-compose", "title": "Run a single broker with Docker Compose", "intro": "TODO", "requires": ["producers-brokers-and-consumers"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "what-kraft-replaced", "title": "What KRaft replaced", "intro": "TODO", "requires": ["run-a-single-broker-with-docker-compose"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "advertised-listeners", "title": "Advertised listeners", "intro": "TODO", "requires": ["what-kraft-replaced"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "create-a-topic", "title": "Create a topic", "intro": "TODO", "requires": ["advertised-listeners"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "describe-a-topic", "title": "Describe a topic", "intro": "TODO", "requires": ["create-a-topic"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "produce-with-the-console-producer", "title": "Produce with the console producer", "intro": "TODO", "requires": ["describe-a-topic"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "consume-with-the-console-consumer", "title": "Consume with the console consumer", "intro": "TODO", "requires": ["produce-with-the-console-producer"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "look-at-log-segments-on-disk", "title": "Look at log segments on disk", "intro": "TODO", "requires": ["consume-with-the-console-consumer"], "body": "## As you quack it to the rubberduck!\n\nTODO" }
+      ]
+    },
+    {
+      "title": "Topics",
+      "summary": "TODO",
+      "articles": [
+        { "slug": "what-a-topic-is", "title": "What a topic is", "intro": "TODO", "requires": ["describe-a-topic"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "naming-topics", "title": "Naming topics", "intro": "TODO", "requires": ["what-a-topic-is"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "create-topics-from-node-js", "title": "Create topics from Node.js", "intro": "TODO", "requires": ["naming-topics"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "list-and-describe-topics-from-node-js", "title": "List and describe topics from Node.js", "intro": "TODO", "requires": ["create-topics-from-node-js"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "topic-level-configuration", "title": "Topic level configuration", "intro": "TODO", "requires": ["list-and-describe-topics-from-node-js"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "alter-a-topic", "title": "Alter a topic", "intro": "TODO", "requires": ["topic-level-configuration"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "delete-a-topic-safely", "title": "Delete a topic safely", "intro": "TODO", "requires": ["alter-a-topic"], "body": "## As you quack it to the rubberduck!\n\nTODO" }
+      ]
+    },
+    {
+      "title": "Partitions",
+      "summary": "TODO",
+      "articles": [
+        { "slug": "why-topics-are-split-into-partitions", "title": "Why topics are split into partitions", "intro": "TODO", "requires": ["what-a-topic-is"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "ordering-within-a-partition", "title": "Ordering within a partition", "intro": "TODO", "requires": ["why-topics-are-split-into-partitions"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "how-keys-choose-a-partition", "title": "How keys choose a partition", "intro": "TODO", "requires": ["ordering-within-a-partition"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "hot-partitions-and-key-skew", "title": "Hot partitions and key skew", "intro": "TODO", "requires": ["how-keys-choose-a-partition"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "choose-a-partition-count", "title": "Choose a partition count", "intro": "TODO", "requires": ["hot-partitions-and-key-skew"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "add-partitions-to-a-topic", "title": "Add partitions to a topic", "intro": "TODO", "requires": ["choose-a-partition-count"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "read-a-single-partition", "title": "Read a single partition", "intro": "TODO", "requires": ["add-partitions-to-a-topic"], "body": "## As you quack it to the rubberduck!\n\nTODO" }
+      ]
+    },
+    {
+      "title": "Offsets and retention",
+      "summary": "TODO",
+      "articles": [
+        { "slug": "offsets", "title": "Offsets", "intro": "TODO", "requires": ["ordering-within-a-partition"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "log-start-and-end-offsets", "title": "Log start and end offsets", "intro": "TODO", "requires": ["offsets"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "find-an-offset-by-timestamp", "title": "Find an offset by timestamp", "intro": "TODO", "requires": ["log-start-and-end-offsets"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "retention-by-time-and-size", "title": "Retention by time and size", "intro": "TODO", "requires": ["find-an-offset-by-timestamp"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "segment-rolling-and-deletion", "title": "Segment rolling and deletion", "intro": "TODO", "requires": ["retention-by-time-and-size"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "log-compaction", "title": "Log compaction", "intro": "TODO", "requires": ["segment-rolling-and-deletion"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "tombstones", "title": "Tombstones", "intro": "TODO", "requires": ["log-compaction"], "body": "## As you quack it to the rubberduck!\n\nTODO" }
+      ]
+    },
+    {
+      "title": "Producing from Node.js",
+      "summary": "TODO",
+      "articles": [
+        { "slug": "choose-a-node-js-client-library", "title": "Choose a Node.js client library", "intro": "TODO", "requires": ["create-topics-from-node-js"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "connect-a-producer-to-the-broker", "title": "Connect a producer to the broker", "intro": "TODO", "requires": ["choose-a-node-js-client-library"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "send-your-first-message", "title": "Send your first message", "intro": "TODO", "requires": ["connect-a-producer-to-the-broker"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "send-to-a-specific-partition", "title": "Send to a specific partition", "intro": "TODO", "requires": ["send-your-first-message"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "keys-headers-and-timestamps", "title": "Keys, headers, and timestamps", "intro": "TODO", "requires": ["send-to-a-specific-partition"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "serialize-messages-as-json", "title": "Serialize messages as JSON", "intro": "TODO", "requires": ["keys-headers-and-timestamps"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "send-several-messages-in-one-call", "title": "Send several messages in one call", "intro": "TODO", "requires": ["serialize-messages-as-json"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "acknowledgements", "title": "Acknowledgements", "intro": "TODO", "requires": ["send-several-messages-in-one-call"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "retries-and-timeouts", "title": "Retries and timeouts", "intro": "TODO", "requires": ["acknowledgements"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "the-idempotent-producer", "title": "The idempotent producer", "intro": "TODO", "requires": ["retries-and-timeouts"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "batch-size-and-linger", "title": "Batch size and linger", "intro": "TODO", "requires": ["the-idempotent-producer"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "compression", "title": "Compression", "intro": "TODO", "requires": ["batch-size-and-linger"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "custom-partitioners", "title": "Custom partitioners", "intro": "TODO", "requires": ["compression"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "producer-errors", "title": "Producer errors", "intro": "TODO", "requires": ["custom-partitioners"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "shut-down-a-producer-cleanly", "title": "Shut down a producer cleanly", "intro": "TODO", "requires": ["producer-errors"], "body": "## As you quack it to the rubberduck!\n\nTODO" }
+      ]
+    },
+    {
+      "title": "Consuming from Node.js",
+      "summary": "TODO",
+      "articles": [
+        { "slug": "connect-a-consumer-to-the-broker", "title": "Connect a consumer to the broker", "intro": "TODO", "requires": ["send-your-first-message"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "subscribe-and-read-messages", "title": "Subscribe and read messages", "intro": "TODO", "requires": ["connect-a-consumer-to-the-broker"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "read-keys-headers-and-timestamps", "title": "Read keys, headers, and timestamps", "intro": "TODO", "requires": ["subscribe-and-read-messages"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "deserialize-json-safely", "title": "Deserialize JSON safely", "intro": "TODO", "requires": ["read-keys-headers-and-timestamps"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "consumer-groups", "title": "Consumer groups", "intro": "TODO", "requires": ["deserialize-json-safely"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "partition-assignment", "title": "Partition assignment", "intro": "TODO", "requires": ["consumer-groups"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "rebalancing", "title": "Rebalancing", "intro": "TODO", "requires": ["partition-assignment"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "commit-offsets", "title": "Commit offsets", "intro": "TODO", "requires": ["rebalancing"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "auto-commit-and-its-risks", "title": "Auto commit and its risks", "intro": "TODO", "requires": ["commit-offsets"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "choose-where-to-start-reading", "title": "Choose where to start reading", "intro": "TODO", "requires": ["auto-commit-and-its-risks"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "seek-and-replay", "title": "Seek and replay", "intro": "TODO", "requires": ["choose-where-to-start-reading"], "body": "## As you quack it to the rubberduck!\n\nTODO" }
+      ]
+    },
+    {
+      "title": "Reliable consumers",
+      "summary": "TODO",
+      "articles": [
+        { "slug": "process-messages-in-batches", "title": "Process messages in batches", "intro": "TODO", "requires": ["commit-offsets"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "concurrency-across-partitions", "title": "Concurrency across partitions", "intro": "TODO", "requires": ["process-messages-in-batches"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "pause-and-resume", "title": "Pause and resume", "intro": "TODO", "requires": ["concurrency-across-partitions"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "retry-a-failed-message", "title": "Retry a failed message", "intro": "TODO", "requires": ["pause-and-resume"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "dead-letter-topics", "title": "Dead letter topics", "intro": "TODO", "requires": ["retry-a-failed-message"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "consumer-lag", "title": "Consumer lag", "intro": "TODO", "requires": ["dead-letter-topics"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "shut-down-a-consumer-cleanly", "title": "Shut down a consumer cleanly", "intro": "TODO", "requires": ["consumer-lag"], "body": "## As you quack it to the rubberduck!\n\nTODO" }
+      ]
+    },
+    {
+      "title": "Replication and durability",
+      "summary": "TODO",
+      "articles": [
+        { "slug": "leaders-and-followers", "title": "Leaders and followers", "intro": "TODO", "requires": ["offsets"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "in-sync-replicas", "title": "In sync replicas", "intro": "TODO", "requires": ["leaders-and-followers"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "run-a-three-broker-cluster", "title": "Run a three broker cluster", "intro": "TODO", "requires": ["in-sync-replicas"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "minimum-in-sync-replicas", "title": "Minimum in sync replicas", "intro": "TODO", "requires": ["run-a-three-broker-cluster"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "survive-a-broker-failure", "title": "Survive a broker failure", "intro": "TODO", "requires": ["minimum-in-sync-replicas"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "leader-election", "title": "Leader election", "intro": "TODO", "requires": ["survive-a-broker-failure"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "unclean-leader-election", "title": "Unclean leader election", "intro": "TODO", "requires": ["leader-election"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "rack-awareness", "title": "Rack awareness", "intro": "TODO", "requires": ["unclean-leader-election"], "body": "## As you quack it to the rubberduck!\n\nTODO" }
+      ]
+    },
+    {
+      "title": "Delivery guarantees",
+      "summary": "TODO",
+      "articles": [
+        { "slug": "at-most-once-at-least-once-exactly-once", "title": "At most once, at least once, exactly once", "intro": "TODO", "requires": ["acknowledgements", "commit-offsets", "the-idempotent-producer"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "idempotent-consumers", "title": "Idempotent consumers", "intro": "TODO", "requires": ["at-most-once-at-least-once-exactly-once"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "producer-transactions", "title": "Producer transactions", "intro": "TODO", "requires": ["idempotent-consumers"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "read-committed-consumers", "title": "Read committed consumers", "intro": "TODO", "requires": ["producer-transactions"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "the-consume-transform-produce-loop", "title": "The consume, transform, produce loop", "intro": "TODO", "requires": ["read-committed-consumers"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "the-outbox-pattern", "title": "The outbox pattern", "intro": "TODO", "requires": ["the-consume-transform-produce-loop"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "test-failure-behavior", "title": "Test failure behavior", "intro": "TODO", "requires": ["the-outbox-pattern"], "body": "## As you quack it to the rubberduck!\n\nTODO" }
+      ]
+    },
+    {
+      "title": "Kafka Connect",
+      "summary": "TODO",
+      "articles": [
+        { "slug": "what-connect-does", "title": "What Connect does", "intro": "TODO", "requires": ["create-topics-from-node-js", "serialize-messages-as-json"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "run-connect-in-docker", "title": "Run Connect in Docker", "intro": "TODO", "requires": ["what-connect-does"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "workers-connectors-and-tasks", "title": "Workers, connectors, and tasks", "intro": "TODO", "requires": ["run-connect-in-docker"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "a-source-connector-for-a-database", "title": "A source connector for a database", "intro": "TODO", "requires": ["workers-connectors-and-tasks"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "a-sink-connector-for-a-database", "title": "A sink connector for a database", "intro": "TODO", "requires": ["a-source-connector-for-a-database"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "converters", "title": "Converters", "intro": "TODO", "requires": ["a-sink-connector-for-a-database"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "single-message-transforms", "title": "Single message transforms", "intro": "TODO", "requires": ["converters"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "connector-errors", "title": "Connector errors", "intro": "TODO", "requires": ["single-message-transforms"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "monitor-connectors", "title": "Monitor connectors", "intro": "TODO", "requires": ["connector-errors"], "body": "## As you quack it to the rubberduck!\n\nTODO" }
+      ]
+    },
+    {
+      "title": "Schema Registry",
+      "summary": "TODO",
+      "articles": [
+        { "slug": "why-message-formats-need-contracts", "title": "Why message formats need contracts", "intro": "TODO", "requires": ["converters", "send-your-first-message"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "run-schema-registry", "title": "Run Schema Registry", "intro": "TODO", "requires": ["why-message-formats-need-contracts"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "register-an-avro-schema", "title": "Register an Avro schema", "intro": "TODO", "requires": ["run-schema-registry"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "produce-avro-from-node-js", "title": "Produce Avro from Node.js", "intro": "TODO", "requires": ["register-an-avro-schema"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "consume-avro-from-node-js", "title": "Consume Avro from Node.js", "intro": "TODO", "requires": ["produce-avro-from-node-js"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "compatibility-modes", "title": "Compatibility modes", "intro": "TODO", "requires": ["consume-avro-from-node-js"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "evolve-a-schema-safely", "title": "Evolve a schema safely", "intro": "TODO", "requires": ["compatibility-modes"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "use-json-schema-or-protobuf", "title": "Use JSON Schema or Protobuf", "intro": "TODO", "requires": ["evolve-a-schema-safely"], "body": "## As you quack it to the rubberduck!\n\nTODO" }
+      ]
+    },
+    {
+      "title": "Operating Kafka",
+      "summary": "TODO",
+      "articles": [
+        { "slug": "broker-health", "title": "Broker health", "intro": "TODO", "requires": ["leaders-and-followers", "consumer-lag"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "key-broker-metrics", "title": "Key broker metrics", "intro": "TODO", "requires": ["broker-health"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "alert-on-consumer-lag", "title": "Alert on consumer lag", "intro": "TODO", "requires": ["key-broker-metrics"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "encrypt-traffic-with-tls", "title": "Encrypt traffic with TLS", "intro": "TODO", "requires": ["alert-on-consumer-lag"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "authenticate-with-sasl", "title": "Authenticate with SASL", "intro": "TODO", "requires": ["encrypt-traffic-with-tls"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "authorize-with-acls", "title": "Authorize with ACLs", "intro": "TODO", "requires": ["authenticate-with-sasl"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "quotas", "title": "Quotas", "intro": "TODO", "requires": ["authorize-with-acls"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "rolling-restarts", "title": "Rolling restarts", "intro": "TODO", "requires": ["quotas"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "design-topics-for-production", "title": "Design topics for production", "intro": "TODO", "requires": ["rolling-restarts"], "body": "## As you quack it to the rubberduck!\n\nTODO" }
+      ]
+    },
+    {
+      "title": "Proof project",
+      "summary": "TODO",
+      "articles": [
+        { "slug": "build-an-order-pipeline", "title": "Build an order pipeline", "intro": "TODO", "requires": ["evolve-a-schema-safely", "producer-transactions", "a-sink-connector-for-a-database"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "break-it-on-purpose", "title": "Break it on purpose", "intro": "TODO", "requires": ["build-an-order-pipeline"], "body": "## As you quack it to the rubberduck!\n\nTODO" },
+        { "slug": "explain-the-design", "title": "Explain the design", "intro": "TODO", "requires": ["break-it-on-purpose"], "body": "## As you quack it to the rubberduck!\n\nTODO" }
+      ]
+    }
+  ]
+}

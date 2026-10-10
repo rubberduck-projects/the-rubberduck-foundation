@@ -1,0 +1,1061 @@
+{
+  "slug": "kubernetes",
+  "title": "Kubernetes",
+  "destination": "Deploy a microservice application to a Kubernetes cluster and watch it scale out automatically under load.",
+  "verifiedAt": "2026-10-07T00:00:00Z",
+  "prerequisites": [
+    {
+      "title": "Use a terminal.",
+      "note": "Run a command, read its output, and edit a text file."
+    },
+    {
+      "title": "Install Docker.",
+      "href": "https://docs.docker.com/get-started/get-docker/",
+      "note": "Docker Desktop or Docker Engine. The first map teaches the container basics you need."
+    },
+    {
+      "title": "Know what a web request is.",
+      "note": "A client sends a request to a host and port and gets a response."
+    }
+  ],
+  "nextSteps": [
+    {
+      "title": "Package with Helm",
+      "href": "https://helm.sh/docs/",
+      "note": "Turn your manifests into versioned, configurable releases."
+    },
+    {
+      "title": "Deliver with GitOps",
+      "href": "https://argo-cd.readthedocs.io/",
+      "note": "Sync a Git repository to your cluster automatically."
+    },
+    {
+      "title": "Observe your cluster",
+      "href": "https://prometheus.io/docs/",
+      "note": "Add metrics and alerts to see how the shop behaves over time."
+    }
+  ],
+  "maps": [
+    {
+      "title": "Containers refresher",
+      "summary": "You can explain what a container, an image, and a registry are, and how they relate. You can run a container, reach it on a port, and build your own image from a Dockerfile. You also know why containers are treated as disposable, the idea Kubernetes builds on.",
+      "articles": [
+        {
+          "slug": "what-a-container-is",
+          "title": "What a container is",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "what-an-image-is",
+          "title": "What an image is",
+          "intro": "TODO",
+          "requires": [
+            "what-a-container-is"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "what-a-registry-is",
+          "title": "What a registry is",
+          "intro": "TODO",
+          "requires": [
+            "what-an-image-is"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "run-a-container",
+          "title": "Run a container",
+          "intro": "TODO",
+          "requires": [
+            "what-an-image-is"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "map-a-port-to-a-container",
+          "title": "Map a port to a container",
+          "intro": "TODO",
+          "requires": [
+            "run-a-container"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "write-a-dockerfile",
+          "title": "Write a Dockerfile",
+          "intro": "TODO",
+          "requires": [
+            "what-an-image-is"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "build-and-tag-an-image",
+          "title": "Build and tag an image",
+          "intro": "TODO",
+          "requires": [
+            "write-a-dockerfile"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "containers-are-disposable",
+          "title": "Containers are disposable",
+          "intro": "TODO",
+          "requires": [
+            "run-a-container"
+          ],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "The mental model",
+      "summary": "You can describe in plain words what Kubernetes does and why teams use it. You can name the parts of a cluster and say what each one does. You can read a Kubernetes YAML file and pick out its main fields.",
+      "articles": [
+        {
+          "slug": "what-problem-kubernetes-solves",
+          "title": "What problem Kubernetes solves",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "the-gap-between-one-container-and-many",
+          "title": "The gap between one container and many",
+          "intro": "TODO",
+          "requires": [
+            "what-a-container-is"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "desired-state",
+          "title": "Desired state",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "reconciliation-loops",
+          "title": "Reconciliation loops",
+          "intro": "TODO",
+          "requires": [
+            "desired-state"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "anatomy-of-a-cluster",
+          "title": "Anatomy of a cluster",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "the-api-server-is-the-front-door",
+          "title": "The API server is the front door",
+          "intro": "TODO",
+          "requires": [
+            "anatomy-of-a-cluster"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "read-yaml-without-fear",
+          "title": "Read YAML without fear",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "anatomy-of-a-kubernetes-object",
+          "title": "Anatomy of a Kubernetes object",
+          "intro": "TODO",
+          "requires": [
+            "read-yaml-without-fear"
+          ],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "A cluster on your machine",
+      "summary": "You can install kubectl and create a cluster on your own machine with kind or minikube. You can run an app on it and see it respond. You can point kubectl at the right cluster and delete and rebuild a cluster whenever you want a clean start.",
+      "articles": [
+        {
+          "slug": "install-kubectl",
+          "title": "Install kubectl",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "choose-a-local-cluster-tool",
+          "title": "Choose a local cluster tool",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "create-a-kind-cluster",
+          "title": "Create a kind cluster",
+          "intro": "TODO",
+          "requires": [
+            "install-kubectl"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "see-your-first-app-running",
+          "title": "See your first app running",
+          "intro": "TODO",
+          "requires": [
+            "create-a-kind-cluster"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "create-a-multi-node-kind-cluster",
+          "title": "Create a multi node kind cluster",
+          "intro": "TODO",
+          "requires": [
+            "create-a-kind-cluster"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "create-a-minikube-cluster",
+          "title": "Create a minikube cluster",
+          "intro": "TODO",
+          "requires": [
+            "install-kubectl"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "read-your-kubeconfig",
+          "title": "Read your kubeconfig",
+          "intro": "TODO",
+          "requires": [
+            "install-kubectl"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "switch-between-contexts",
+          "title": "Switch between contexts",
+          "intro": "TODO",
+          "requires": [
+            "read-your-kubeconfig"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "delete-and-rebuild-a-cluster",
+          "title": "Delete and rebuild a cluster",
+          "intro": "TODO",
+          "requires": [
+            "create-a-kind-cluster"
+          ],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Pods",
+      "summary": "You can write a pod manifest, apply it, and check that it runs. You can read its logs, open a shell inside it, and explain each stage of its life. You can label objects and group them with namespaces.",
+      "articles": [
+        {
+          "slug": "what-a-pod-is",
+          "title": "What a pod is",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "write-your-first-pod",
+          "title": "Write your first pod",
+          "intro": "TODO",
+          "requires": [
+            "what-a-pod-is",
+            "anatomy-of-a-kubernetes-object"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "apply-a-manifest",
+          "title": "Apply a manifest",
+          "intro": "TODO",
+          "requires": [
+            "write-your-first-pod",
+            "create-a-kind-cluster"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "inspect-with-describe",
+          "title": "Inspect with describe",
+          "intro": "TODO",
+          "requires": [
+            "apply-a-manifest"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "read-pod-logs",
+          "title": "Read pod logs",
+          "intro": "TODO",
+          "requires": [
+            "apply-a-manifest"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "run-commands-inside-a-pod",
+          "title": "Run commands inside a pod",
+          "intro": "TODO",
+          "requires": [
+            "apply-a-manifest"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "the-pod-lifecycle",
+          "title": "The pod lifecycle",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "label-your-objects",
+          "title": "Label your objects",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "select-objects-by-label",
+          "title": "Select objects by label",
+          "intro": "TODO",
+          "requires": [
+            "label-your-objects"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "namespaces",
+          "title": "Namespaces",
+          "intro": "TODO",
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Deployments",
+      "summary": "You can run several copies of an app with a Deployment and scale them up or down. You can watch Kubernetes replace a pod that dies. You can ship a new version with a rolling update and roll it back when it goes wrong.",
+      "articles": [
+        {
+          "slug": "replicasets",
+          "title": "ReplicaSets",
+          "intro": "TODO",
+          "requires": [
+            "what-a-pod-is"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "your-first-deployment",
+          "title": "Your first Deployment",
+          "intro": "TODO",
+          "requires": [
+            "replicasets"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "scale-by-hand",
+          "title": "Scale by hand",
+          "intro": "TODO",
+          "requires": [
+            "your-first-deployment"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "self-healing",
+          "title": "Self healing",
+          "intro": "TODO",
+          "requires": [
+            "your-first-deployment"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "rolling-updates",
+          "title": "Rolling updates",
+          "intro": "TODO",
+          "requires": [
+            "your-first-deployment"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "tune-a-rollout",
+          "title": "Tune a rollout",
+          "intro": "TODO",
+          "requires": [
+            "rolling-updates"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "roll-back-a-bad-release",
+          "title": "Roll back a bad release",
+          "intro": "TODO",
+          "requires": [
+            "rolling-updates"
+          ],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Services and ingress",
+      "summary": "You can give a set of pods a stable address and let other apps find it by name. You can expose an app outside the cluster with NodePort, LoadBalancer, or ingress. You can limit which pods can talk to each other and debug a Service that routes nowhere.",
+      "articles": [
+        {
+          "slug": "pod-ips-are-temporary",
+          "title": "Pod IPs are temporary",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "clusterip-services",
+          "title": "ClusterIP Services",
+          "intro": "TODO",
+          "requires": [
+            "pod-ips-are-temporary"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "service-discovery-with-dns",
+          "title": "Service discovery with DNS",
+          "intro": "TODO",
+          "requires": [
+            "clusterip-services"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "nodeport-services",
+          "title": "NodePort Services",
+          "intro": "TODO",
+          "requires": [
+            "clusterip-services"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "loadbalancer-services",
+          "title": "LoadBalancer Services",
+          "intro": "TODO",
+          "requires": [
+            "nodeport-services"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "install-an-ingress-controller",
+          "title": "Install an ingress controller",
+          "intro": "TODO",
+          "requires": [
+            "clusterip-services"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "route-by-host-and-path",
+          "title": "Route by host and path",
+          "intro": "TODO",
+          "requires": [
+            "install-an-ingress-controller"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "restrict-traffic-with-network-policies",
+          "title": "Restrict traffic with network policies",
+          "intro": "TODO",
+          "requires": [
+            "select-objects-by-label"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "debug-a-service-with-no-endpoints",
+          "title": "Debug a Service with no endpoints",
+          "intro": "TODO",
+          "requires": [
+            "clusterip-services"
+          ],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Configuration and storage",
+      "summary": "You can keep settings and passwords out of your images using ConfigMaps and Secrets. You can explain why Secrets are not truly secret by default. You can give a pod a disk that survives restarts and run a database on it.",
+      "articles": [
+        {
+          "slug": "keep-config-out-of-images",
+          "title": "Keep config out of images",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "configmaps-as-environment-variables",
+          "title": "ConfigMaps as environment variables",
+          "intro": "TODO",
+          "requires": [
+            "keep-config-out-of-images"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "configmaps-as-files",
+          "title": "ConfigMaps as files",
+          "intro": "TODO",
+          "requires": [
+            "configmaps-as-environment-variables"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "secrets",
+          "title": "Secrets",
+          "intro": "TODO",
+          "requires": [
+            "configmaps-as-environment-variables"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "secrets-are-encoded-not-encrypted",
+          "title": "Secrets are encoded, not encrypted",
+          "intro": "TODO",
+          "requires": [
+            "secrets"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "containers-have-ephemeral-disks",
+          "title": "Containers have ephemeral disks",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "persistentvolumeclaims",
+          "title": "PersistentVolumes and claims",
+          "intro": "TODO",
+          "requires": [
+            "containers-have-ephemeral-disks"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "storage-classes",
+          "title": "Storage classes",
+          "intro": "TODO",
+          "requires": [
+            "persistentvolumeclaims"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "run-a-database-with-a-claim",
+          "title": "Run a database with a claim",
+          "intro": "TODO",
+          "requires": [
+            "storage-classes",
+            "secrets"
+          ],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Probes and resources",
+      "summary": "You can tell Kubernetes when a container is ready, alive, and still starting. You can set CPU and memory requests and limits and explain what happens when a container goes over them. You can install metrics server and see live usage with kubectl top.",
+      "articles": [
+        {
+          "slug": "readiness-probes",
+          "title": "Readiness probes",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "liveness-probes",
+          "title": "Liveness probes",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "startup-probes",
+          "title": "Startup probes",
+          "intro": "TODO",
+          "requires": [
+            "liveness-probes"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "resource-requests",
+          "title": "Resource requests",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "resource-limits",
+          "title": "Resource limits",
+          "intro": "TODO",
+          "requires": [
+            "resource-requests"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "why-containers-get-oomkilled",
+          "title": "Why containers get OOMKilled",
+          "intro": "TODO",
+          "requires": [
+            "resource-limits"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "cpu-throttling",
+          "title": "CPU throttling",
+          "intro": "TODO",
+          "requires": [
+            "resource-limits"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "install-metrics-server",
+          "title": "Install metrics server",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "watch-usage-with-kubectl-top",
+          "title": "Watch usage with kubectl top",
+          "intro": "TODO",
+          "requires": [
+            "install-metrics-server"
+          ],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Autoscaling",
+      "summary": "You can create an autoscaler that adds and removes pods based on CPU use. You can send load to an app and watch the replica count rise and fall. You can tune how fast it scales and explain what happens when the nodes run out of room.",
+      "articles": [
+        {
+          "slug": "why-scale-automatically",
+          "title": "Why scale automatically",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "how-the-hpa-computes-replicas",
+          "title": "How the HPA computes replicas",
+          "intro": "TODO",
+          "requires": [
+            "resource-requests"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "create-a-cpu-autoscaler",
+          "title": "Create a CPU autoscaler",
+          "intro": "TODO",
+          "requires": [
+            "how-the-hpa-computes-replicas",
+            "install-metrics-server"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "generate-load",
+          "title": "Generate load",
+          "intro": "TODO",
+          "requires": [
+            "clusterip-services"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "watch-a-scale-up",
+          "title": "Watch a scale up",
+          "intro": "TODO",
+          "requires": [
+            "create-a-cpu-autoscaler",
+            "generate-load"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "scale-down-stabilization",
+          "title": "Scale down stabilization",
+          "intro": "TODO",
+          "requires": [
+            "watch-a-scale-up"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "tune-scaling-behavior",
+          "title": "Tune scaling behavior",
+          "intro": "TODO",
+          "requires": [
+            "scale-down-stabilization"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "pending-pods-when-nodes-are-full",
+          "title": "Pending pods when nodes are full",
+          "intro": "TODO",
+          "requires": [
+            "watch-a-scale-up"
+          ],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "A self managed cluster in the cloud",
+      "summary": "You can explain the tradeoffs between a managed cluster and one you run yourself. You can prepare cloud machines, install Kubernetes with kubeadm, and join worker nodes. You can reach the cluster from your laptop and confirm it is healthy.",
+      "articles": [
+        {
+          "slug": "managed-versus-self-managed-clusters",
+          "title": "Managed versus self managed clusters",
+          "intro": "TODO",
+          "requires": [
+            "anatomy-of-a-cluster"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "plan-the-nodes",
+          "title": "Plan the nodes",
+          "intro": "TODO",
+          "requires": [
+            "managed-versus-self-managed-clusters"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "provision-cloud-machines",
+          "title": "Provision cloud machines",
+          "intro": "TODO",
+          "requires": [
+            "plan-the-nodes"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "connect-to-a-cloud-machine-over-ssh",
+          "title": "Connect to a cloud machine over SSH",
+          "intro": "TODO",
+          "requires": [
+            "provision-cloud-machines"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "prepare-linux-for-kubernetes",
+          "title": "Prepare Linux for Kubernetes",
+          "intro": "TODO",
+          "requires": [
+            "connect-to-a-cloud-machine-over-ssh"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "open-the-required-ports",
+          "title": "Open the required ports",
+          "intro": "TODO",
+          "requires": [
+            "provision-cloud-machines"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "install-a-container-runtime",
+          "title": "Install a container runtime",
+          "intro": "TODO",
+          "requires": [
+            "prepare-linux-for-kubernetes"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "install-the-kubernetes-packages",
+          "title": "Install the Kubernetes packages",
+          "intro": "TODO",
+          "requires": [
+            "install-a-container-runtime"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "initialize-the-control-plane",
+          "title": "Initialize the control plane",
+          "intro": "TODO",
+          "requires": [
+            "open-the-required-ports",
+            "install-the-kubernetes-packages"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "install-a-pod-network-plugin",
+          "title": "Install a pod network plugin",
+          "intro": "TODO",
+          "requires": [
+            "initialize-the-control-plane"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "join-worker-nodes",
+          "title": "Join worker nodes",
+          "intro": "TODO",
+          "requires": [
+            "install-a-pod-network-plugin"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "reach-the-cluster-from-your-laptop",
+          "title": "Reach the cluster from your laptop",
+          "intro": "TODO",
+          "requires": [
+            "initialize-the-control-plane",
+            "read-your-kubeconfig"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "verify-cluster-health",
+          "title": "Verify cluster health",
+          "intro": "TODO",
+          "requires": [
+            "join-worker-nodes"
+          ],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Capstone: design the shop",
+      "summary": "You can describe the shop, a set of small services that work together, and how they talk to each other. You can build an image for each service and get it into either your local cluster or your cloud cluster. You can organize all the manifests with Kustomize so one command deploys the whole shop.",
+      "articles": [
+        {
+          "slug": "the-shop-architecture",
+          "title": "The shop architecture",
+          "intro": "TODO",
+          "body": "TODO"
+        },
+        {
+          "slug": "build-images-for-each-service",
+          "title": "Build images for each service",
+          "intro": "TODO",
+          "requires": [
+            "build-and-tag-an-image",
+            "the-shop-architecture"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "get-images-into-a-local-cluster",
+          "title": "Get images into a local cluster",
+          "intro": "TODO",
+          "requires": [
+            "build-images-for-each-service",
+            "create-a-kind-cluster"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "get-images-into-a-cloud-cluster",
+          "title": "Get images into a cloud cluster through a registry",
+          "intro": "TODO",
+          "requires": [
+            "build-images-for-each-service",
+            "what-a-registry-is"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "give-the-app-a-namespace",
+          "title": "Give the app a namespace",
+          "intro": "TODO",
+          "requires": [
+            "namespaces"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "one-deployment-and-service-per-microservice",
+          "title": "One Deployment and Service per microservice",
+          "intro": "TODO",
+          "requires": [
+            "your-first-deployment",
+            "clusterip-services",
+            "the-shop-architecture"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "call-services-by-dns-name",
+          "title": "Call services by DNS name",
+          "intro": "TODO",
+          "requires": [
+            "service-discovery-with-dns"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "organize-manifests-with-kustomize",
+          "title": "Organize manifests with Kustomize",
+          "intro": "TODO",
+          "requires": [
+            "apply-a-manifest"
+          ],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Capstone: deploy and scale the shop",
+      "summary": "You can deploy the whole shop, from databases to frontend, and reach it through ingress. You can add probes, resources, and autoscalers, then push it with a load test and watch it scale out. You can find the bottleneck, ship a new version while it is under load, and clean everything up.",
+      "articles": [
+        {
+          "slug": "deploy-the-data-layer",
+          "title": "Deploy the data layer",
+          "intro": "TODO",
+          "requires": [
+            "run-a-database-with-a-claim",
+            "one-deployment-and-service-per-microservice"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "deploy-the-backend-services",
+          "title": "Deploy the backend services",
+          "intro": "TODO",
+          "requires": [
+            "deploy-the-data-layer",
+            "call-services-by-dns-name"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "deploy-the-frontend",
+          "title": "Deploy the frontend",
+          "intro": "TODO",
+          "requires": [
+            "deploy-the-backend-services"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "expose-the-shop-with-ingress",
+          "title": "Expose the shop with ingress",
+          "intro": "TODO",
+          "requires": [
+            "deploy-the-frontend",
+            "route-by-host-and-path"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "add-probes-and-resources-everywhere",
+          "title": "Add probes and resources everywhere",
+          "intro": "TODO",
+          "requires": [
+            "deploy-the-frontend",
+            "readiness-probes",
+            "resource-requests"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "autoscale-the-hot-services",
+          "title": "Autoscale the hot services",
+          "intro": "TODO",
+          "requires": [
+            "add-probes-and-resources-everywhere",
+            "create-a-cpu-autoscaler"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "run-a-load-test",
+          "title": "Run a load test",
+          "intro": "TODO",
+          "requires": [
+            "autoscale-the-hot-services",
+            "generate-load"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "watch-the-shop-scale-out",
+          "title": "Watch the shop scale out",
+          "intro": "TODO",
+          "requires": [
+            "run-a-load-test"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "find-the-bottleneck",
+          "title": "Find the bottleneck",
+          "intro": "TODO",
+          "requires": [
+            "watch-the-shop-scale-out"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "ship-a-new-version-under-load",
+          "title": "Ship a new version under load",
+          "intro": "TODO",
+          "requires": [
+            "watch-the-shop-scale-out",
+            "roll-back-a-bad-release"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "run-the-capstone-on-the-cloud-cluster",
+          "title": "Run the capstone on the cloud cluster",
+          "intro": "TODO",
+          "requires": [
+            "watch-the-shop-scale-out",
+            "verify-cluster-health",
+            "get-images-into-a-cloud-cluster"
+          ],
+          "body": "TODO"
+        },
+        {
+          "slug": "clean-up",
+          "title": "Clean up",
+          "intro": "TODO",
+          "body": "TODO"
+        }
+      ]
+    }
+  ]
+}

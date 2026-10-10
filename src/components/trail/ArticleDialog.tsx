@@ -9,6 +9,7 @@ import ChevronLeftRounded from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRounded from "@mui/icons-material/ChevronRightRounded";
 import OpenInFullRounded from "@mui/icons-material/OpenInFullRounded";
 import { palette } from "@/theme/tokens";
+import { setDone } from "./progress";
 
 export type DialogArticle = {
     slug: string;
@@ -17,9 +18,18 @@ export type DialogArticle = {
     intro?: string;
     map: string;
     body: ReactNode;
+    needs: ArticleRef[];
 };
+type ArticleRef = { slug: string; title: string };
 
 const PARAM = "article";
+
+const inlineLink = {
+    color: "primary.main",
+    textUnderlineOffset: 3,
+    borderRadius: "2px",
+    "&:focus-visible": { outline: "2px solid", outlineColor: "primary.main", outlineOffset: 2 },
+} as const;
 
 // Closing pops the history entry the tree pushed, so Back never reopens a closed popup.
 let pushedFromTrail = false;
@@ -63,6 +73,11 @@ export function ArticleDialog({ trailSlug, articles }: { trailSlug: string; arti
         startTransition(() => router.replace(hrefFor(s), { scroll: false }));
     };
 
+    // Moving forward counts as finishing the article; unwritten ones stay open on the trail.
+    const finish = () => {
+        if (article?.body) setDone(trailSlug, article.slug, true);
+    };
+
     const close = () => {
         if (pushedFromTrail) {
             pushedFromTrail = false;
@@ -88,7 +103,10 @@ export function ArticleDialog({ trailSlug, articles }: { trailSlug: string; arti
         }
         if (target.closest("pre") || pending) return;
         if (e.key === "ArrowLeft" && prev) go(prev.slug, "prev");
-        if (e.key === "ArrowRight" && next) go(next.slug, "next");
+        if (e.key === "ArrowRight" && next) {
+            finish();
+            go(next.slug, "next");
+        }
     };
 
     const onArticleLink = (e: MouseEvent, s: string, dir: "prev" | "next") => {
@@ -109,7 +127,7 @@ export function ArticleDialog({ trailSlug, articles }: { trailSlug: string; arti
             slotProps={{
                 paper: {
                     sx: {
-                        width: { sm: "min(760px, calc(100% - 48px))" },
+                        width: { sm: "min(960px,calc(100% - 48px))" },
                         maxHeight: { sm: "calc(100% - 64px)" },
                         borderRadius: { sm: "16px" },
                         bgcolor: "background.default",
@@ -183,12 +201,24 @@ export function ArticleDialog({ trailSlug, articles }: { trailSlug: string; arti
                             {article.title}
                         </Typography>
                         {article.minutes > 0 && <Typography sx={{ fontSize: "0.8125rem", color: "text.secondary", mt: 1 }}>{article.minutes} min read</Typography>}
+                        {article.needs.length > 0 && (
+                            <Typography sx={{ fontSize: "0.8125rem", color: "text.secondary", mt: 0.5 }}>
+                                Learn first:{" "}
+                                {article.needs.map((n, i) => (
+                                    <span key={n.slug}>
+                                        {i > 0 && ", "}
+                                        <Box component="a" href={`/trails/${trailSlug}/${n.slug}/`} onClick={(e: MouseEvent) => onArticleLink(e, n.slug, "prev")} sx={inlineLink}>
+                                            {n.title}
+                                        </Box>
+                                    </span>
+                                ))}
+                            </Typography>
+                        )}
                         {article.intro && <Typography sx={{ fontSize: "1.0625rem", lineHeight: 1.6, mt: 2.5 }}>{article.intro}</Typography>}
 
                         <Box sx={{ mt: 4 }}>
                             {article.body ?? <Typography sx={{ color: "text.secondary" }}>This article has not been written yet.</Typography>}
                         </Box>
-
                     </Box>
 
                     <Box
@@ -222,7 +252,10 @@ export function ArticleDialog({ trailSlug, articles }: { trailSlug: string; arti
                         {next ? (
                             <Button
                                 href={`/trails/${trailSlug}/${next.slug}/`}
-                                onClick={(e: MouseEvent) => onArticleLink(e, next.slug, "next")}
+                                onClick={(e: MouseEvent) => {
+                                    finish();
+                                    onArticleLink(e, next.slug, "next");
+                                }}
                                 loading={pending && pendingDir === "next"}
                                 loadingPosition="end"
                                 endIcon={<ChevronRightRounded />}
@@ -233,7 +266,12 @@ export function ArticleDialog({ trailSlug, articles }: { trailSlug: string; arti
                                 Next article
                             </Button>
                         ) : (
-                            <Button onClick={close} variant="contained" disableElevation sx={{ textTransform: "none", minWidth: 0 }}>
+                            <Button
+                                onClick={() => {
+                                    finish();
+                                    close();
+                                }}
+                                variant="contained" disableElevation sx={{ textTransform: "none", minWidth: 0 }}>
                                 Back to the map
                             </Button>
                         )}

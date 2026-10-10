@@ -1,0 +1,1203 @@
+{
+  "slug": "nodejs",
+  "title": "Node.js",
+  "destination": "Build and deploy a production ready Express API in Node.js that handles concurrency, streams, errors, and graceful shutdown, and profile it to find and fix a performance bottleneck.",
+  "verifiedAt": "2026-10-10T00:00:00Z",
+  "prerequisites": [
+    {
+      "title": "Read modern JavaScript.",
+      "href": "https://javascript.info/",
+      "note": "Destructuring, spread, arrow functions, template literals, classes, and closures."
+    },
+    {
+      "title": "Use a terminal.",
+      "note": "Run a command, read its output, and edit a text file."
+    },
+    {
+      "title": "Know what an HTTP request is.",
+      "note": "A client sends a method and a path and gets back a status and a body."
+    }
+  ],
+  "nextSteps": [
+    {
+      "title": "Persist data with PostgreSQL",
+      "href": "https://www.postgresql.org/docs/",
+      "note": "Replace the in memory store of the notes API with a real database through the pg driver."
+    },
+    {
+      "title": "Test with node:test",
+      "href": "https://nodejs.org/api/test.html",
+      "note": "Write unit and HTTP tests with the runner built into Node."
+    },
+    {
+      "title": "Add types with TypeScript",
+      "href": "https://www.typescriptlang.org/docs/",
+      "note": "Catch whole classes of bugs before your code runs."
+    },
+    {
+      "title": "Deploy to Kubernetes",
+      "note": "The Kubernetes trail on this site shows how to run and scale your service in a cluster."
+    }
+  ],
+  "maps": [
+    {
+      "title": "Meet Node.js",
+      "summary": "You can explain what Node.js is and where it fits next to the browser. You can install a pinned Node version, run scripts, and try ideas in the REPL. Your scripts can read arguments and environment variables and report success or failure through an exit code.",
+      "articles": [
+        {
+          "slug": "what-nodejs-is",
+          "title": "What Node.js is",
+          "intro": "Before writing any code, you need a clear picture of what actually runs your JavaScript outside a browser.",
+          "body": "TODO"
+        },
+        {
+          "slug": "install-node-with-a-version-manager",
+          "title": "Install Node with a version manager",
+          "intro": "Projects pin different Node versions, and switching between them by hand gets painful fast.",
+          "body": "TODO"
+        },
+        {
+          "slug": "run-your-first-script",
+          "title": "Run your first script",
+          "intro": "Every program in this trail starts the same way, so this is the loop you will repeat hundreds of times.",
+          "requires": ["install-node-with-a-version-manager"],
+          "body": "TODO"
+        },
+        {
+          "slug": "explore-in-the-repl",
+          "title": "Explore code in the REPL",
+          "intro": "Sometimes you just want to check how one expression behaves without creating a file.",
+          "requires": ["install-node-with-a-version-manager"],
+          "body": "TODO"
+        },
+        {
+          "slug": "how-node-differs-from-the-browser",
+          "title": "How Node differs from the browser",
+          "intro": "Code you copy from frontend tutorials will sometimes fail in Node, and knowing why saves hours.",
+          "requires": ["what-nodejs-is"],
+          "body": "TODO"
+        },
+        {
+          "slug": "the-process-object",
+          "title": "The process object",
+          "intro": "Your script needs a way to learn about the world it is running in.",
+          "requires": ["run-your-first-script"],
+          "body": "TODO"
+        },
+        {
+          "slug": "read-command-line-arguments",
+          "title": "Read command line arguments",
+          "intro": "A script that always does the same thing is rarely useful, so users need a way to give it input.",
+          "requires": ["the-process-object"],
+          "body": "TODO"
+        },
+        {
+          "slug": "read-environment-variables",
+          "title": "Read environment variables",
+          "intro": "Ports, secrets, and modes change between your laptop and a server, and they should not live in your code.",
+          "requires": ["the-process-object"],
+          "body": "TODO"
+        },
+        {
+          "slug": "exit-with-a-status-code",
+          "title": "Exit with a status code",
+          "intro": "Shells, CI systems, and process managers decide what to do next based on how your program ended.",
+          "requires": ["the-process-object"],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Modules and packages",
+      "summary": "You can split a program into ES modules, read older CommonJS code, and predict how Node finds the file behind every import. You can set up a project with package.json, install and pin dependencies safely, and run project tasks with npm scripts.",
+      "articles": [
+        {
+          "slug": "why-modules-exist",
+          "title": "Why modules exist",
+          "intro": "As soon as a program outgrows one file, you need a way to share code without everything colliding.",
+          "body": "TODO"
+        },
+        {
+          "slug": "write-an-es-module",
+          "title": "Write an ES module",
+          "intro": "This is the module syntax you will use in every file from here on.",
+          "requires": ["why-modules-exist"],
+          "body": "TODO"
+        },
+        {
+          "slug": "read-a-commonjs-module",
+          "title": "Read a CommonJS module",
+          "intro": "Much of the npm ecosystem and many older codebases still use the original Node module system.",
+          "requires": ["why-modules-exist"],
+          "body": "TODO"
+        },
+        {
+          "slug": "mix-module-systems",
+          "title": "Mix module systems",
+          "intro": "Real projects pull in packages from both module worlds, and the seams between them are where errors appear.",
+          "requires": ["write-an-es-module", "read-a-commonjs-module"],
+          "body": "TODO"
+        },
+        {
+          "slug": "how-node-resolves-a-module",
+          "title": "How Node resolves a module",
+          "intro": "When an import fails with a not found error, you need to know where Node actually looked.",
+          "requires": ["write-an-es-module"],
+          "body": "TODO"
+        },
+        {
+          "slug": "the-module-cache",
+          "title": "The module cache",
+          "intro": "Importing the same file twice behaves differently than you might expect, and shared state depends on it.",
+          "requires": ["how-node-resolves-a-module"],
+          "body": "TODO"
+        },
+        {
+          "slug": "describe-a-project-with-package-json",
+          "title": "Describe a project with package.json",
+          "intro": "Every Node project, tool, and package is defined by one small file at its root.",
+          "body": "TODO"
+        },
+        {
+          "slug": "install-packages-with-npm",
+          "title": "Install packages with npm",
+          "intro": "Most problems you face have already been solved by a package someone published.",
+          "requires": ["describe-a-project-with-package-json"],
+          "body": "TODO"
+        },
+        {
+          "slug": "semantic-versioning",
+          "title": "Semantic versioning",
+          "intro": "A version range in package.json decides which code you get on the next install.",
+          "requires": ["install-packages-with-npm"],
+          "body": "TODO"
+        },
+        {
+          "slug": "lockfiles",
+          "title": "Lockfiles",
+          "intro": "Two installs from the same package.json can produce different code unless something pins the exact tree.",
+          "requires": ["semantic-versioning"],
+          "body": "TODO"
+        },
+        {
+          "slug": "run-tasks-with-npm-scripts",
+          "title": "Run tasks with npm scripts",
+          "intro": "Every project has commands to start, build, and check it, and teammates should not have to memorize them.",
+          "requires": ["describe-a-project-with-package-json"],
+          "body": "TODO"
+        },
+        {
+          "slug": "control-entry-points-with-exports",
+          "title": "Control entry points with exports",
+          "intro": "Once you publish or share a package, you decide which files the outside world is allowed to import.",
+          "requires": ["how-node-resolves-a-module", "describe-a-project-with-package-json"],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Asynchronous JavaScript",
+      "summary": "You can explain why Node never sits idle waiting on I/O and write async code with callbacks, promises, and async functions. You can catch errors from async work, run tasks concurrently, and cancel work that is no longer needed.",
+      "articles": [
+        {
+          "slug": "why-node-avoids-blocking",
+          "title": "Why Node avoids blocking",
+          "intro": "The whole design of Node rests on one decision about what happens while waiting on a disk or network.",
+          "body": "TODO"
+        },
+        {
+          "slug": "callbacks",
+          "title": "Callbacks",
+          "intro": "The oldest Node APIs hand results back in a way you must recognize to read any Node code.",
+          "requires": ["why-node-avoids-blocking"],
+          "body": "TODO"
+        },
+        {
+          "slug": "error-first-callbacks",
+          "title": "Error first callbacks",
+          "intro": "Callback APIs in Node follow a strict convention, and ignoring it hides failures.",
+          "requires": ["callbacks"],
+          "body": "TODO"
+        },
+        {
+          "slug": "the-trouble-with-nested-callbacks",
+          "title": "The trouble with nested callbacks",
+          "intro": "Callbacks work fine until steps depend on each other, and then the code starts drifting to the right.",
+          "requires": ["error-first-callbacks"],
+          "body": "TODO"
+        },
+        {
+          "slug": "promises",
+          "title": "Promises",
+          "intro": "Modern Node APIs return a value that stands for a result that has not arrived yet.",
+          "requires": ["callbacks"],
+          "body": "TODO"
+        },
+        {
+          "slug": "chain-promises",
+          "title": "Chain promises",
+          "intro": "Most real tasks are several async steps in a row, each using the result of the last.",
+          "requires": ["promises"],
+          "body": "TODO"
+        },
+        {
+          "slug": "write-async-functions",
+          "title": "Write async functions",
+          "intro": "This is the syntax you will write most async Node code in for the rest of the trail.",
+          "requires": ["promises"],
+          "body": "TODO"
+        },
+        {
+          "slug": "catch-async-errors",
+          "title": "Catch async errors",
+          "intro": "An async error that nobody catches can crash your process or vanish without a trace.",
+          "requires": ["write-async-functions"],
+          "body": "TODO"
+        },
+        {
+          "slug": "run-tasks-concurrently",
+          "title": "Run tasks concurrently",
+          "intro": "Awaiting independent tasks one by one makes your program as slow as the sum of all of them.",
+          "requires": ["write-async-functions"],
+          "body": "TODO"
+        },
+        {
+          "slug": "choose-a-promise-combinator",
+          "title": "Choose a promise combinator",
+          "intro": "Waiting for every task is only one strategy, and sometimes you want the first, the fastest, or every outcome.",
+          "requires": ["run-tasks-concurrently"],
+          "body": "TODO"
+        },
+        {
+          "slug": "promisify-a-callback-api",
+          "title": "Promisify a callback API",
+          "intro": "You will meet callback APIs in older packages and still want to use them with await.",
+          "requires": ["error-first-callbacks", "promises"],
+          "body": "TODO"
+        },
+        {
+          "slug": "cancel-work-with-abortcontroller",
+          "title": "Cancel work with AbortController",
+          "intro": "Users leave, requests time out, and work that nobody needs anymore still costs resources.",
+          "requires": ["write-async-functions"],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Inside the runtime",
+      "summary": "You can name the parts that make up Node (V8, libuv, and the bindings between them) and follow what happens from typing node to your first line running. You can explain why JavaScript runs one call at a time and which work Node hands to the operating system or to its thread pool. You can tune the thread pool when it becomes the bottleneck.",
+      "articles": [
+        {
+          "slug": "what-v8-does",
+          "title": "What V8 does",
+          "intro": "The engine that runs your JavaScript shapes how fast and how safely your code executes.",
+          "body": "TODO"
+        },
+        {
+          "slug": "how-v8-turns-source-into-bytecode",
+          "title": "How V8 turns source into bytecode",
+          "intro": "Your code passes through several stages before it does anything, and those stages explain startup cost and later optimizations.",
+          "requires": ["what-v8-does"],
+          "body": "TODO"
+        },
+        {
+          "slug": "what-libuv-does",
+          "title": "What libuv does",
+          "intro": "JavaScript itself has no way to read a file or open a socket, so something else must do it.",
+          "body": "TODO"
+        },
+        {
+          "slug": "how-javascript-reaches-native-code",
+          "title": "How JavaScript reaches native code",
+          "intro": "Calling fs.readFile crosses a boundary between languages, and that crossing has a cost you should understand.",
+          "requires": ["what-v8-does", "what-libuv-does"],
+          "body": "TODO"
+        },
+        {
+          "slug": "what-happens-when-node-starts",
+          "title": "What happens when node starts",
+          "intro": "Knowing the startup sequence explains where globals come from and why some code runs before yours.",
+          "requires": ["how-javascript-reaches-native-code"],
+          "body": "TODO"
+        },
+        {
+          "slug": "the-call-stack",
+          "title": "The call stack",
+          "intro": "Every stack trace you read is a snapshot of one structure, so it pays to know how it grows and shrinks.",
+          "body": "TODO"
+        },
+        {
+          "slug": "run-to-completion",
+          "title": "Run to completion",
+          "intro": "One guarantee about how functions execute removes a whole class of concurrency bugs, and creates another.",
+          "requires": ["the-call-stack"],
+          "body": "TODO"
+        },
+        {
+          "slug": "how-the-os-reports-ready-sockets",
+          "title": "How the OS reports ready sockets",
+          "intro": "Node serves thousands of connections on one thread, which only works because the kernel does part of the job.",
+          "requires": ["what-libuv-does"],
+          "body": "TODO"
+        },
+        {
+          "slug": "the-libuv-thread-pool",
+          "title": "The libuv thread pool",
+          "intro": "Not everything the operating system offers can be done without waiting, so Node keeps a few helpers on the side.",
+          "requires": ["what-libuv-does"],
+          "body": "TODO"
+        },
+        {
+          "slug": "which-work-uses-the-thread-pool",
+          "title": "Which work uses the thread pool",
+          "intro": "Some slow operations queue behind each other while others never do, and the difference surprises people in production.",
+          "requires": ["the-libuv-thread-pool", "how-the-os-reports-ready-sockets"],
+          "body": "TODO"
+        },
+        {
+          "slug": "resize-the-thread-pool",
+          "title": "Resize the thread pool",
+          "intro": "When file or crypto work piles up, the default pool size may be what is holding your service back.",
+          "requires": ["which-work-uses-the-thread-pool"],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "The event loop",
+      "summary": "You can walk through every phase of the event loop and say which callbacks run in each one. You can predict the exact order in which timers, I/O callbacks, setImmediate, promises, and process.nextTick fire. You can tell when the loop will exit and spot code that blocks or starves it.",
+      "articles": [
+        {
+          "slug": "the-event-loop-at-a-glance",
+          "title": "The event loop at a glance",
+          "intro": "Every callback you have written so far was called by one loop, and it is time to meet it.",
+          "requires": ["run-to-completion", "what-libuv-does"],
+          "body": "TODO"
+        },
+        {
+          "slug": "the-phases-of-the-loop",
+          "title": "The phases of the loop",
+          "intro": "The loop is not one queue but several, visited in a fixed order on every turn.",
+          "requires": ["the-event-loop-at-a-glance"],
+          "body": "TODO"
+        },
+        {
+          "slug": "the-timers-phase",
+          "title": "The timers phase",
+          "intro": "Timers are checked at one specific point in each turn, which explains a lot of timing surprises.",
+          "requires": ["the-phases-of-the-loop"],
+          "body": "TODO"
+        },
+        {
+          "slug": "how-timers-really-fire",
+          "title": "How timers really fire",
+          "intro": "A timer set for 100 milliseconds rarely fires at exactly 100 milliseconds.",
+          "requires": ["the-timers-phase"],
+          "body": "TODO"
+        },
+        {
+          "slug": "the-pending-callbacks-phase",
+          "title": "The pending callbacks phase",
+          "intro": "A few system level callbacks are deliberately postponed, and they get a phase of their own.",
+          "requires": ["the-phases-of-the-loop"],
+          "body": "TODO"
+        },
+        {
+          "slug": "the-poll-phase",
+          "title": "The poll phase",
+          "intro": "This is where your process spends most of its life, waiting for and handling I/O.",
+          "requires": ["the-phases-of-the-loop", "how-the-os-reports-ready-sockets"],
+          "body": "TODO"
+        },
+        {
+          "slug": "the-check-phase",
+          "title": "The check phase",
+          "intro": "Node offers a way to run code right after I/O handling, before the loop goes back to timers.",
+          "requires": ["the-poll-phase"],
+          "body": "TODO"
+        },
+        {
+          "slug": "the-close-callbacks-phase",
+          "title": "The close callbacks phase",
+          "intro": "Cleanup when sockets and handles close happens at a predictable moment you can rely on.",
+          "requires": ["the-phases-of-the-loop"],
+          "body": "TODO"
+        },
+        {
+          "slug": "setimmediate-versus-settimeout",
+          "title": "setImmediate versus setTimeout",
+          "intro": "Two ways of saying run this soon behave differently depending on where you call them.",
+          "requires": ["how-timers-really-fire", "the-check-phase"],
+          "body": "TODO"
+        },
+        {
+          "slug": "microtasks-run-between-callbacks",
+          "title": "Microtasks run between callbacks",
+          "intro": "Promise callbacks do not wait for a phase, and that changes the order your code runs in.",
+          "requires": ["the-phases-of-the-loop", "promises"],
+          "body": "TODO"
+        },
+        {
+          "slug": "process-nexttick-jumps-the-queue",
+          "title": "process.nextTick jumps the queue",
+          "intro": "Node has one queue that runs even before promise callbacks, and core modules depend on it.",
+          "requires": ["microtasks-run-between-callbacks"],
+          "body": "TODO"
+        },
+        {
+          "slug": "starve-the-loop-with-microtasks",
+          "title": "Starve the loop with microtasks",
+          "intro": "A loop that never reaches I/O can look busy and healthy while serving nobody.",
+          "requires": ["process-nexttick-jumps-the-queue"],
+          "body": "TODO"
+        },
+        {
+          "slug": "when-the-loop-exits",
+          "title": "When the loop exits",
+          "intro": "Sometimes your script hangs after it seems done, and sometimes it quits before your work finishes.",
+          "requires": ["the-event-loop-at-a-glance"],
+          "body": "TODO"
+        },
+        {
+          "slug": "predict-execution-order",
+          "title": "Predict execution order",
+          "intro": "Putting every rule together lets you read a tricky snippet and know its output before running it.",
+          "requires": ["setimmediate-versus-settimeout", "process-nexttick-jumps-the-queue"],
+          "body": "TODO"
+        },
+        {
+          "slug": "spot-a-blocked-event-loop",
+          "title": "Spot a blocked event loop",
+          "intro": "One slow synchronous function can freeze every request your server is handling.",
+          "requires": ["the-event-loop-at-a-glance"],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Events",
+      "summary": "You can build and consume event driven APIs with EventEmitter, including one time listeners, cleanup, and error events. You can avoid listener leaks, create your own emitter classes, and consume events with await and for await.",
+      "articles": [
+        {
+          "slug": "emit-an-event",
+          "title": "Emit an event",
+          "intro": "Streams, servers, and processes in Node all announce what happens to them the same way.",
+          "body": "TODO"
+        },
+        {
+          "slug": "listen-once",
+          "title": "Listen once",
+          "intro": "Some events matter only the first time they happen, like a connection becoming ready.",
+          "requires": ["emit-an-event"],
+          "body": "TODO"
+        },
+        {
+          "slug": "remove-a-listener",
+          "title": "Remove a listener",
+          "intro": "Listeners you never remove keep objects alive and keep running long after they are needed.",
+          "requires": ["emit-an-event"],
+          "body": "TODO"
+        },
+        {
+          "slug": "error-events",
+          "title": "Error events",
+          "intro": "One event name has special rules, and ignoring them can take down your whole process.",
+          "requires": ["emit-an-event"],
+          "body": "TODO"
+        },
+        {
+          "slug": "listener-leak-warnings",
+          "title": "Listener leak warnings",
+          "intro": "Node prints a warning about possible leaks, and you need to know when it is real.",
+          "requires": ["remove-a-listener"],
+          "body": "TODO"
+        },
+        {
+          "slug": "extend-eventemitter",
+          "title": "Extend EventEmitter",
+          "intro": "Your own objects can announce changes the same way core modules do.",
+          "requires": ["emit-an-event"],
+          "body": "TODO"
+        },
+        {
+          "slug": "await-an-event",
+          "title": "Await an event",
+          "intro": "Waiting for a single event fits naturally into async functions without wrapping callbacks.",
+          "requires": ["emit-an-event", "write-async-functions"],
+          "body": "TODO"
+        },
+        {
+          "slug": "iterate-events-with-on",
+          "title": "Iterate events with on",
+          "intro": "A stream of repeated events can be consumed with a loop instead of a listener.",
+          "requires": ["await-an-event"],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Files and binary data",
+      "summary": "You can work with raw bytes in buffers and convert them to and from text in the right encoding. You can build file paths that work on every platform, read, write, and list files with the promise based fs API, and react when files change.",
+      "articles": [
+        {
+          "slug": "why-buffers-exist",
+          "title": "Why buffers exist",
+          "intro": "Files, sockets, and hashes deal in bytes, and plain JavaScript strings cannot hold them safely.",
+          "body": "TODO"
+        },
+        {
+          "slug": "create-a-buffer",
+          "title": "Create a buffer",
+          "intro": "Choosing the wrong way to allocate bytes can leak old memory contents into your output.",
+          "requires": ["why-buffers-exist"],
+          "body": "TODO"
+        },
+        {
+          "slug": "character-encodings",
+          "title": "Character encodings",
+          "intro": "Text that looks fine on your machine turns into garbage when bytes and encodings do not match.",
+          "requires": ["create-a-buffer"],
+          "body": "TODO"
+        },
+        {
+          "slug": "buffers-are-uint8arrays",
+          "title": "Buffers are Uint8Arrays",
+          "intro": "Buffers share their foundation with web standard binary types, which lets them work with browser style APIs.",
+          "requires": ["create-a-buffer"],
+          "body": "TODO"
+        },
+        {
+          "slug": "build-paths-safely",
+          "title": "Build paths safely",
+          "intro": "Joining paths with string concatenation breaks on other platforms and opens security holes.",
+          "body": "TODO"
+        },
+        {
+          "slug": "find-the-current-file-location",
+          "title": "Find the current file location",
+          "intro": "ES modules dropped the old globals for finding your own file, yet you still need to load files that sit next to your code.",
+          "requires": ["write-an-es-module"],
+          "body": "TODO"
+        },
+        {
+          "slug": "read-a-file",
+          "title": "Read a file",
+          "intro": "Reading files is the first real I/O most programs do, and Node offers several ways with very different costs.",
+          "requires": ["write-async-functions"],
+          "body": "TODO"
+        },
+        {
+          "slug": "write-a-file",
+          "title": "Write a file",
+          "intro": "Writing carelessly can leave a half written file behind when something goes wrong.",
+          "requires": ["read-a-file"],
+          "body": "TODO"
+        },
+        {
+          "slug": "list-a-directory",
+          "title": "List a directory",
+          "intro": "Tools often need to walk through folders and decide what to do with each entry.",
+          "requires": ["read-a-file"],
+          "body": "TODO"
+        },
+        {
+          "slug": "inspect-file-metadata",
+          "title": "Inspect file metadata",
+          "intro": "Size, timestamps, and type tell you what a path is before you try to open it.",
+          "requires": ["read-a-file"],
+          "body": "TODO"
+        },
+        {
+          "slug": "use-file-handles",
+          "title": "Use file handles",
+          "intro": "Opening a file once and doing many operations on it is faster and safer than reopening it every time.",
+          "requires": ["read-a-file"],
+          "body": "TODO"
+        },
+        {
+          "slug": "watch-a-file",
+          "title": "Watch a file",
+          "intro": "Dev tools reload when you save, and you can build that behavior yourself.",
+          "requires": ["read-a-file", "emit-an-event"],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Streams",
+      "summary": "You can process data of any size piece by piece with readable, writable, transform, and duplex streams. You can connect them with pipeline so errors and backpressure are handled for you, and consume them with for await. You can compress data on the fly and work with web streams.",
+      "articles": [
+        {
+          "slug": "why-streams-exist",
+          "title": "Why streams exist",
+          "intro": "Reading a whole file into memory works until the file is larger than your memory.",
+          "requires": ["read-a-file"],
+          "body": "TODO"
+        },
+        {
+          "slug": "read-from-a-readable-stream",
+          "title": "Read from a readable stream",
+          "intro": "Data that arrives in pieces needs a different way of reading than a single value.",
+          "requires": ["why-streams-exist", "emit-an-event"],
+          "body": "TODO"
+        },
+        {
+          "slug": "write-to-a-writable-stream",
+          "title": "Write to a writable stream",
+          "intro": "Sending data out in pieces has rules about when to keep writing and when to wait.",
+          "requires": ["why-streams-exist"],
+          "body": "TODO"
+        },
+        {
+          "slug": "connect-streams-with-pipeline",
+          "title": "Connect streams with pipeline",
+          "intro": "Most stream code moves data from one place to another, and errors must not get lost along the way.",
+          "requires": ["read-from-a-readable-stream", "write-to-a-writable-stream"],
+          "body": "TODO"
+        },
+        {
+          "slug": "backpressure",
+          "title": "Backpressure",
+          "intro": "A fast producer feeding a slow consumer will fill your memory unless something pushes back.",
+          "requires": ["connect-streams-with-pipeline"],
+          "body": "TODO"
+        },
+        {
+          "slug": "transform-streams",
+          "title": "Transform streams",
+          "intro": "Changing data while it flows lets you process huge inputs with a tiny memory footprint.",
+          "requires": ["connect-streams-with-pipeline"],
+          "body": "TODO"
+        },
+        {
+          "slug": "duplex-streams",
+          "title": "Duplex streams",
+          "intro": "Sockets both read and write, and they are modeled by a stream type that does both.",
+          "requires": ["transform-streams"],
+          "body": "TODO"
+        },
+        {
+          "slug": "object-mode-streams",
+          "title": "Object mode streams",
+          "intro": "Streams are not limited to bytes, and sometimes each piece should be a whole record.",
+          "requires": ["transform-streams"],
+          "body": "TODO"
+        },
+        {
+          "slug": "read-a-stream-with-for-await",
+          "title": "Read a stream with for await",
+          "intro": "Async iteration turns stream consumption into a loop you already know how to write.",
+          "requires": ["read-from-a-readable-stream"],
+          "body": "TODO"
+        },
+        {
+          "slug": "handle-stream-errors",
+          "title": "Handle stream errors",
+          "intro": "A stream error that is not handled can leak file descriptors or crash the process.",
+          "requires": ["connect-streams-with-pipeline"],
+          "body": "TODO"
+        },
+        {
+          "slug": "compress-with-zlib",
+          "title": "Compress with zlib",
+          "intro": "Compressing responses and files saves bandwidth and storage with only a few lines of stream code.",
+          "requires": ["transform-streams"],
+          "body": "TODO"
+        },
+        {
+          "slug": "web-streams-in-node",
+          "title": "Web streams in Node",
+          "intro": "fetch and other web APIs in Node return a different kind of stream than the classic one.",
+          "requires": ["read-a-stream-with-for-await"],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Networking from scratch",
+      "summary": "You can build TCP and HTTP servers with only core modules and explain what a request and a response look like on the wire. You can route requests, parse bodies, stream files, and call other services with fetch. You can serve over HTTPS and reason about connection reuse and DNS costs.",
+      "articles": [
+        {
+          "slug": "build-a-tcp-server",
+          "title": "Build a TCP server",
+          "intro": "Every HTTP server sits on top of plain TCP connections, and seeing them raw removes the magic.",
+          "requires": ["duplex-streams"],
+          "body": "TODO"
+        },
+        {
+          "slug": "build-an-http-server",
+          "title": "Build an HTTP server",
+          "intro": "This is the foundation Express and every other Node web framework is built on.",
+          "requires": ["build-a-tcp-server"],
+          "body": "TODO"
+        },
+        {
+          "slug": "read-the-request",
+          "title": "Read the request",
+          "intro": "Everything you know about an incoming request lives on one object, if you know where to look.",
+          "requires": ["build-an-http-server"],
+          "body": "TODO"
+        },
+        {
+          "slug": "write-the-response",
+          "title": "Write the response",
+          "intro": "Status, headers, and body must go out in the right order, or the client gets confused.",
+          "requires": ["build-an-http-server"],
+          "body": "TODO"
+        },
+        {
+          "slug": "route-by-hand",
+          "title": "Route by hand",
+          "intro": "Deciding which code handles which URL is the first job of any web server.",
+          "requires": ["read-the-request", "write-the-response"],
+          "body": "TODO"
+        },
+        {
+          "slug": "parse-a-request-body",
+          "title": "Parse a request body",
+          "intro": "Request bodies arrive as a stream of bytes, not as ready made objects.",
+          "requires": ["read-the-request", "read-a-stream-with-for-await"],
+          "body": "TODO"
+        },
+        {
+          "slug": "stream-a-file-response",
+          "title": "Stream a file response",
+          "intro": "Sending large files without loading them into memory keeps your server responsive.",
+          "requires": ["write-the-response", "connect-streams-with-pipeline"],
+          "body": "TODO"
+        },
+        {
+          "slug": "make-requests-with-fetch",
+          "title": "Make requests with fetch",
+          "intro": "Your server will often need to call other services, and Node now ships a standard way to do it.",
+          "requires": ["write-async-functions"],
+          "body": "TODO"
+        },
+        {
+          "slug": "reuse-connections-with-keep-alive",
+          "title": "Reuse connections with keep alive",
+          "intro": "Opening a new connection for every request wastes time, and the defaults matter at scale.",
+          "requires": ["build-an-http-server"],
+          "body": "TODO"
+        },
+        {
+          "slug": "serve-over-https",
+          "title": "Serve over HTTPS",
+          "intro": "Anything sent over plain HTTP can be read or changed by anyone along the way.",
+          "requires": ["build-an-http-server"],
+          "body": "TODO"
+        },
+        {
+          "slug": "how-dns-lookups-work",
+          "title": "How DNS lookups work",
+          "intro": "Hostname resolution in Node takes a surprising path that can slow down unrelated work.",
+          "requires": ["the-libuv-thread-pool"],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Building an API with Express",
+      "summary": "You can build a structured JSON API with Express using routes, parameters, middleware, and modular routers. You can validate input, handle sync and async errors in one place, allow browser clients from other origins, and return consistent responses.",
+      "articles": [
+        {
+          "slug": "why-express",
+          "title": "Why Express",
+          "intro": "After routing by hand, you have felt the repetition that a framework removes.",
+          "requires": ["route-by-hand"],
+          "body": "TODO"
+        },
+        {
+          "slug": "your-first-express-app",
+          "title": "Your first Express app",
+          "intro": "This is where the notes API that you will grow for the rest of the trail begins.",
+          "requires": ["why-express"],
+          "body": "TODO"
+        },
+        {
+          "slug": "define-routes",
+          "title": "Define routes",
+          "intro": "An API is a set of methods and paths, and each one needs a clear home in your code.",
+          "requires": ["your-first-express-app"],
+          "body": "TODO"
+        },
+        {
+          "slug": "route-parameters",
+          "title": "Route parameters",
+          "intro": "Fetching one note by its id means reading part of the URL itself.",
+          "requires": ["define-routes"],
+          "body": "TODO"
+        },
+        {
+          "slug": "read-query-strings",
+          "title": "Read query strings",
+          "intro": "Filtering, searching, and paging all arrive as optional values after the question mark.",
+          "requires": ["define-routes"],
+          "body": "TODO"
+        },
+        {
+          "slug": "write-middleware",
+          "title": "Write middleware",
+          "intro": "Logging, auth, and parsing apply to many routes, and copying them into each handler does not scale.",
+          "requires": ["define-routes"],
+          "body": "TODO"
+        },
+        {
+          "slug": "middleware-order",
+          "title": "Middleware order",
+          "intro": "The same middleware can work or silently do nothing depending on where you register it.",
+          "requires": ["write-middleware"],
+          "body": "TODO"
+        },
+        {
+          "slug": "parse-json-bodies",
+          "title": "Parse JSON bodies",
+          "intro": "Creating and updating notes needs the request body as a JavaScript object.",
+          "requires": ["write-middleware"],
+          "body": "TODO"
+        },
+        {
+          "slug": "validate-input",
+          "title": "Validate input",
+          "intro": "Clients will send missing, wrong, and malicious data, and your handlers should never see it.",
+          "requires": ["parse-json-bodies"],
+          "body": "TODO"
+        },
+        {
+          "slug": "split-routes-with-router",
+          "title": "Split routes with Router",
+          "intro": "One file holding every route becomes hard to navigate long before the API is finished.",
+          "requires": ["define-routes"],
+          "body": "TODO"
+        },
+        {
+          "slug": "error-handling-middleware",
+          "title": "Error handling middleware",
+          "intro": "Errors should end up in one place that decides what the client sees.",
+          "requires": ["middleware-order"],
+          "body": "TODO"
+        },
+        {
+          "slug": "async-errors-in-express",
+          "title": "Async errors in Express",
+          "intro": "An error thrown inside an async handler behaves differently depending on your Express version.",
+          "requires": ["error-handling-middleware", "catch-async-errors"],
+          "body": "TODO"
+        },
+        {
+          "slug": "allow-cross-origin-requests",
+          "title": "Allow cross origin requests",
+          "intro": "A browser app on another domain cannot call your API until you allow it.",
+          "requires": ["write-middleware"],
+          "body": "TODO"
+        },
+        {
+          "slug": "consistent-api-responses",
+          "title": "Consistent API responses",
+          "intro": "Clients are easier to write when every success and every failure has the same shape.",
+          "requires": ["error-handling-middleware"],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Security",
+      "summary": "You can load configuration and secrets safely and harden the API with security headers and rate limits. You can hash passwords, generate secure tokens, and sign data with the built in crypto module. You can defend against path traversal and prototype pollution, audit dependencies, and restrict what Node itself may access.",
+      "articles": [
+        {
+          "slug": "load-configuration-safely",
+          "title": "Load configuration safely",
+          "intro": "A missing or mistyped setting should stop your app at startup, not break it at 3 AM.",
+          "requires": ["read-environment-variables"],
+          "body": "TODO"
+        },
+        {
+          "slug": "set-security-headers",
+          "title": "Set security headers",
+          "intro": "Browsers enforce many protections only when your responses ask for them.",
+          "requires": ["write-middleware"],
+          "body": "TODO"
+        },
+        {
+          "slug": "limit-request-rates",
+          "title": "Limit request rates",
+          "intro": "One noisy client or a brute force script can take your API down for everyone.",
+          "requires": ["write-middleware"],
+          "body": "TODO"
+        },
+        {
+          "slug": "hash-passwords-with-scrypt",
+          "title": "Hash passwords with scrypt",
+          "intro": "Storing passwords the wrong way turns any data leak into a disaster for your users.",
+          "body": "TODO"
+        },
+        {
+          "slug": "generate-secure-random-values",
+          "title": "Generate secure random values",
+          "intro": "Math.random is fine for games but dangerous for tokens and ids.",
+          "body": "TODO"
+        },
+        {
+          "slug": "sign-tokens-with-hmac",
+          "title": "Sign tokens with HMAC",
+          "intro": "You need to hand clients data they can carry around but cannot forge.",
+          "requires": ["generate-secure-random-values"],
+          "body": "TODO"
+        },
+        {
+          "slug": "prevent-path-traversal",
+          "title": "Prevent path traversal",
+          "intro": "A crafted file name can let an attacker read files far outside the folder you meant to serve.",
+          "requires": ["build-paths-safely"],
+          "body": "TODO"
+        },
+        {
+          "slug": "prototype-pollution",
+          "title": "Prototype pollution",
+          "intro": "Merging untrusted JSON into objects can change the behavior of every object in your process.",
+          "requires": ["parse-json-bodies"],
+          "body": "TODO"
+        },
+        {
+          "slug": "audit-your-dependencies",
+          "title": "Audit your dependencies",
+          "intro": "Most of the code you ship was written by someone else, and some of it has known holes.",
+          "requires": ["lockfiles"],
+          "body": "TODO"
+        },
+        {
+          "slug": "restrict-node-with-the-permission-model",
+          "title": "Restrict Node with the permission model",
+          "intro": "If a dependency is compromised, limiting what the process can touch limits the damage.",
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Beyond one thread",
+      "summary": "You can run other programs from Node, break up long tasks, and move CPU heavy work to worker threads. You can pass messages or share memory safely between threads, build a worker pool, and use every CPU core with cluster. You can choose the right concurrency model for a given workload.",
+      "articles": [
+        {
+          "slug": "run-a-child-process",
+          "title": "Run a child process",
+          "intro": "Some jobs are best done by an existing program like git or ffmpeg rather than rewritten in JavaScript.",
+          "requires": ["read-from-a-readable-stream"],
+          "body": "TODO"
+        },
+        {
+          "slug": "spawn-versus-exec",
+          "title": "spawn versus exec",
+          "intro": "Picking the wrong way to launch a process can buffer huge output in memory or open a shell injection hole.",
+          "requires": ["run-a-child-process"],
+          "body": "TODO"
+        },
+        {
+          "slug": "split-long-tasks",
+          "title": "Split long tasks",
+          "intro": "Sometimes a long computation can stay on the main thread if it learns to share.",
+          "requires": ["spot-a-blocked-event-loop"],
+          "body": "TODO"
+        },
+        {
+          "slug": "worker-threads",
+          "title": "Worker threads",
+          "intro": "CPU heavy work blocks the loop no matter how you slice it, unless it runs somewhere else.",
+          "requires": ["spot-a-blocked-event-loop"],
+          "body": "TODO"
+        },
+        {
+          "slug": "pass-messages-between-workers",
+          "title": "Pass messages between workers",
+          "intro": "Threads in Node do not share variables, so they need another way to talk.",
+          "requires": ["worker-threads"],
+          "body": "TODO"
+        },
+        {
+          "slug": "share-memory-between-workers",
+          "title": "Share memory between workers",
+          "intro": "Copying large data between threads costs time, and sometimes they should read the same bytes instead.",
+          "requires": ["pass-messages-between-workers", "buffers-are-uint8arrays"],
+          "body": "TODO"
+        },
+        {
+          "slug": "coordinate-with-atomics",
+          "title": "Coordinate with Atomics",
+          "intro": "Two threads writing the same memory at once will corrupt it without coordination.",
+          "requires": ["share-memory-between-workers"],
+          "body": "TODO"
+        },
+        {
+          "slug": "build-a-worker-pool",
+          "title": "Build a worker pool",
+          "intro": "Starting a new worker per task is slow, and running too many at once overloads the machine.",
+          "requires": ["pass-messages-between-workers"],
+          "body": "TODO"
+        },
+        {
+          "slug": "scale-across-cores-with-cluster",
+          "title": "Scale across cores with cluster",
+          "intro": "A single Node process runs your JavaScript on one core while the rest of the machine sits idle.",
+          "requires": ["build-an-http-server"],
+          "body": "TODO"
+        },
+        {
+          "slug": "choose-a-concurrency-model",
+          "title": "Choose a concurrency model",
+          "intro": "Each tool in this map solves a different problem, and using the wrong one adds cost without speed.",
+          "requires": ["build-a-worker-pool", "scale-across-cores-with-cluster"],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Memory and performance",
+      "summary": "You can explain how V8 stores objects, collects garbage, and optimizes hot code, and write code that stays on the fast path. You can debug with the inspector, find a memory leak from heap snapshots, and read CPU profiles as flame graphs. You can measure event loop delay and fix a real bottleneck in the notes API.",
+      "articles": [
+        {
+          "slug": "how-v8-lays-out-the-heap",
+          "title": "How V8 lays out the heap",
+          "intro": "Memory problems are much easier to reason about once you know where your objects live.",
+          "requires": ["what-v8-does"],
+          "body": "TODO"
+        },
+        {
+          "slug": "garbage-collection",
+          "title": "Garbage collection",
+          "intro": "Memory is freed for you, but when and how it happens affects latency.",
+          "requires": ["how-v8-lays-out-the-heap"],
+          "body": "TODO"
+        },
+        {
+          "slug": "why-object-shape-matters",
+          "title": "Why object shape matters",
+          "intro": "Two objects with the same properties can run at very different speeds.",
+          "requires": ["what-v8-does"],
+          "body": "TODO"
+        },
+        {
+          "slug": "how-v8-optimizes-hot-code",
+          "title": "How V8 optimizes hot code",
+          "intro": "Code that runs often gets faster over time, until something makes V8 give up on it.",
+          "requires": ["why-object-shape-matters", "how-v8-turns-source-into-bytecode"],
+          "body": "TODO"
+        },
+        {
+          "slug": "debug-with-the-inspector",
+          "title": "Debug with the inspector",
+          "intro": "Print statements only go so far, and Node ships a full debugger you can attach from your browser.",
+          "body": "TODO"
+        },
+        {
+          "slug": "find-a-memory-leak",
+          "title": "Find a memory leak",
+          "intro": "A process whose memory only goes up will eventually be killed, often at the worst moment.",
+          "requires": ["garbage-collection", "debug-with-the-inspector"],
+          "body": "TODO"
+        },
+        {
+          "slug": "profile-cpu-usage",
+          "title": "Profile CPU usage",
+          "intro": "Guessing where time goes is almost always wrong, and measuring takes only one flag.",
+          "requires": ["debug-with-the-inspector"],
+          "body": "TODO"
+        },
+        {
+          "slug": "read-a-flame-graph",
+          "title": "Read a flame graph",
+          "intro": "A profile holds thousands of samples, and one picture makes the slow path obvious.",
+          "requires": ["profile-cpu-usage"],
+          "body": "TODO"
+        },
+        {
+          "slug": "measure-event-loop-delay",
+          "title": "Measure event loop delay",
+          "intro": "Request latency often comes from a busy loop rather than slow I/O, and you need a number to prove it.",
+          "requires": ["spot-a-blocked-event-loop"],
+          "body": "TODO"
+        },
+        {
+          "slug": "time-code-with-perf-hooks",
+          "title": "Time code with perf_hooks",
+          "intro": "Comparing two approaches needs precise timings, not Date.now and a hunch.",
+          "body": "TODO"
+        },
+        {
+          "slug": "fix-a-bottleneck",
+          "title": "Fix a bottleneck",
+          "intro": "Everything in this map comes together on a real slow endpoint in the notes API.",
+          "requires": ["read-a-flame-graph", "measure-event-loop-delay"],
+          "body": "TODO"
+        }
+      ]
+    },
+    {
+      "title": "Running in production",
+      "summary": "You can write structured logs and follow one request through every log line. You can handle crashes and signals deliberately, shut down without dropping requests, and expose health checks. You can run the notes API in production mode and ship it with confidence.",
+      "articles": [
+        {
+          "slug": "structured-logging",
+          "title": "Structured logging",
+          "intro": "Logs written for humans are hard for machines to search when something breaks at scale.",
+          "body": "TODO"
+        },
+        {
+          "slug": "trace-requests-with-asynclocalstorage",
+          "title": "Trace requests with AsyncLocalStorage",
+          "intro": "When many requests interleave, you need a way to tie every log line back to the request that caused it.",
+          "requires": ["structured-logging", "write-middleware"],
+          "body": "TODO"
+        },
+        {
+          "slug": "handle-uncaught-exceptions",
+          "title": "Handle uncaught exceptions",
+          "intro": "A thrown error that nobody catches will end your process, and you choose what happens on the way out.",
+          "requires": ["the-process-object"],
+          "body": "TODO"
+        },
+        {
+          "slug": "handle-unhandled-rejections",
+          "title": "Handle unhandled rejections",
+          "intro": "Forgotten promise rejections crash modern Node by default, which surprises many teams during upgrades.",
+          "requires": ["catch-async-errors"],
+          "body": "TODO"
+        },
+        {
+          "slug": "listen-for-process-signals",
+          "title": "Listen for process signals",
+          "intro": "Process managers and orchestrators talk to your process through signals, not function calls.",
+          "requires": ["the-process-object"],
+          "body": "TODO"
+        },
+        {
+          "slug": "shut-down-gracefully",
+          "title": "Shut down gracefully",
+          "intro": "Deploys restart your process constantly, and every restart can drop requests in flight.",
+          "requires": ["listen-for-process-signals", "build-an-http-server"],
+          "body": "TODO"
+        },
+        {
+          "slug": "add-health-checks",
+          "title": "Add health checks",
+          "intro": "Load balancers and orchestrators need a way to ask whether your instance can serve traffic.",
+          "requires": ["define-routes"],
+          "body": "TODO"
+        },
+        {
+          "slug": "run-in-production-mode",
+          "title": "Run in production mode",
+          "intro": "A few settings change how Node and Express behave, and leaving them on defaults costs speed and safety.",
+          "requires": ["load-configuration-safely"],
+          "body": "TODO"
+        },
+        {
+          "slug": "ship-the-api",
+          "title": "Ship the API",
+          "intro": "This is the final check that the notes API reaches the destination you set out for.",
+          "requires": ["shut-down-gracefully", "add-health-checks"],
+          "body": "TODO"
+        }
+      ]
+    }
+  ]
+}

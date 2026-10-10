@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 npm run dev       # Start dev server with Turbopack (http://localhost:3000)
-npm run build     # Build static export into out/
+npm run build     # Production build into .next/
 npm run start     # Serve a production build
 npm run lint      # Run ESLint
 npx tsc --noEmit  # Type check
@@ -14,9 +14,10 @@ npx tsc --noEmit  # Type check
 
 ## Architecture
 
-Minimal Next.js 15 (App Router) hello-world app, React 19, exported as a static site
-(`next.config.ts`: `output: "export"`, `images.unoptimized`, `trailingSlash: true`).
-No server runtime, so no route handlers, middleware, server actions, or ISR.
+Next.js 15 (App Router), React 19, served by a Node runtime (`next start`) with
+`images.unoptimized` and `trailingSlash: true`. Content lives in Supabase and is read in
+`src/content/trails.ts`. Pages under `src/app/(site)/` use time based ISR: `revalidate = 60`
+in `src/app/(site)/layout.tsx`, and unknown trail or article slugs render on first request.
 
 - `src/app/layout.tsx` — root layout
 - `src/app/page.tsx` — renders "Hello, world!"

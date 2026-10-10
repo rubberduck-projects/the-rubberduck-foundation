@@ -36,6 +36,12 @@ export const palette = {
     rust: {
         500: "#A8472A",
     },
+    plum: {
+        500: "#7E5BB0",
+    },
+    berry: {
+        500: "#B5487A",
+    },
 } as const;
 
 export const space = [0, 4, 8, 12, 16, 24, 32, 48, 64, 96, 128, 160] as const;

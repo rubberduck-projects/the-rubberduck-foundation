@@ -3,22 +3,21 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Box, Container, Typography } from "@mui/material";
-import { allArticles, connections, getTrail, mapOf, readingMinutes, trails, type Article } from "@/content/trails";
+import { allArticles, connections, getTrail, getTrails, mapOf, readingMinutes, type Article } from "@/content/trails";
 import ResourceList from "@/components/trail/ResourceList";
+import { FinishOnNavigate } from "@/components/trail/TrailProgress";
 import Markdown from "@/components/ui/Markdown";
 import { layout, palette } from "@/theme/tokens";
 
 type Params = { trail: string; article: string };
 
-export const dynamicParams = false;
-
-export function generateStaticParams(): Params[] {
-    return trails.flatMap((t) => allArticles(t).map((a) => ({ trail: t.slug, article: a.slug })));
+export async function generateStaticParams(): Promise<Params[]> {
+    return (await getTrails()).flatMap((t) => allArticles(t).map((a) => ({ trail: t.slug, article: a.slug })));
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
     const p = await params;
-    const trail = getTrail(p.trail);
+    const trail = await getTrail(p.trail);
     const article = trail && allArticles(trail).find((a) => a.slug === p.article);
     return article ? { title: `${article.title} | ${trail.title}`, description: article.intro } : {};
 }
@@ -78,7 +77,7 @@ function ArticleLinks({ id, label, trailSlug, items, align }: { id: string; labe
 
 export default async function ArticlePage({ params }: { params: Promise<Params> }) {
     const p = await params;
-    const trail = getTrail(p.trail);
+    const trail = await getTrail(p.trail);
     if (!trail) notFound();
 
     const list = allArticles(trail);
@@ -93,6 +92,24 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
     const isStart = previous.length === 0;
     const isEnd = next.length === 0;
     const minutes = readingMinutes(article);
+    const nextSide = isEnd ? (
+        <Box sx={{ gridColumn: { sm: 2 }, textAlign: { sm: "right" } }}>
+            <Typography sx={navLabel}>Finished</Typography>
+            <Box component={Link} href={`/trails/${trail.slug}/`} sx={navCard}>
+                Back to {trail.title}
+            </Box>
+        </Box>
+    ) : (
+        <Box sx={{ gridColumn: { sm: 2 } }}>
+            <ArticleLinks
+                id="next-articles"
+                label={next.length > 1 ? "Next articles" : "Next article"}
+                trailSlug={trail.slug}
+                items={next}
+                align="right"
+            />
+        </Box>
+    );
 
     return (
         <Container maxWidth={false} sx={{ maxWidth: layout.maxWidth, pt: { xs: 3, md: 4 }, pb: { xs: 6, md: 10 } }}>
@@ -142,23 +159,12 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
                             items={previous}
                         />
                     )}
-                    {isEnd ? (
-                        <Box sx={{ gridColumn: { sm: 2 }, textAlign: { sm: "right" } }}>
-                            <Typography sx={navLabel}>Finished</Typography>
-                            <Box component={Link} href={`/trails/${trail.slug}/`} sx={navCard}>
-                                Back to {trail.title}
-                            </Box>
-                        </Box>
+                    {article.body ? (
+                        <FinishOnNavigate trailSlug={trail.slug} slug={article.slug}>
+                            {nextSide}
+                        </FinishOnNavigate>
                     ) : (
-                        <Box sx={{ gridColumn: { sm: 2 } }}>
-                            <ArticleLinks
-                                id="next-articles"
-                                label={next.length > 1 ? "Next articles" : "Next article"}
-                                trailSlug={trail.slug}
-                                items={next}
-                                align="right"
-                            />
-                        </Box>
+                        nextSide
                     )}
                 </Box>
             </Box>
