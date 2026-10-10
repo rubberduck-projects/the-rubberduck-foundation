@@ -24,3 +24,7 @@ yarn-error.log*
 
 .vercel
 .claude/settings.local.json
+
+.open-next
+.wrangler
+.dev.vars
