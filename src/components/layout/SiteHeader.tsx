@@ -11,7 +11,7 @@ import DuckMark from "./DuckMark";
 
 export default function SiteHeader() {
     const { mode, toggleColorMode } = useColorMode();
-    const onTrails = usePathname().startsWith("/trails");
+    const onTrails = usePathname().startsWith("/ducktrails");
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -72,7 +72,7 @@ export default function SiteHeader() {
                     <Box component="nav" aria-label="Primary">
                         <Box
                             component={Link}
-                            href="/trails/"
+                            href="/ducktrails/"
                             aria-current={onTrails ? "page" : undefined}
                             sx={(t) => ({
                                 px: 1.5,

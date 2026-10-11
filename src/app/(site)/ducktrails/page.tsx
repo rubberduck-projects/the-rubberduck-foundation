@@ -56,7 +56,7 @@ export default async function TrailsPage() {
                     <Box component="li" key={trail.slug} sx={{ display: "flex" }}>
                         <Box
                             component={Link}
-                            href={`/trails/${trail.slug}/`}
+                            href={`/ducktrails/${trail.slug}/`}
                             sx={{
                                 display: "flex",
                                 flexDirection: "column",

@@ -21,7 +21,7 @@ import SkipLink from "@/components/ui/SkipLink";
 import { allArticles, getTrails, totalMinutes, type Trail } from "@/content/trails";
 import { layout, palette } from "@/theme/tokens";
 
-// Same cadence as the trail pages, so the featured trails never lag behind /trails/ by more than a minute.
+// Same cadence as the trail pages, so the featured trails never lag behind /ducktrails/ by more than a minute.
 export const revalidate = 60;
 
 export const metadata: Metadata = {
@@ -274,7 +274,7 @@ function Hero() {
                     </Typography>
 
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1.5, alignItems: "center" }}>
-                        <Button component={Link} href="/trails/" variant="contained" size="large" endIcon={<ArrowForwardRounded />} sx={{ ...focusRing }}>
+                        <Button component={Link} href="/ducktrails/" variant="contained" size="large" endIcon={<ArrowForwardRounded />} sx={{ ...focusRing }}>
                             Explore the trails
                         </Button>
                         <Button component="a" href="#what-we-build" variant="outlined" size="large" color="inherit" sx={{ ...focusRing }}>
@@ -498,7 +498,7 @@ function Pillars() {
                                 ))}
                             </Box>
                             {live && (
-                                <Button component={Link} href="/trails/" variant="contained" endIcon={<ArrowForwardRounded />} sx={{ alignSelf: "flex-start", ...focusRing }}>
+                                <Button component={Link} href="/ducktrails/" variant="contained" endIcon={<ArrowForwardRounded />} sx={{ alignSelf: "flex-start", ...focusRing }}>
                                     Explore the trails
                                 </Button>
                             )}
@@ -597,7 +597,7 @@ function Produce() {
                             {onTrails && (
                                 <Box
                                     component={Link}
-                                    href="/trails/"
+                                    href="/ducktrails/"
                                     sx={{ display: "inline-flex", alignItems: "center", gap: 0.5, fontSize: "0.875rem", fontWeight: 600, color: "text.primary", textDecoration: "none", ...focusRing }}
                                 >
                                     Read it as trails
@@ -723,7 +723,7 @@ function TrailCard({ trail }: { trail: Trail }) {
     return (
         <Box
             component={Link}
-            href={`/trails/${trail.slug}/`}
+            href={`/ducktrails/${trail.slug}/`}
             sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -774,7 +774,7 @@ function FeaturedTrails({ trails }: { trails: Trail[] }) {
                         Open trails, ready today
                     </Typography>
                     {trails.length > 0 && (
-                        <Button component={Link} href="/trails/" color="inherit" endIcon={<ArrowForwardRounded />} sx={{ fontWeight: 600, ...focusRing }}>
+                        <Button component={Link} href="/ducktrails/" color="inherit" endIcon={<ArrowForwardRounded />} sx={{ fontWeight: 600, ...focusRing }}>
                             {trails.length > featured.length ? `See all ${trails.length} trails` : "Go to the trails"}
                         </Button>
                     )}
@@ -996,7 +996,7 @@ function ClosingCta() {
                 </Box>
                 <Button
                     component={Link}
-                    href="/trails/"
+                    href="/ducktrails/"
                     variant="contained"
                     size="large"
                     endIcon={<ArrowForwardRounded />}

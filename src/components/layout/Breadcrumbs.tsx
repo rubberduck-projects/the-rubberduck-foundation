@@ -13,15 +13,15 @@ function crumbsFor(pathname: string, titles: CrumbTitles): Crumb[] {
     const path = pathname.endsWith("/") ? pathname : `${pathname}/`;
     if (path === "/") return [];
 
-    const crumbs: Crumb[] = [{ label: "Trails", href: "/trails/" }];
+    const crumbs: Crumb[] = [{ label: "Trails", href: "/ducktrails/" }];
     if (path === "/how-to/trails/") crumbs.push({ label: "How to write a DuckTrail", href: path });
 
     const [, section, trailSlug, articleSlug] = path.split("/");
-    const trail = section === "trails" && trailSlug ? titles[trailSlug] : undefined;
+    const trail = section === "ducktrails" && trailSlug ? titles[trailSlug] : undefined;
     if (trail) {
-        crumbs.push({ label: trail.title, href: `/trails/${trailSlug}/` });
+        crumbs.push({ label: trail.title, href: `/ducktrails/${trailSlug}/` });
         const article = articleSlug && trail.articles[articleSlug];
-        if (article) crumbs.push({ label: article, href: `/trails/${trailSlug}/${articleSlug}/` });
+        if (article) crumbs.push({ label: article, href: `/ducktrails/${trailSlug}/${articleSlug}/` });
     }
     return crumbs;
 }

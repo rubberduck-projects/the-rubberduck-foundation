@@ -42,7 +42,7 @@ export function TrailCta({ trailSlug, articles }: { trailSlug: string; articles:
         <Box>
             <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", columnGap: 2, rowGap: 1 }}>
                 <Button
-                    href={`/trails/${trailSlug}/${target.slug}/`}
+                    href={`/ducktrails/${trailSlug}/${target.slug}/`}
                     data-article={target.slug}
                     variant="contained"
                     disableElevation

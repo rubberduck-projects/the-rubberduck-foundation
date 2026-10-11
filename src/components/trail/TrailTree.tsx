@@ -300,7 +300,7 @@ function TrailList({ trail, maps, list, previous }: { trail: Trail; maps: TrailM
                                 <Box component="li" key={a.id} data-node={a.id} data-map={m} sx={{ "& + &": { borderTop: "1px solid", borderColor: "divider" } }}>
                                     <Box
                                         component={Link}
-                                        href={`/trails/${trail.slug}/${a.slug}/`}
+                                        href={`/ducktrails/${trail.slug}/${a.slug}/`}
                                         data-article={a.slug}
                                         sx={{
                                             display: "grid",
@@ -450,7 +450,7 @@ export function TrailTree({ trail }: { trail: Trail }) {
                                         needs={previous.get(a.id)!}
                                         isStart={i === 0}
                                         isFinish={a.id === lastId}
-                                        href={`/trails/${trail.slug}/${a.slug}/`}
+                                        href={`/ducktrails/${trail.slug}/${a.slug}/`}
                                     />
                                 </Box>
                             );

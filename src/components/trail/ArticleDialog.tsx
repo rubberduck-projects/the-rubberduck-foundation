@@ -170,7 +170,7 @@ export function ArticleDialog({ trailSlug, articles }: { trailSlug: string; arti
                         <Typography sx={{ flex: 1, minWidth: 0, fontSize: "0.8125rem", color: "text.secondary", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                             Article {index + 1} of {articles.length} · {article.map}
                         </Typography>
-                        <IconButton component={Link} href={`/trails/${trailSlug}/${article.slug}/`} aria-label="Open full page" size="small">
+                        <IconButton component={Link} href={`/ducktrails/${trailSlug}/${article.slug}/`} aria-label="Open full page" size="small">
                             <OpenInFullRounded fontSize="small" />
                         </IconButton>
                         <IconButton onClick={close} aria-label="Close" size="small">
@@ -207,7 +207,7 @@ export function ArticleDialog({ trailSlug, articles }: { trailSlug: string; arti
                                 {article.needs.map((n, i) => (
                                     <span key={n.slug}>
                                         {i > 0 && ", "}
-                                        <Box component="a" href={`/trails/${trailSlug}/${n.slug}/`} onClick={(e: MouseEvent) => onArticleLink(e, n.slug, "prev")} sx={inlineLink}>
+                                        <Box component="a" href={`/ducktrails/${trailSlug}/${n.slug}/`} onClick={(e: MouseEvent) => onArticleLink(e, n.slug, "prev")} sx={inlineLink}>
                                             {n.title}
                                         </Box>
                                     </span>
@@ -236,7 +236,7 @@ export function ArticleDialog({ trailSlug, articles }: { trailSlug: string; arti
                         }}
                     >
                         <Button
-                            href={prev ? `/trails/${trailSlug}/${prev.slug}/` : undefined}
+                            href={prev ? `/ducktrails/${trailSlug}/${prev.slug}/` : undefined}
                             onClick={(e: MouseEvent) => prev && onArticleLink(e, prev.slug, "prev")}
                             disabled={!prev}
                             loading={pending && pendingDir === "prev"}
@@ -251,7 +251,7 @@ export function ArticleDialog({ trailSlug, articles }: { trailSlug: string; arti
                         </Typography>
                         {next ? (
                             <Button
-                                href={`/trails/${trailSlug}/${next.slug}/`}
+                                href={`/ducktrails/${trailSlug}/${next.slug}/`}
                                 onClick={(e: MouseEvent) => {
                                     finish();
                                     onArticleLink(e, next.slug, "next");

@@ -65,7 +65,7 @@ function ArticleLinks({ id, label, trailSlug, items, align }: { id: string; labe
             <Box component="ul" aria-labelledby={id} sx={plainList}>
                 {items.map((a) => (
                     <li key={a.slug}>
-                        <Box component={Link} href={`/trails/${trailSlug}/${a.slug}/`} sx={navCard}>
+                        <Box component={Link} href={`/ducktrails/${trailSlug}/${a.slug}/`} sx={navCard}>
                             {a.title}
                         </Box>
                     </li>
@@ -95,7 +95,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
     const nextSide = isEnd ? (
         <Box sx={{ gridColumn: { sm: 2 }, textAlign: { sm: "right" } }}>
             <Typography sx={navLabel}>Finished</Typography>
-            <Box component={Link} href={`/trails/${trail.slug}/`} sx={navCard}>
+            <Box component={Link} href={`/ducktrails/${trail.slug}/`} sx={navCard}>
                 Back to {trail.title}
             </Box>
         </Box>
